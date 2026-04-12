@@ -1,0 +1,2455 @@
+{
+  "36579347": {
+    "by": "joseferben",
+    "descendants": 108,
+    "id": 36579347,
+    "kids": [
+      36583317,
+      36582061,
+      36582226,
+      36582131,
+      36585800,
+      36579561,
+      36581989,
+      36583737,
+      36582483,
+      36584572,
+      36579508,
+      36584371,
+      36587535,
+      36584128,
+      36582676,
+      36584232,
+      36585137,
+      36579878,
+      36582887,
+      36594788,
+      36586122
+    ],
+    "score": 232,
+    "time": 1688421437,
+    "title": "Things that surprised me while running SQLite in production",
+    "type": "story",
+    "url": "https://www.joseferben.com/posts/3-things-that-surprised-me-while-running-sqlite-in-production/"
+  },
+  "36583317": {
+    "by": "mrkeen",
+    "id": 36583317,
+    "kids": [
+      36583438,
+      36585282,
+      36585429,
+      36603576,
+      36584676,
+      36585336,
+      36584979
+    ],
+    "parent": 36579347,
+    "text": "One thing missing from this:<p>There are massive performance gains to be had by using transactions.  In <i>other</i> RDBMSs transactions are about atomicity&#x2F;consistency.  But in SQLite, transactions are about batching inserts for awesome speed gains.  Use them!",
+    "time": 1688455141,
+    "type": "comment"
+  },
+  "36583438": {
+    "by": "joseferben",
+    "id": 36583438,
+    "parent": 36583317,
+    "text": "Cool!<p>This example from the better-sqlite3 docs makes more sense now:<p>const insert = db.prepare(&#x27;INSERT INTO cats (name, age) VALUES (@name, @age)&#x27;);<p>const insertMany = db.transaction((cats) =&gt; {\n  for (const cat of cats) insert.run(cat);\n});<p>insertMany([\n  { name: &#x27;Joey&#x27;, age: 2 },\n  { name: &#x27;Sally&#x27;, age: 4 },\n  { name: &#x27;Junior&#x27;, age: 1 },\n]);",
+    "time": 1688456051,
+    "type": "comment"
+  },
+  "36585282": {
+    "by": "bob1029",
+    "id": 36585282,
+    "kids": [
+      36586214
+    ],
+    "parent": 36583317,
+    "text": "Along the same lines, SQLite is unlike other RDBMS in that you typically do NOT want to create a new connection per logical unit of work, because that means opening an actual file on disk each time. The more you can re-use a SQLite connection instance the better.<p>SQLite is internally handling the locking for you under <i>most</i> providers[0]. Any sort of external attempts at the same will just make things go slower. The only thing that could really beat the internal SQLite mutex is to put a very high performance MPSC queue in front of your single SQLite connection and take resulting micro batches of logical requests into transactions as noted above, or some more consolidated form of representation.<p>[0]: <a href=\"https:&#x2F;&#x2F;www.sqlite.org&#x2F;compile.html#threadsafe\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;www.sqlite.org&#x2F;compile.html#threadsafe</a>",
+    "time": 1688470467,
+    "type": "comment"
+  },
+  "36586214": {
+    "by": "chii",
+    "id": 36586214,
+    "kids": [
+      36586273
+    ],
+    "parent": 36585282,
+    "text": "&gt; SQLite is unlike other RDBMS in that you typically do NOT want to create a new connection per logical unit of work<p>i would&#x27;ve imagined that most RDBMS would have a pool of connections that get reused, rather than creating a new connection every time.",
+    "time": 1688476382,
+    "type": "comment"
+  },
+  "36586273": {
+    "by": "mrkeen",
+    "id": 36586273,
+    "parent": 36586214,
+    "text": "In Java-land it&#x27;s usually up to the application&#x2F;libraries to manage this.  I see Hikari used a lot.",
+    "time": 1688476799,
+    "type": "comment"
+  },
+  "36585429": {
+    "by": "globalreset",
+    "id": 36585429,
+    "kids": [
+      36587151
+    ],
+    "parent": 36583317,
+    "text": "Inserting batches of items in one db transaction is faster in Posgres as well, in my experience. I expect that to be the case for all rdbms. Each transaction has a cost of &quot;flushing&quot;, and every non-transaction query is implicitly a transaction. By doing multiple operations in one explicit transaction, the overhead of a transaction is amortized over more operations.",
+    "time": 1688471426,
+    "type": "comment"
+  },
+  "36587151": {
+    "by": "cogman10",
+    "id": 36587151,
+    "parent": 36585429,
+    "text": "It&#x27;s the same for mssql.<p>A bunch of inserts in a single transaction is generally fast and unproblematic.  Though if you have weird clustered indexes and a lot of concurrency you might run the risk of frequent deadlocks.",
+    "time": 1688480736,
+    "type": "comment"
+  },
+  "36603576": {
+    "by": "stefanos82",
+    "id": 36603576,
+    "parent": 36583317,
+    "text": "Another useful trick you can do is to take advantage of memoization combined with BEGIN TRANSACTION &#x2F; COMMIT to push at once a massive set of data.<p>What I have done so far was to collect safe data, that is not sensitive info like passwords and such, and save them in an array (in my case I used PHP language), and at a specific number of elements you know it&#x27;s enough to commit in your database, you do so only once via transaction; in my case was 25K rows and worked flawlessly without users realizing anything at all.<p>I have even done the same thing with 100K rows and didn&#x27;t even break a sweat!",
+    "time": 1688577433,
+    "type": "comment"
+  },
+  "36584676": {
+    "by": "keyle",
+    "id": 36584676,
+    "parent": 36583317,
+    "text": "That&#x27;s a fantastic tip, thanks! I&#x27;ve been on the fence for using sqlite, I love the simplicity but always concerned about write performance.",
+    "time": 1688466241,
+    "type": "comment"
+  },
+  "36585336": {
+    "by": "porkbrain",
+    "id": 36585336,
+    "parent": 36583317,
+    "text": "If you&#x27;re staring a Rust project then make sure to check that your SQLite dependency supports txs.  Without txs, inserts can take a ~15ms. The `rusqlite` crate supports txs, with `sqlite` I didn&#x27;t find an ergonomic solution.",
+    "time": 1688470820,
+    "type": "comment"
+  },
+  "36584979": {
+    "by": "bawolff",
+    "id": 36584979,
+    "kids": [
+      36585207
+    ],
+    "parent": 36583317,
+    "text": "I&#x27;m curious about how true that is under WAL mode, since a big part of that is implicit batching if i understand correctly.",
+    "time": 1688468329,
+    "type": "comment"
+  },
+  "36585207": {
+    "by": "rcxdude",
+    "id": 36585207,
+    "parent": 36584979,
+    "text": "still true, in my experience",
+    "time": 1688469995,
+    "type": "comment"
+  },
+  "36582061": {
+    "by": "sbierwagen",
+    "id": 36582061,
+    "kids": [
+      36582371,
+      36583744,
+      36582819,
+      36582913,
+      36582670,
+      36601942
+    ],
+    "parent": 36579347,
+    "text": "&gt;The first thing I&#x27;ve come to appreciate about SQLite is its documentation<p>I&#x27;ve told this story before, but the first time I used sqlite, years ago, I needed to store a floating point value, so I read the documentation: <a href=\"https:&#x2F;&#x2F;www.sqlite.org&#x2F;datatype3.html\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;www.sqlite.org&#x2F;datatype3.html</a><p>&gt;REAL. The value is a floating point value, stored as an 8-byte IEEE floating point number.<p>I parsed this as &quot;an 8-<i>bit</i> floating point number&quot;. Wow, I thought. That&#x27;s weird as hell. Oh well, I guess it&#x27;s sql lite, ha ha. I went on to implement storing numeric values as text strings, which worked exactly as well as you&#x27;d expect. Only months later did I find out that it&#x27;s a normal regular IEEE double, <i>64</i> bits long.",
+    "time": 1688443031,
+    "type": "comment"
+  },
+  "36582371": {
+    "by": "sverhagen",
+    "id": 36582371,
+    "kids": [
+      36582481,
+      36583926
+    ],
+    "parent": 36582061,
+    "text": "Is the point of the story that no matter how good the documentation is, we don&#x27;t read well anyhow? Else, I don&#x27;t get the point.",
+    "time": 1688446329,
+    "type": "comment"
+  },
+  "36582481": {
+    "by": "seanw444",
+    "id": 36582481,
+    "kids": [
+      36583055,
+      36583712
+    ],
+    "parent": 36582371,
+    "text": "Just a funny anecdote. There&#x27;s not always a point.",
+    "time": 1688447586,
+    "type": "comment"
+  },
+  "36583055": {
+    "by": "kaoD",
+    "id": 36583055,
+    "kids": [
+      36584499
+    ],
+    "parent": 36582481,
+    "text": "I was confused as well. How you phrased it, it seemed that your funny story was about how cool the docs were and saved your ass or something like that :)",
+    "time": 1688453064,
+    "type": "comment"
+  },
+  "36584499": {
+    "by": "ilyt",
+    "id": 36584499,
+    "kids": [
+      36585188
+    ],
+    "parent": 36583055,
+    "text": "It wasn&#x27;t his, you answered to someone else.<p>It&#x27;s funny that under &quot;maybe it was an example of nobody reading shit all&quot; there is a comment where someone didn&#x27;t read the nickname and thought he&#x27;s answering to the anectdote&#x27;s poster comment :D",
+    "time": 1688464853,
+    "type": "comment"
+  },
+  "36585188": {
+    "by": "robertlagrant",
+    "id": 36585188,
+    "parent": 36584499,
+    "text": "Right now? Almost half past 12.",
+    "time": 1688469872,
+    "type": "comment"
+  },
+  "36583712": {
+    "by": "Gordonjcp",
+    "id": 36583712,
+    "parent": 36582481,
+    "text": "Well, I thought it was funny, but I read and understood all of the words.",
+    "time": 1688458524,
+    "type": "comment"
+  },
+  "36583926": {
+    "by": "scotty79",
+    "id": 36583926,
+    "parent": 36582371,
+    "text": "That&#x27;s a very salient point. And reading well all the time is super hard. I think that&#x27;s one of the reasons why people don&#x27;t write documentation. First of all, who&#x27;s gonna read all that? Second of all, who&#x27;s gonna read all of that correctly?",
+    "time": 1688460214,
+    "type": "comment"
+  },
+  "36583744": {
+    "by": "efxhoy",
+    "id": 36583744,
+    "kids": [
+      36585495,
+      36584521,
+      36584250,
+      36584308,
+      36585603
+    ],
+    "parent": 36582061,
+    "text": "My dad knows very little about computers but he likes joking with me whenever i\u2019m struggling with some technical problem: \u201c8 bits is a byte! That\u2019s all you need to know! How hard could it be?\u201d",
+    "time": 1688458836,
+    "type": "comment"
+  },
+  "36585495": {
+    "by": "euroderf",
+    "id": 36585495,
+    "parent": 36583744,
+    "text": "More advice for a kid contemplating engineering:<p>An EE only needs to know that you don&#x27;t stick your finger in a socket. A mechanical engineer only needs to know that you can&#x27;t push a rope. And a civil enginer only needs to know that sh*t rolls downhill.",
+    "time": 1688471882,
+    "type": "comment"
+  },
+  "36584521": {
+    "by": "ilyt",
+    "id": 36584521,
+    "parent": 36583744,
+    "text": "TI C62xx and C64xx DSPs don&#x27;t understand 8 bit bytes at all and everything was at least 16 bit. There was no uint8_t there, char is 16 bits etc.",
+    "time": 1688464993,
+    "type": "comment"
+  },
+  "36584250": {
+    "by": "extasia",
+    "id": 36584250,
+    "parent": 36583744,
+    "text": "That&#x27;s awesome haha. I aspire to be a dad like that one day xd.",
+    "time": 1688463137,
+    "type": "comment"
+  },
+  "36584308": {
+    "by": "john-radio",
+    "id": 36584308,
+    "parent": 36583744,
+    "text": "You should tell him this story!",
+    "time": 1688463670,
+    "type": "comment"
+  },
+  "36585603": {
+    "by": "abwizz",
+    "id": 36585603,
+    "parent": 36583744,
+    "text": "might interest you both that not all bytes are equal",
+    "time": 1688472600,
+    "type": "comment"
+  },
+  "36582819": {
+    "by": "joseferben",
+    "id": 36582819,
+    "kids": [
+      36583739
+    ],
+    "parent": 36582061,
+    "text": "Finding out that there are just 5 datatypes and that BIGINT, VARCHAR, BLOB, etc. are just mapped onto those was actually a breath of fresh air.",
+    "time": 1688451071,
+    "type": "comment"
+  },
+  "36583739": {
+    "by": "cm2187",
+    "id": 36583739,
+    "kids": [
+      36583827,
+      36584563
+    ],
+    "parent": 36582819,
+    "text": "Which I think is fine (though you could make a case for a proper datetime type). What I am a lot less of a fan is the dynamic typing, ie that if you have an int column, sqlite will happy store a string in there. I am not sure why they do that but to me, it lets some bugs go unnoticed.",
+    "time": 1688458790,
+    "type": "comment"
+  },
+  "36583827": {
+    "by": "config_yml",
+    "id": 36583827,
+    "parent": 36583739,
+    "text": "There are STRICT tables in newer versions of Sqlite",
+    "time": 1688459514,
+    "type": "comment"
+  },
+  "36584563": {
+    "by": "ilyt",
+    "id": 36584563,
+    "kids": [
+      36588687
+    ],
+    "parent": 36583739,
+    "text": "I saw that complaint but for all purposes it&#x27;s a moot issue<p>If your code allows it you&#x27;re fucking doomed anyway and will have multiple other type-related problems all over the codebase.",
+    "time": 1688465236,
+    "type": "comment"
+  },
+  "36588687": {
+    "by": "richbell",
+    "id": 36588687,
+    "kids": [
+      36590286
+    ],
+    "parent": 36584563,
+    "text": "There are a variety of ways that bugs like that could sneak through a codebase.<p>I was taught to think of a RDMS as the last line of defense against data integrity issues. SQLite, on the other hand, is more than happy to let you shoot yourself in the foot.",
+    "time": 1688487391,
+    "type": "comment"
+  },
+  "36590286": {
+    "by": "ilyt",
+    "id": 36590286,
+    "parent": 36588687,
+    "text": "I mean if you write database code in PHP or JS fair enough but you&#x27;re fucking doomed if you do anyway.",
+    "time": 1688493443,
+    "type": "comment"
+  },
+  "36582913": {
+    "by": "plugin-baby",
+    "id": 36582913,
+    "parent": 36582061,
+    "text": "&gt; I went on to implement storing numeric values as text strings, which worked exactly as well as you&#x27;d expect.<p>I imagine it went went ok!",
+    "time": 1688451797,
+    "type": "comment"
+  },
+  "36582670": {
+    "by": "wahahah",
+    "id": 36582670,
+    "parent": 36582061,
+    "text": "They&#x27;re real, fwiw\n<a href=\"https:&#x2F;&#x2F;www.johndcook.com&#x2F;blog&#x2F;2018&#x2F;04&#x2F;15&#x2F;eight-bit-floating-point&#x2F;\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;www.johndcook.com&#x2F;blog&#x2F;2018&#x2F;04&#x2F;15&#x2F;eight-bit-floating...</a>",
+    "time": 1688449696,
+    "type": "comment"
+  },
+  "36601942": {
+    "by": "1323portloo",
+    "id": 36601942,
+    "parent": 36582061,
+    "text": "&gt;I went on to implement storing numeric values as text strings, which worked exactly as well as you&#x27;d expect.<p>It can be made to work. I would&#x27;ve gone with Binary-Coded Decimal if IEEE 754 standard isn&#x27;t precise enough.",
+    "time": 1688571537,
+    "type": "comment"
+  },
+  "36582226": {
+    "by": "yuliyp",
+    "id": 36582226,
+    "kids": [
+      36583597,
+      36582876
+    ],
+    "parent": 36579347,
+    "text": "The comment about concurrency was strange. They have 24 x 5 + 2 x 2 * 60 = 360 writes per minute, or about 6 writes per second. They&#x27;re not seeing concurrency issues because the amount of time that&#x27;s spent doing writes is like 1%. Naturally retrying a couple milliseconds later should succeed almost all the time.",
+    "time": 1688444779,
+    "type": "comment"
+  },
+  "36583597": {
+    "by": "Kiro",
+    "id": 36583597,
+    "kids": [
+      36585011,
+      36584430,
+      36584347
+    ],
+    "parent": 36582226,
+    "text": "Why do you need to manually retry at all? Doesn&#x27;t it end up in a queue and gets executed as soon as it can? I thought this stuff was handled by the database automatically.",
+    "time": 1688457383,
+    "type": "comment"
+  },
+  "36585011": {
+    "by": "bawolff",
+    "id": 36585011,
+    "parent": 36583597,
+    "text": "Sqlite has a gotcha where if your transaction is upgraded to a write transaction half way through it is impossible to safely restart automatically in the dvent of a conflict. Which is why sqlite provides a &quot;begin immediate&quot; keyword to work around it if you know you are making a write transaction.",
+    "time": 1688468566,
+    "type": "comment"
+  },
+  "36584430": {
+    "by": "nirimda",
+    "id": 36584430,
+    "parent": 36583597,
+    "text": "If it blocked you until it was finished, then you wouldn&#x27;t be able to handle a timeout because you would be blocked waiting for it to finish, so you&#x27;d have no capacity to realise the task needed to timeout (unless you wrote multithreaded code to detect the timeout &quot;out of band&quot;). If it doesn&#x27;t block you, then you won&#x27;t know whether it&#x27;s been committed or not and so now you have to write some kind of loop to continuously test whether the query you just executed has been committed, abandoned or is still in progress.<p>In principle, you could have some kind of configuration that says &quot;try to commit this for so long, but if you can&#x27;t commit it by then just abort&quot;. But you haven&#x27;t really solved the manual retry problem, just made it somewhat less likely to occur.<p>As far as I know, given the costs of a request, most database servers tend to use the latter approach. But in SQLite requests are very much cheaper, and at least part of SQLite&#x27;s work happens in your thread, so it goes for the former approach. But from an end programmer&#x27;s perspective it&#x27;s only a quantitative difference, not a qualitative one.<p>Also, &quot;the database&quot; is a highly ambiguous term, but in SQLite it can really only refer to a file on disk. There&#x27;s no database server, it&#x27;s just a library that you call to manipulate the file. So who even is the database server? Maybe it&#x27;s the code you&#x27;re writing. Maybe it&#x27;s you who should be handling this stuff. And that&#x27;s SQLite&#x27;s decision, and fair enough too. SQLite isn&#x27;t trying to be a database server, it never offered to be a database server, and you shouldn&#x27;t think it&#x27;s a database server. You should think of it as a library for executing SQL queries against a file that holds a relational database. If you think that&#x27;s tantamount to being a database server, then consider what you normally mean by &quot;server&quot;. Is a library for manipulating zip files tantamount to an FTP server?",
+    "time": 1688464480,
+    "type": "comment"
+  },
+  "36584347": {
+    "by": "H8crilA",
+    "id": 36584347,
+    "parent": 36583597,
+    "text": "Yeah I would imagine that too. Specifically that the later process would hang on acquiring the lock.",
+    "time": 1688463995,
+    "type": "comment"
+  },
+  "36582876": {
+    "by": "joseferben",
+    "id": 36582876,
+    "kids": [
+      36584817
+    ],
+    "parent": 36582226,
+    "text": "True, on their own those numbers are not that impressive. To give some more context: That load is average, there are bursts. I use ATOMIC_REQUESTS=True which ties the transaction to the Django POST request. Given that it&#x27;s quite easy to run into N+1 queries using the ORM, I somehow expected to see &quot;database is locked&quot; issue more often.",
+    "time": 1688451507,
+    "type": "comment"
+  },
+  "36584817": {
+    "by": "jerrygenser",
+    "id": 36584817,
+    "kids": [
+      36584856
+    ],
+    "parent": 36582876,
+    "text": "Wouldnt database is locked only happen on concurrent writes where one is locking a row and timeout exceeded?<p>If there are n+1 reads I don&#x27;t think it would lead to database is locked.",
+    "time": 1688467180,
+    "type": "comment"
+  },
+  "36584856": {
+    "by": "joseferben",
+    "id": 36584856,
+    "parent": 36584817,
+    "text": "If there is a write in a read transaction (with a n+1 read), the transaction becomes a write transaction.",
+    "time": 1688467514,
+    "type": "comment"
+  },
+  "36582131": {
+    "by": "GauntletWizard",
+    "id": 36582131,
+    "kids": [
+      36582707,
+      36582597
+    ],
+    "parent": 36579347,
+    "text": "Fly.io has inspired me for one-human scaled production. There&#x27;s a ton you can do at 100% uptime... When the user is looking. Which is not often! You&#x27;ve got a ton of time for maintenance and reshuffling your infrastructure around. You&#x27;ve got tons of downtime if you do it in five minute intervals in the evening, and plenty of concurrency if you&#x27;ve got just one user. Serving from a file at a time is great. You can snapshot and replicate every five seconds and never miss more than one or two actions if you have to fail over if you&#x27;re doing so for a single user&#x27;s data, and for a single user.<p>That&#x27;s a tradeoff you make if you&#x27;re a user, and it&#x27;s pretty worthwhile. There&#x27;s something to play with",
+    "time": 1688443747,
+    "type": "comment"
+  },
+  "36582707": {
+    "by": "unshavedyak",
+    "id": 36582707,
+    "kids": [
+      36584059
+    ],
+    "parent": 36582131,
+    "text": "Can you link more concrete details about this? It kinda sounds like you&#x27;re referring to the design of sharding databases by user, which i almost forgot about (relevant to me now, so i appreciate it). Though i&#x27;m super curious in how synchronizing data between users would work.. ie notifications, single producer multi consumer data, etc.<p>Time for some researching :)",
+    "time": 1688450023,
+    "type": "comment"
+  },
+  "36584059": {
+    "by": "GauntletWizard",
+    "id": 36584059,
+    "parent": 36582707,
+    "text": "<a href=\"https:&#x2F;&#x2F;fly.io&#x2F;blog&#x2F;all-in-on-sqlite-litestream&#x2F;\">https:&#x2F;&#x2F;fly.io&#x2F;blog&#x2F;all-in-on-sqlite-litestream&#x2F;</a> is top of the list for reading.<p>There&#x27;s two classic pieces of wisdom that aren&#x27;t so much wisdom anymore but pieces of the landscape:\nThe first is, don&#x27;t write your own datastore, use a database. This is pretty much taken for granted today, but in the year 2000, there weren&#x27;t a plethora of web frameworks. At the time, the unix filesystem didn&#x27;t seem like such a bad interface to store things. Storing each user as their own file made sense. Simple enough. One (just one of several) way it runs into problems is when:<p>The other landscape concept - Run multiple copies of your app. This one is kinda controversial to this day, but it&#x27;s core to the &quot;Twelve Factor App&quot;, which was a somewhat prescient memo for it&#x27;s day, if looking a little long in the tooth to my eye[1]. It&#x27;s why people keep using Kubernetes. And it&#x27;s correct advice - If you need to be running a ton of concurrency, you are better off scaling by process and keeping heavy-lifting logic out of your database. If you keep the database and application on separate hosts, you can scale to one big database server for writes, and many application servers and read-only database shards. This works really well for most crud and render-heavy applications you see on the web today; Social networks in particular absolutely thrive on this model.<p>This brings up another application architecture anomaly that&#x27;s mostly disappeared - The &quot;App in Database&quot;. There&#x27;s a mildly successful model whereby almost all application logic lives in the database itself as stored procedures. You can do an entire app update as an atomic DDL commit! The database&#x27;s permissions handle everything, and users just connect as users. In the old MVC model, the Database tables are M, the stored procedures C, and you write a V on top. I&#x27;ve encountered a few instances of this paradigm, most notably an accounting software that worked pretty great.<p>Fly suggests throwing all of this out the window. Most applications don&#x27;t need a lot of write-scaling. You don&#x27;t even need read concurrency. Run a single shard, make that shard fast, performant, and replicable - When it&#x27;s shut down, you can make many copies of it, and resume from any of them. When a new one starts up, it becomes the primary, all of the others are marked as stale, and you resume making copies. If you&#x27;re using Litestream like Fly does, this makes for a drop-dead simple app environment. Alternatives, like I&#x27;m using at home, are ZFS replication - SQLite is snapshot safe, so I just snapshot frequently, replicate those snapshots frequently, and reverse direction when necessary.<p>[1] <a href=\"https:&#x2F;&#x2F;gist.github.com&#x2F;GauntletWizard&#x2F;1fd1298304e811529d4b97b135713a12\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;gist.github.com&#x2F;GauntletWizard&#x2F;1fd1298304e811529d4b9...</a>",
+    "time": 1688461267,
+    "type": "comment"
+  },
+  "36582597": {
+    "deleted": true,
+    "id": 36582597,
+    "parent": 36582131,
+    "time": 1688448951,
+    "type": "comment"
+  },
+  "36585800": {
+    "by": "anacrolix",
+    "id": 36585800,
+    "kids": [
+      36586012,
+      36591446
+    ],
+    "parent": 36579347,
+    "text": "It&#x27;s great that people are realising that SQLite is a solid tool to use everywhere. But it amusing that this article reads like: I tried a 25 year old database developed by an elite team in the fastest and best supported systems level programming language and it was good!",
+    "time": 1688473914,
+    "type": "comment"
+  },
+  "36586012": {
+    "by": "indigochill",
+    "id": 36586012,
+    "kids": [
+      36586075
+    ],
+    "parent": 36585800,
+    "text": "Yeah, I feel like there&#x27;s this ingrained assumption people have that because SQLite can run in-memory that it&#x27;s &quot;not a real database&quot;. I&#x27;ve never really understood it (since I _love_ using it in my personal projects), but I&#x27;ve also never really had the chance to use SQLite in production.",
+    "time": 1688475226,
+    "type": "comment"
+  },
+  "36586075": {
+    "by": "Multicomp",
+    "id": 36586075,
+    "parent": 36586012,
+    "text": "I think the name gives it a poor initial reputation as well. Who wants lite SQL? That&#x27;s diet SQL. Inferior.<p>SQLight has connotations of speed and energy and all those marketing keyword association goodies.",
+    "time": 1688475605,
+    "type": "comment"
+  },
+  "36591446": {
+    "by": "john-tells-all",
+    "id": 36591446,
+    "parent": 36585800,
+    "text": "For some reason there&#x27;s a lot of people on Reddit who post &quot;Sqlite is only for toys&quot;.<p>In my experience Sqlite is great for <i>everything</i>, with a number of exceptions: <a href=\"https:&#x2F;&#x2F;dev.to&#x2F;johntellsall&#x2F;re-more-on-sqlite-vs-mysqlpostgres-33pn\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;dev.to&#x2F;johntellsall&#x2F;re-more-on-sqlite-vs-mysqlpostgr...</a>",
+    "time": 1688498543,
+    "type": "comment"
+  },
+  "36579561": {
+    "by": "taeric",
+    "id": 36579561,
+    "kids": [
+      36582121,
+      36579656
+    ],
+    "parent": 36579347,
+    "text": "Fun article.  Would be interesting to see any benchmarks folks have on a variety of devices and computer sizes.  I&#x27;d expect most developer machines to be quite beefy compared to, say, my kids Chromebooks.  Those are still far stronger than anything I grew up with, of course.  In ways that make any intuition I have basically worthless on performance.",
+    "time": 1688422824,
+    "type": "comment"
+  },
+  "36582121": {
+    "by": "bawolff",
+    "id": 36582121,
+    "kids": [
+      36585365
+    ],
+    "parent": 36579561,
+    "text": "The author tested only 100k rows. That almost certainly fits in your kids chromebook&#x27;s memory just as much as it would a beefy computer. It would probably fit in memory even on a raspberry pi or a computer from the 90s.",
+    "time": 1688443654,
+    "type": "comment"
+  },
+  "36585365": {
+    "by": "robertlagrant",
+    "id": 36585365,
+    "kids": [
+      36585877
+    ],
+    "parent": 36582121,
+    "text": "You reminded me of walking home from school one day in the late 90s and talking with a friend about how RAM had hit \u00a31&#x2F;MB, and how amazing that was.<p>Today I can buy it at much faster speeds and better timings for \u00a30.03&#x2F;MB. Damn capitalism.",
+    "time": 1688470988,
+    "type": "comment"
+  },
+  "36585877": {
+    "by": "stevesimmons",
+    "id": 36585877,
+    "parent": 36585365,
+    "text": "2114 static RAM in 1985 was around \u00a31&#x2F;kB [1].<p>That&#x27;s 7 orders of magnitude in 35 years.<p>[1] <a href=\"https:&#x2F;&#x2F;stardot.org.uk&#x2F;forums&#x2F;download&#x2F;file.php?id=29208&amp;sid=00af89c8f14a385eb634d57598735c91&amp;mode=view\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;stardot.org.uk&#x2F;forums&#x2F;download&#x2F;file.php?id=29208&amp;sid...</a>",
+    "time": 1688474429,
+    "type": "comment"
+  },
+  "36579656": {
+    "by": "joseferben",
+    "id": 36579656,
+    "kids": [
+      36581963
+    ],
+    "parent": 36579561,
+    "text": "I came to the same conclusion. I find it hard to extrapolate from benchmarks that I run locally on my dev machine.",
+    "time": 1688423396,
+    "type": "comment"
+  },
+  "36581963": {
+    "by": "bearjaws",
+    "id": 36581963,
+    "kids": [
+      36582205
+    ],
+    "parent": 36579656,
+    "text": "Its pretty sad given how most cloud providers price out IOPS.<p>I&#x27;ve had to explain numerous times to our engineers that their laptop is running around 10x the IOPS of our database (~40,000). Table scans are actually more performant on a dev laptop than a replica.",
+    "time": 1688442318,
+    "type": "comment"
+  },
+  "36582205": {
+    "by": "adrianN",
+    "id": 36582205,
+    "kids": [
+      36582532,
+      36587880
+    ],
+    "parent": 36581963,
+    "text": "Have you considered shipping your dev laptops to the cloud? That would make deploying easier too.",
+    "time": 1688444541,
+    "type": "comment"
+  },
+  "36582532": {
+    "by": "antod",
+    "id": 36582532,
+    "parent": 36582205,
+    "text": "Now I&#x27;m imagining an alternate reality where a Docker Container is like a caddy for laptops lining up the thunderbolt ports for hotswapping. And the delivery manager is the courier driver.",
+    "time": 1688448201,
+    "type": "comment"
+  },
+  "36587880": {
+    "by": "bearjaws",
+    "id": 36587880,
+    "parent": 36582205,
+    "text": "That sounds like a more functional version of blockchain tbh",
+    "time": 1688484181,
+    "type": "comment"
+  },
+  "36581989": {
+    "by": "rch",
+    "id": 36581989,
+    "kids": [
+      36582079,
+      36582260,
+      36582766,
+      36582197,
+      36582525,
+      36607477
+    ],
+    "parent": 36579347,
+    "text": "I&#x27;d like to see a fork of SQLite that &quot;supports the PostgreSQL wire protocol and the majority of PostgreSQL syntax&quot; (to quote another popular db).",
+    "time": 1688442493,
+    "type": "comment"
+  },
+  "36582079": {
+    "by": "bawolff",
+    "id": 36582079,
+    "kids": [
+      36584024
+    ],
+    "parent": 36581989,
+    "text": "I dont get why you would want this. Most of sqlite&#x27;s unique benefits come from its unique design choice of being in process. If you did queries over the wire you&#x27;d just get worst of both worlds.",
+    "time": 1688443267,
+    "type": "comment"
+  },
+  "36584024": {
+    "by": "williamdclt",
+    "id": 36584024,
+    "kids": [
+      36585036
+    ],
+    "parent": 36582079,
+    "text": "They&#x27;re not suggesting to go over the wire I don&#x27;t think. They&#x27;re suggesting to make SQLite support Postgres linguo",
+    "time": 1688460969,
+    "type": "comment"
+  },
+  "36585036": {
+    "by": "bawolff",
+    "id": 36585036,
+    "parent": 36584024,
+    "text": "I dont understand how to interpret &quot;support postgres wire protocol&quot; any other wsy than go over a network (even if only localhost)",
+    "time": 1688468740,
+    "type": "comment"
+  },
+  "36582260": {
+    "by": "thunderbong",
+    "id": 36582260,
+    "parent": 36581989,
+    "text": "This blog post might be of interest to you -<p><a href=\"https:&#x2F;&#x2F;blog.turso.tech&#x2F;sqlite-based-databases-on-the-postgres-protocol-yes-we-can-358e61171d65\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;blog.turso.tech&#x2F;sqlite-based-databases-on-the-postgr...</a>",
+    "time": 1688445073,
+    "type": "comment"
+  },
+  "36582766": {
+    "by": "gonzus",
+    "id": 36582766,
+    "parent": 36581989,
+    "text": "I implemented once the MySQL network protocol (in TypeScript) to talk to a local SQLite DB. We used that for our CI environment, since our apps only did very vanilla SQL operations. It worked like a charm. So I can totally see some uses for such a beast -- but probably all of them are pre-production.",
+    "time": 1688450623,
+    "type": "comment"
+  },
+  "36582197": {
+    "by": "voganmother42",
+    "id": 36582197,
+    "kids": [
+      36582361
+    ],
+    "parent": 36581989,
+    "text": "Postgres has foreign data wrappers which can kinda achieve this(see also: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;pgspider&#x2F;sqlite_fdw\">https:&#x2F;&#x2F;github.com&#x2F;pgspider&#x2F;sqlite_fdw</a> ), but ive been surprised by how well sqlite is already supported by many tools : sometimes it comes for free as its used in testing - hooking up stuff like litestream can work really wel l too",
+    "time": 1688444491,
+    "type": "comment"
+  },
+  "36582361": {
+    "by": "linux2647",
+    "id": 36582361,
+    "parent": 36582197,
+    "text": "FDWs still requires an instance of Postgres to be running.  With implementing the Postgres wire protocol, you could theoretically use any Postgres driver to talk to a SQLite database with no client changes and no instance of Postgres",
+    "time": 1688446151,
+    "type": "comment"
+  },
+  "36582525": {
+    "by": "0cf8612b2e1e",
+    "id": 36582525,
+    "kids": [
+      36582637
+    ],
+    "parent": 36581989,
+    "text": "DuckDb supports reading&#x2F;writing to a SQLite database, while using the improved DuckDB syntax. Sounds too good to be true, but I keep meaning to explore if there are any obvious gotchas.",
+    "time": 1688448103,
+    "type": "comment"
+  },
+  "36582637": {
+    "by": "samwillis",
+    "id": 36582637,
+    "kids": [
+      36590929
+    ],
+    "parent": 36582525,
+    "text": "DuckDBs concurrency model is not ideal for every use case. It&#x27;s <i>either</i> single read&#x2F;write process <i>or</i> multi read process (no write).<p>Other than that it&#x27;s awesome. I&#x27;ve stuck to its native file format though as scanning SQLite is slower.",
+    "time": 1688449422,
+    "type": "comment"
+  },
+  "36590929": {
+    "by": "chrisjc",
+    "id": 36590929,
+    "parent": 36582637,
+    "text": "But isn&#x27;t this the point of being able to use both duckdb databases and sqlite databases from the duckdb runtime? You can mix and match read&#x2F;write use-cases within the same duckdb db runtime?<p>Perform OLTP actions against sqlite db from within duckdb.<p>Perform OLAP actions against duckdb db from within duckdb.<p>Sometimes your OLTP content drives the OLAP query so read from both sqlite db and duckdb db at the same time.",
+    "time": 1688496097,
+    "type": "comment"
+  },
+  "36607477": {
+    "by": "emmanueloga_",
+    "id": 36607477,
+    "parent": 36581989,
+    "text": "<a href=\"https:&#x2F;&#x2F;github.com&#x2F;libsql&#x2F;sqld\">https:&#x2F;&#x2F;github.com&#x2F;libsql&#x2F;sqld</a>",
+    "time": 1688592821,
+    "type": "comment"
+  },
+  "36583737": {
+    "by": "bvrmn",
+    "id": 36583737,
+    "kids": [
+      36584569,
+      36585946
+    ],
+    "parent": 36579347,
+    "text": "AFAIK SQLite has weird locks, half year ago they weren&#x27;t fair and writers could\nget timeout easily. For workaround we implemented external lock and it have been worked quite smoothly since.<p>SQLite&#x27;s locking code looks like:<p><pre><code>    while lock_is_still_held_by_somebody():\n        sleep(3)  # 3 seconds</code></pre>",
+    "time": 1688458773,
+    "type": "comment"
+  },
+  "36584569": {
+    "by": "ilyt",
+    "id": 36584569,
+    "kids": [
+      36612075
+    ],
+    "parent": 36583737,
+    "text": "Did you use WAL?<p>But in general, funelling writes into one thread is the way to get around it",
+    "time": 1688465288,
+    "type": "comment"
+  },
+  "36612075": {
+    "by": "bvrmn",
+    "id": 36612075,
+    "parent": 36584569,
+    "text": "Yes. It&#x27;s doesn&#x27;t matter wal or default behavior.",
+    "time": 1688624862,
+    "type": "comment"
+  },
+  "36585946": {
+    "by": "hajile",
+    "id": 36585946,
+    "kids": [
+      36612115
+    ],
+    "parent": 36583737,
+    "text": "Shouldn\u2019t there be a random jitter added?",
+    "time": 1688474782,
+    "type": "comment"
+  },
+  "36612115": {
+    "by": "bvrmn",
+    "id": 36612115,
+    "parent": 36585946,
+    "text": "It&#x27;s SQLite&#x27;s locking implementation. In real code it includes some backoff but on long timeouts it reaches 3s. Jitter doesn&#x27;t help BTW it&#x27;s still unfair. On high contention each worker only has a slim chance to get a lock.",
+    "time": 1688625160,
+    "type": "comment"
+  },
+  "36582483": {
+    "by": "anonzzzies",
+    "id": 36582483,
+    "kids": [
+      36582898,
+      36584828
+    ],
+    "parent": 36579347,
+    "text": "Is there a nodejs SQLite driver wrapper than does that hides the one writer concurrency issue for you without having to think about it? I never used SQLite on a server because of it (many times on desktop and other clients), but I do have reasons to do so, especially with them being so easy to snapshot and move around.",
+    "time": 1688447606,
+    "type": "comment"
+  },
+  "36582898": {
+    "by": "plugin-baby",
+    "id": 36582898,
+    "parent": 36582483,
+    "text": "Maybe <a href=\"https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;better-sqlite3\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;better-sqlite3</a>? Hide concurrency issues by blocking!?",
+    "time": 1688451672,
+    "type": "comment"
+  },
+  "36584828": {
+    "by": "config_yml",
+    "id": 36584828,
+    "kids": [
+      36585063
+    ],
+    "parent": 36582483,
+    "text": "SQLite serializes writes for you, there\u2019s no need to think about it apart from handling SQLITE_BUSY",
+    "time": 1688467278,
+    "type": "comment"
+  },
+  "36585063": {
+    "by": "bawolff",
+    "id": 36585063,
+    "parent": 36584828,
+    "text": "One thing that really confused me with sqlite is how read transactions that are upgraded to write transactions half way through tend to fail very easiltly under high write load and cannot be automatically restarted by sqlite. It all makes sense in their concurrency model but it was surprising to me. The tl;dr is if you know you are going to write data in a transaction but the first operation is a read,use begin immddiate, so you dont have to worry about having to restart things manually.",
+    "time": 1688468956,
+    "type": "comment"
+  },
+  "36584572": {
+    "by": "Glench",
+    "id": 36584572,
+    "parent": 36579347,
+    "text": "One of the best write ups I\u2019ve seen on using SQLite in production is Consider SQLite: <a href=\"https:&#x2F;&#x2F;blog.wesleyac.com&#x2F;posts&#x2F;consider-sqlite\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;blog.wesleyac.com&#x2F;posts&#x2F;consider-sqlite</a><p>I also use SQLite in production and it\u2019s been pretty great so far. Serves about 50 requests per second from a single threaded Node app on a low tier DigitalOcean machine. To be fair, most of those are cache hits but it\u2019s still be nice. It\u2019s saved me money by not needing a separate db server and the operational simplicity is great. Biggest speed up I found was turning on memory mapping (which is different from an in-memory database that the article talks about).",
+    "time": 1688465326,
+    "type": "comment"
+  },
+  "36579508": {
+    "deleted": true,
+    "id": 36579508,
+    "parent": 36579347,
+    "time": 1688422482,
+    "type": "comment"
+  },
+  "36584371": {
+    "by": "perfunctory",
+    "id": 36584371,
+    "parent": 36579347,
+    "text": "&gt; In-memory SQLite is not too exciting<p>Do they ever call `commit`?",
+    "time": 1688464175,
+    "type": "comment"
+  },
+  "36587535": {
+    "by": "strken",
+    "id": 36587535,
+    "parent": 36579347,
+    "text": "Sqlite being nearly as fast as a hash table might say more about how slow hash tables are than how fast sqlite is.<p>Sticking your data in a self-balancing BST usually gives you log n lookups, but most of us haven&#x27;t internalised that log n with a small coefficient can be better than constant time with a huge coefficient on expected data sets.",
+    "time": 1688482550,
+    "type": "comment"
+  },
+  "36584128": {
+    "by": "globular-toast",
+    "id": 36584128,
+    "kids": [
+      36584827,
+      36584991,
+      36584602
+    ],
+    "parent": 36579347,
+    "text": "So can you just run Django with SQLite (the default) now, with no special setup? And no data loss? Years ago I tried that when I made a simple web app for a one-off data collection at work. I had maybe 10 users on it and started to encounter concurrency problems. This was about 5 years ago. What&#x27;s changed since then?",
+    "time": 1688462102,
+    "type": "comment"
+  },
+  "36584827": {
+    "by": "joseferben",
+    "id": 36584827,
+    "kids": [
+      36584990
+    ],
+    "parent": 36584128,
+    "text": "Works for me, so far no data loss after about 150 migrations across 3 projects. These are the settings:<p>@receiver(connection_created)\ndef configure_sqlite(sender, connection, *kwargs):\n    if connection.vendor == &quot;sqlite&quot;:\n        cursor = connection.cursor()\n        cursor.execute(&quot;PRAGMA journal_mode = WAL;&quot;)\n        cursor.execute(&quot;PRAGMA busy_timeout = 5000;&quot;)\n        cursor.execute(&quot;PRAGMA synchronous = NORMAL;&quot;)<p>Initially, I was worried that Django might screw up migrations since it&#x27;s a bit awkward to make certain schema changes in SQLite. Also almost no one seemed to use SQLite with Django in production, so I was a bit worried about how battle tested the SQLite part of the ORM was.<p>So far so good.",
+    "time": 1688467275,
+    "type": "comment"
+  },
+  "36584990": {
+    "by": "simonw",
+    "id": 36584990,
+    "kids": [
+      36585217
+    ],
+    "parent": 36584827,
+    "text": "I wrote this about WAL mode with Django and SQLite last year: <a href=\"https:&#x2F;&#x2F;simonwillison.net&#x2F;2022&#x2F;Oct&#x2F;23&#x2F;datasette-gunicorn&#x2F;\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;simonwillison.net&#x2F;2022&#x2F;Oct&#x2F;23&#x2F;datasette-gunicorn&#x2F;</a><p>Your configuration looks right to me.",
+    "time": 1688468417,
+    "type": "comment"
+  },
+  "36585217": {
+    "by": "joseferben",
+    "id": 36585217,
+    "kids": [
+      36585290
+    ],
+    "parent": 36584990,
+    "text": "Thanks for the link.<p>&gt; I asked Django Fellow Carlton Gibson what it would take to update that advice for 2022.<p>Glad to see that SQLite is being presented as a valid option in the current version of the docs.<p>&gt; Even without WAL mode, bumping the SQLite \u201ctimeout\u201d option up to 20s solved most of the errors.<p>Can you say anything about the tradeoffs when increasing the timeout, maybe in the context of Django?",
+    "time": 1688470094,
+    "type": "comment"
+  },
+  "36585290": {
+    "by": "simonw",
+    "id": 36585290,
+    "parent": 36585217,
+    "text": "I&#x27;ve not explored it in any more depth than I wrote about in that article and my issue comments.<p>My hunch is that if you bump it up to 20s while receiving a huge amount of concurrent traffic you may find yourself running out of available Python workers to serve requests.",
+    "time": 1688470520,
+    "type": "comment"
+  },
+  "36584991": {
+    "by": "troppl",
+    "id": 36584991,
+    "parent": 36584128,
+    "text": "Here are some notes I recently found online on this by simonw: <a href=\"https:&#x2F;&#x2F;simonwillison.net&#x2F;2022&#x2F;Oct&#x2F;23&#x2F;datasette-gunicorn&#x2F;#benchmarking-sqlite\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;simonwillison.net&#x2F;2022&#x2F;Oct&#x2F;23&#x2F;datasette-gunicorn&#x2F;#be...</a>.<p>It seems to me like they removed the warning on SQLite, so I guess they tested it and it works fine. But I didn&#x27;t research this any further so far.",
+    "time": 1688468421,
+    "type": "comment"
+  },
+  "36584602": {
+    "by": "ilyt",
+    "id": 36584602,
+    "parent": 36584128,
+    "text": "maybe they found proper SQLite options<p>enabling WAL helps a lot as it allows concurrent reads and a write<p><a href=\"https:&#x2F;&#x2F;www.sqlite.org&#x2F;wal.html\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;www.sqlite.org&#x2F;wal.html</a>",
+    "time": 1688465609,
+    "type": "comment"
+  },
+  "36582676": {
+    "by": "jokoon",
+    "id": 36582676,
+    "kids": [
+      36582763,
+      36582775,
+      36584155,
+      36582760
+    ],
+    "parent": 36579347,
+    "text": "I&#x27;m a bit bummed out that in memory didn&#x27;t increase performance, any idea why?",
+    "time": 1688449784,
+    "type": "comment"
+  },
+  "36582763": {
+    "by": "joseferben",
+    "id": 36582763,
+    "parent": 36582676,
+    "text": "I&#x27;ve got a hunch that the data was too small to make a difference: <a href=\"https:&#x2F;&#x2F;stackoverflow.com&#x2F;a&#x2F;764743\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;stackoverflow.com&#x2F;a&#x2F;764743</a>",
+    "time": 1688450611,
+    "type": "comment"
+  },
+  "36582775": {
+    "by": "justinclift",
+    "id": 36582775,
+    "parent": 36582676,
+    "text": "A rough guess without knowing any better, would be that their SQLite configuration isn&#x27;t flushing to disk after every write or similar.<p>Maybe they ran their entire benchmark in a single transaction or something?",
+    "time": 1688450736,
+    "type": "comment"
+  },
+  "36584155": {
+    "by": "globular-toast",
+    "id": 36584155,
+    "parent": 36582676,
+    "text": "The &quot;on-disk&quot; test was really in-memory too, thanks to various layers of caching etc.",
+    "time": 1688462297,
+    "type": "comment"
+  },
+  "36582760": {
+    "by": "Khoth",
+    "id": 36582760,
+    "parent": 36582676,
+    "text": "Sounds like they were testing it with a small enough amount of data that the disk version could just work from cache and didn&#x27;t actually have to go to the disk",
+    "time": 1688450559,
+    "type": "comment"
+  },
+  "36584232": {
+    "by": "nullcipher",
+    "id": 36584232,
+    "kids": [
+      36584586
+    ],
+    "parent": 36579347,
+    "text": "Can SQLite have multiple processes writing to the same database? Is this safe?",
+    "time": 1688463000,
+    "type": "comment"
+  },
+  "36584586": {
+    "by": "ilyt",
+    "id": 36584586,
+    "kids": [
+      36584618
+    ],
+    "parent": 36584232,
+    "text": "Yes, just not at the same time. If you can you want to enable WAL (that requires some shared memory primitives, so same machine generally), because otherwise writes block reads<p><a href=\"https:&#x2F;&#x2F;www.sqlite.org&#x2F;wal.html\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;www.sqlite.org&#x2F;wal.html</a>",
+    "time": 1688465432,
+    "type": "comment"
+  },
+  "36584618": {
+    "by": "nullcipher",
+    "id": 36584618,
+    "kids": [
+      36584717
+    ],
+    "parent": 36584586,
+    "text": "&gt; Yes, just not at the same time.<p>Does this mean that my processes need some synchronization primitive of their own to not to concurrent writes?",
+    "time": 1688465787,
+    "type": "comment"
+  },
+  "36584717": {
+    "by": "joseferben",
+    "id": 36584717,
+    "parent": 36584618,
+    "text": "Afaik SQLite in WAL mode takes your writes but still serializes the commits, so no SQLite-specific synchronization primitives needed. You might run into SQLITE_BUSY, in which case you can play with the timeout <a href=\"https:&#x2F;&#x2F;www.sqlite.org&#x2F;c3ref&#x2F;busy_timeout.html\" rel=\"nofollow noreferrer\">https:&#x2F;&#x2F;www.sqlite.org&#x2F;c3ref&#x2F;busy_timeout.html</a>",
+    "time": 1688466602,
+    "type": "comment"
+  },
+  "36585137": {
+    "by": "martin_a",
+    "id": 36585137,
+    "parent": 36579347,
+    "text": "Can anyone point me to a good introduction on SQLite and (Vanilla) PHP?<p>I only tried for half an hour but I had problems everwhyere, sticking to the php.net docs, and wondered if it was me or the docs or the webhost...",
+    "time": 1688469456,
+    "type": "comment"
+  },
+  "36579878": {
+    "by": "pestatije",
+    "id": 36579878,
+    "kids": [
+      36582265
+    ],
+    "parent": 36579347,
+    "text": "can you really test the speed of a db with django?",
+    "time": 1688424996,
+    "type": "comment"
+  },
+  "36582265": {
+    "by": "klysm",
+    "id": 36582265,
+    "kids": [
+      36584611,
+      36584145
+    ],
+    "parent": 36579878,
+    "text": "if it&#x27;s end goal is to be used by django, isn&#x27;t that the only thing that matters? Django may very well be the bottleneck though",
+    "time": 1688445139,
+    "type": "comment"
+  },
+  "36584611": {
+    "by": "ilyt",
+    "id": 36584611,
+    "parent": 36582265,
+    "text": "Absolutely yes as one DB might be used by multiple instances.<p>You could theoretically get 128 core CPU and use all of the cores for django process..",
+    "time": 1688465666,
+    "type": "comment"
+  },
+  "36584145": {
+    "by": "mrweasel",
+    "id": 36584145,
+    "parent": 36582265,
+    "text": "I do wonder if you can have enough uwsgi workers on a single machine to max out SQLite using Django.",
+    "time": 1688462225,
+    "type": "comment"
+  },
+  "36582887": {
+    "by": "jujube3",
+    "id": 36582887,
+    "kids": [
+      36583364
+    ],
+    "parent": 36579347,
+    "text": "TL;DR Using a slow thing is fine if you use it in conjunction with an even slower thing.",
+    "time": 1688451579,
+    "type": "comment"
+  },
+  "36583364": {
+    "by": "blarnopre",
+    "id": 36583364,
+    "parent": 36582887,
+    "text": "Can&#x27;t tell if you&#x27;re missing the point on purpose or just did no research, maybe due to the lack of evidence you cite",
+    "time": 1688455542,
+    "type": "comment"
+  },
+  "36594788": {
+    "by": "snailtrail",
+    "id": 36594788,
+    "parent": 36579347,
+    "text": "That losers write posts with clickbait titles",
+    "time": 1688522949,
+    "type": "comment"
+  },
+  "36586122": {
+    "by": "crabbone",
+    "id": 36586122,
+    "parent": 36579347,
+    "text": "Another programmer who&#x27;s not a tester is trying to come up with a benchmark and has no clue how to do that (and doesn&#x27;t even know they need to know how to do that). Not surprisingly, it&#x27;s a Python &#x2F; JavaScript programmer...<p>That test of memory vs disk I&#x2F;O performance is ridiculous. Nobody should pay attention to that.",
+    "time": 1688475848,
+    "type": "comment"
+  },
+  "47637353": {
+    "by": "thunderbong",
+    "descendants": 129,
+    "id": 47637353,
+    "kids": [
+      47638212,
+      47641494,
+      47676278,
+      47638428,
+      47637416,
+      47639108,
+      47678795,
+      47680806,
+      47638918,
+      47638567,
+      47679715,
+      47679680,
+      47687327,
+      47639202,
+      47677151,
+      47679801,
+      47638344,
+      47679785,
+      47679306,
+      47680941,
+      47679562,
+      47677064,
+      47679422,
+      47700954,
+      47638290,
+      47681377,
+      47679319,
+      47679980,
+      47677857,
+      47677737,
+      47678716,
+      47682469,
+      47679181,
+      47688060,
+      47677413,
+      47678984,
+      47678982
+    ],
+    "score": 208,
+    "time": 1775294147,
+    "title": "SQLite in Production: Lessons from Running a Store on a Single File",
+    "type": "story",
+    "url": "https://ultrathink.art/blog/sqlite-in-production-lessons"
+  },
+  "47638212": {
+    "by": "yokuze",
+    "id": 47638212,
+    "kids": [
+      47676525,
+      47638296,
+      47679167,
+      47676281,
+      47676273,
+      47676210,
+      47679563
+    ],
+    "parent": 47637353,
+    "text": "&gt; The technical fix was embarrassingly simple: stop pushing to main every ten minutes.<p>Wait, you push straight to main?<p>&gt; We added a rule \u2014 batch related changes, avoid rapid-fire pushes. It&#x27;s in our CLAUDE.md (the governance file that all our AI agents follow):<p>&gt; Avoid rapid-fire pushes to main \u2014 11 pushes in 2h caused overlapping Kamal deploys with concurrent SQLite access.<p>Wait, you let _Claude_ push your e-commerce code straight to main which immediately results in a production deploy?",
+    "time": 1775303433,
+    "type": "comment"
+  },
+  "47676525": {
+    "by": "chasil",
+    "id": 47676525,
+    "kids": [
+      47676854,
+      47677018,
+      47679359,
+      47681727,
+      47676751,
+      47679935
+    ],
+    "parent": 47638212,
+    "text": "This is the actual problem:<p>&quot;Kamal runs blue-green deploys \u2014 it starts a new container, health-checks it, then stops the old one. During the switchover, both containers are running. Both mount ultrathink_storage. Both have the SQLite files open.&quot;<p>WAL mode requires shared access to System V IPC mapped memory. This is unlikely to work across containers.<p>In case anybody needs a refresher:<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Shared_memory\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Shared_memory</a><p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CB_UNIX\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CB_UNIX</a><p><a href=\"https:&#x2F;&#x2F;www.ibm.com&#x2F;docs&#x2F;en&#x2F;aix&#x2F;7.1.0?topic=operations-system-v-interprocess-communication-ipc\" rel=\"nofollow\">https:&#x2F;&#x2F;www.ibm.com&#x2F;docs&#x2F;en&#x2F;aix&#x2F;7.1.0?topic=operations-syste...</a>",
+    "time": 1775574307,
+    "type": "comment"
+  },
+  "47676854": {
+    "by": "simonw",
+    "id": 47676854,
+    "kids": [
+      47676983,
+      47676935,
+      47676922
+    ],
+    "parent": 47676525,
+    "text": "Thanks for this, the anecdote with the lost data was <i>very</i> concerning to me.<p>I think you&#x27;re exactly right about the WAL shared memory not crossing the container boundary. <i>EDIT: It looks like WAL works fine across Docker boundaries, see <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=47637353#47677163\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=47637353#47677163</a></i><p>I don&#x27;t know much about Kamal but I&#x27;d look into ways of &quot;pausing&quot; traffic during a deploy - the trick where a proxy pretends that a request is taking another second to finish when it&#x27;s actually held in the proxy while the two containers switch over.<p>From <a href=\"https:&#x2F;&#x2F;kamal-deploy.org&#x2F;docs&#x2F;upgrading&#x2F;proxy-changes&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;kamal-deploy.org&#x2F;docs&#x2F;upgrading&#x2F;proxy-changes&#x2F;</a> it looks like Kamal 2&#x27;s new proxy doesn&#x27;t have this yet, they list &quot;Pausing requests&quot; as &quot;coming soon&quot;.",
+    "time": 1775575624,
+    "type": "comment"
+  },
+  "47676983": {
+    "by": "hedora",
+    "id": 47676983,
+    "kids": [
+      47677163
+    ],
+    "parent": 47676854,
+    "text": "Pausing requests then running two sqlites momentarily probably won\u2019t prevent corruption.  It might make it less likely and harder to catch in testing.<p>The easiest approach is to kill sqlite, then start the new one.  I\u2019d use a unix lockfile as a last-resort mechanism (assuming the container environment doesn\u2019t somehow break those).",
+    "time": 1775576172,
+    "type": "comment"
+  },
+  "47677163": {
+    "by": "simonw",
+    "id": 47677163,
+    "parent": 47676983,
+    "text": "I&#x27;m saying you pause requests, shut down one of the SQLite containers, start up the other one and un-pause.",
+    "time": 1775576939,
+    "type": "comment"
+  },
+  "47676935": {
+    "by": "Retr0id",
+    "id": 47676935,
+    "kids": [
+      47677074,
+      47677020
+    ],
+    "parent": 47676854,
+    "text": "&gt; I think you&#x27;re exactly right about the WAL shared memory not crossing the container boundary.<p>I don&#x27;t, fwiw (so long as all containers are bind mounting the same underlying fs).",
+    "time": 1775575997,
+    "type": "comment"
+  },
+  "47677074": {
+    "by": "simonw",
+    "id": 47677074,
+    "kids": [
+      47677710,
+      47677129
+    ],
+    "parent": 47676935,
+    "text": "I just tried an experiment and you&#x27;re right, WAL mode worked fine across two Docker containers running on the same (macOS) host: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;simonw&#x2F;research&#x2F;tree&#x2F;main&#x2F;sqlite-wal-docker-containers#readme\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;simonw&#x2F;research&#x2F;tree&#x2F;main&#x2F;sqlite-wal-dock...</a><p>Could the two containers in the OP have been running on separate filesystems, perhaps?",
+    "time": 1775576564,
+    "type": "comment"
+  },
+  "47677710": {
+    "by": "jmull",
+    "id": 47677710,
+    "kids": [
+      47682047
+    ],
+    "parent": 47677074,
+    "text": "I dug into this limitation a bit around a year ago on AWS, using a sqlite db stored on an EFS volume (I think it was EFS -- relying on memory here) and lambda clients.<p>Although my tests were slamming the db with reads and write I didn&#x27;t induce a bad read or write using WAL.<p>But I wouldn&#x27;t use experimental results to override what the sqlite people are saying. I (and you) probably just didn&#x27;t happen to hit the right access pattern.",
+    "time": 1775579040,
+    "type": "comment"
+  },
+  "47682047": {
+    "by": "Retr0id",
+    "id": 47682047,
+    "parent": 47677710,
+    "text": "&quot;the sqlite people&quot; don&#x27;t say anything that contradicts this",
+    "time": 1775600123,
+    "type": "comment"
+  },
+  "47677129": {
+    "by": "Retr0id",
+    "id": 47677129,
+    "parent": 47677074,
+    "text": "Perhaps they&#x27;re using NFS or something - which would give them issues regardless of container boundaries.",
+    "time": 1775576761,
+    "type": "comment"
+  },
+  "47677020": {
+    "by": "hedora",
+    "id": 47677020,
+    "kids": [
+      47679379
+    ],
+    "parent": 47676935,
+    "text": "It would explain the corruption:<p><a href=\"https:&#x2F;&#x2F;sqlite.org&#x2F;wal.html\" rel=\"nofollow\">https:&#x2F;&#x2F;sqlite.org&#x2F;wal.html</a><p>The containers would need to use a path on a shared FS to setup the SHM handle, and, even then, this sounds like the sort of thing you could probably break via arcane misconfiguration.<p>I agree shm should work in principle though.",
+    "time": 1775576317,
+    "type": "comment"
+  },
+  "47679379": {
+    "by": "PunchyHamster",
+    "id": 47679379,
+    "parent": 47677020,
+    "text": "Not how  SQLite works (any more)<p>&gt; The wal-index is implemented using an ordinary file that is mmapped for robustness. Early (pre-release) implementations of WAL mode stored the wal-index in volatile shared-memory, such as files created in &#x2F;dev&#x2F;shm on Linux or &#x2F;tmp on other unix systems. The problem with that approach is that processes with a different root directory (changed via chroot) will see different files and hence use different shared memory areas, leading to database corruption. Other methods for creating nameless shared memory blocks are not portable across the various flavors of unix. And we could not find any method to create nameless shared memory blocks on windows. The only way we have found to guarantee that all processes accessing the same database file use the same shared memory is to create the shared memory by mmapping a file in the same directory as the database itself.",
+    "time": 1775586469,
+    "type": "comment"
+  },
+  "47676922": {
+    "by": "chasil",
+    "id": 47676922,
+    "parent": 47676854,
+    "text": "You might consider taking the database(s) out of WAL mode during a migration.<p>That would eliminate the need for shared memory.",
+    "time": 1775575937,
+    "type": "comment"
+  },
+  "47677018": {
+    "by": "gcr",
+    "id": 47677018,
+    "kids": [
+      47677214,
+      47679118
+    ],
+    "parent": 47676525,
+    "text": "The SQLite documentation says in strong terms not to do this.  <a href=\"https:&#x2F;&#x2F;sqlite.org&#x2F;howtocorrupt.html#_filesystems_with_broken_or_missing_lock_implementations\" rel=\"nofollow\">https:&#x2F;&#x2F;sqlite.org&#x2F;howtocorrupt.html#_filesystems_with_broke...</a><p>See more: <a href=\"https:&#x2F;&#x2F;sqlite.org&#x2F;wal.html#concurrency\" rel=\"nofollow\">https:&#x2F;&#x2F;sqlite.org&#x2F;wal.html#concurrency</a>",
+    "time": 1775576309,
+    "type": "comment"
+  },
+  "47677214": {
+    "by": "Retr0id",
+    "id": 47677214,
+    "kids": [
+      47677739
+    ],
+    "parent": 47677018,
+    "text": "They tell you to use a proper FS, which is largely orthogonal to containerization.",
+    "time": 1775577137,
+    "type": "comment"
+  },
+  "47677739": {
+    "by": "jmull",
+    "id": 47677739,
+    "kids": [
+      47678721
+    ],
+    "parent": 47677214,
+    "text": "WAL relies on shared memory, so while a proper FS is necessary, it isn&#x27;t going to help in this case.",
+    "time": 1775579149,
+    "type": "comment"
+  },
+  "47678721": {
+    "by": "fauigerzigerk",
+    "id": 47678721,
+    "kids": [
+      47680743
+    ],
+    "parent": 47677739,
+    "text": "Why does it not help if both containers can mmap the same -shm file?",
+    "time": 1775583436,
+    "type": "comment"
+  },
+  "47680743": {
+    "by": "jmull",
+    "id": 47680743,
+    "kids": [
+      47682056
+    ],
+    "parent": 47678721,
+    "text": "Shared memory across containers is a property of a containerization environment, not a property of a file system, &quot;proper&quot; or not.",
+    "time": 1775592701,
+    "type": "comment"
+  },
+  "47682056": {
+    "by": "Retr0id",
+    "id": 47682056,
+    "parent": 47680743,
+    "text": "It&#x27;s a property of the filesystem, docker does not virtualize fs.",
+    "time": 1775600186,
+    "type": "comment"
+  },
+  "47679118": {
+    "by": "merb",
+    "id": 47679118,
+    "parent": 47677018,
+    "text": "btw nfs that is mentioned here is fine in sync mode. However that is slow.",
+    "time": 1775585352,
+    "type": "comment"
+  },
+  "47679359": {
+    "by": "PunchyHamster",
+    "id": 47679359,
+    "parent": 47676525,
+    "text": "&gt; WAL mode requires shared access to System V IPC mapped memory.<p>Incorrect. It requires access to mmap()<p>&quot;The wal-index is implemented using an ordinary file that is mmapped for robustness. Early (pre-release) implementations of WAL mode stored the wal-index in volatile shared-memory, such as files created in &#x2F;dev&#x2F;shm on Linux or &#x2F;tmp on other unix systems. The problem with that approach is that processes with a different root directory (changed via chroot) will see different files and hence use different shared memory areas, leading to database corruption.&quot;<p>&gt; This is unlikely to work across containers.<p>I&#x27;d imagine sqlite code would fail if that was the case; in case of k8s at least mounting same storage to 2 containers in most configurations causes K8S to co-locate both pods on same node so it should be fine.<p>It is far more likely they just fucked up the code and lost data that way...",
+    "time": 1775586407,
+    "type": "comment"
+  },
+  "47681727": {
+    "by": "ncruces",
+    "id": 47681727,
+    "parent": 47676525,
+    "text": "This thread in the SQLite forum should be instructive:\n<a href=\"https:&#x2F;&#x2F;sqlite.org&#x2F;forum&#x2F;forumpost&#x2F;90d6805c7cec827f\" rel=\"nofollow\">https:&#x2F;&#x2F;sqlite.org&#x2F;forum&#x2F;forumpost&#x2F;90d6805c7cec827f</a>",
+    "time": 1775598241,
+    "type": "comment"
+  },
+  "47676751": {
+    "by": "Retr0id",
+    "id": 47676751,
+    "parent": 47676525,
+    "text": "&gt; This is unlikely to work across containers.<p>Why not?",
+    "time": 1775575215,
+    "type": "comment"
+  },
+  "47679935": {
+    "by": "voidfunc",
+    "id": 47679935,
+    "kids": [
+      47680037
+    ],
+    "parent": 47676525,
+    "text": "Ooh new historical Unix variant I had never heard of.. neat!",
+    "time": 1775588953,
+    "type": "comment"
+  },
+  "47680037": {
+    "by": "chasil",
+    "id": 47680037,
+    "kids": [
+      47680406
+    ],
+    "parent": 47679935,
+    "text": "AIX is still supported and sold, so quite current?<p>Some that I used that are gone... Ultrix (MIPS), Clix, Irix, SunOS 4, SCO OpenServer, TI System V.<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Ultrix\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Ultrix</a><p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Intergraph\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Intergraph</a>",
+    "time": 1775589434,
+    "type": "comment"
+  },
+  "47680406": {
+    "by": "nxobject",
+    "id": 47680406,
+    "kids": [
+      47681258
+    ],
+    "parent": 47680037,
+    "text": "NeXTstep? \n(Leaving aside fun spitballing about whether Tahoe is morally OPENSTEP 26, and whether it was NeXT that actually bought Apple for negative $400 million...)",
+    "time": 1775591054,
+    "type": "comment"
+  },
+  "47681258": {
+    "by": "chasil",
+    "id": 47681258,
+    "parent": 47680406,
+    "text": "Alas, I never had access to any of the Next environments, until PPC MacOS.<p>I did hold a copy in my hands for 486-class machines in the college bookstore.",
+    "time": 1775595317,
+    "type": "comment"
+  },
+  "47638296": {
+    "by": "crabmusket",
+    "id": 47638296,
+    "kids": [
+      47638311,
+      47678185
+    ],
+    "parent": 47638212,
+    "text": "Patient: doctor, my app loses data when I deploy twice during a 10 minute interval!<p>Doctor: simply do not do that",
+    "time": 1775304191,
+    "type": "comment"
+  },
+  "47638311": {
+    "by": "pavel_lishin",
+    "id": 47638311,
+    "kids": [
+      47676475
+    ],
+    "parent": 47638296,
+    "text": "Doctor: solution is simple, stop letting that stupid clown Pagliacci define how you do your work!<p>Patient: but doctor,",
+    "time": 1775304338,
+    "type": "comment"
+  },
+  "47676475": {
+    "by": "pjc50",
+    "id": 47676475,
+    "parent": 47638311,
+    "text": "pAIgliacci: as a large language model, I am unable to experience live comedy.",
+    "time": 1775574048,
+    "type": "comment"
+  },
+  "47678185": {
+    "by": "rcakebread",
+    "id": 47678185,
+    "parent": 47638296,
+    "text": "Bob Newhart did it best <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=LhQGzeiYS_Q\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=LhQGzeiYS_Q</a>",
+    "time": 1775580837,
+    "type": "comment"
+  },
+  "47679167": {
+    "by": "littlestymaar",
+    "id": 47679167,
+    "kids": [
+      47679211,
+      47685623
+    ],
+    "parent": 47638212,
+    "text": "&gt; Wait, you let _Claude_ push your e-commerce code straight to main which immediately results in a production deploy?<p>Yikes. Thank you I&#x27;m not going to read \u201cLessons learned\u201d by someone this careless.",
+    "time": 1775585543,
+    "type": "comment"
+  },
+  "47679211": {
+    "by": "66yatman",
+    "id": 47679211,
+    "kids": [
+      47683114
+    ],
+    "parent": 47679167,
+    "text": "The issue wasn\u2019t done by the ai but their lack of architectural knowledge",
+    "time": 1775585753,
+    "type": "comment"
+  },
+  "47683114": {
+    "by": "okkdev",
+    "id": 47683114,
+    "parent": 47679211,
+    "text": "Goes hand in hand",
+    "time": 1775608017,
+    "type": "comment"
+  },
+  "47685623": {
+    "by": "whateveracct",
+    "id": 47685623,
+    "parent": 47679167,
+    "text": "stupid is as stupid does",
+    "time": 1775625612,
+    "type": "comment"
+  },
+  "47676281": {
+    "by": "xnorswap",
+    "id": 47676281,
+    "kids": [
+      47677224,
+      47680225
+    ],
+    "parent": 47638212,
+    "text": "I&#x27;m fairly confident they let it write the blog post too.",
+    "time": 1775573245,
+    "type": "comment"
+  },
+  "47677224": {
+    "by": "simonw",
+    "id": 47677224,
+    "kids": [
+      47677349
+    ],
+    "parent": 47676281,
+    "text": "&quot;Not as a proof of concept. Not for a side project with three users. A real store&quot; - suggestion for human writers, don&#x27;t use &quot;not X, not Y&quot; - it carries that LLM smell whether or not you used an LLM.",
+    "time": 1775577179,
+    "type": "comment"
+  },
+  "47677349": {
+    "by": "xnorswap",
+    "id": 47677349,
+    "parent": 47677224,
+    "text": "And that&#x27;s just the opening paragraph, the full text is rounded off with:<p>&quot;The constraint is real: one server, and careful deploy pacing.&quot;<p>Another strong LLM smell, &quot;The &lt;X&gt; is real&quot;, nicely bookends an obviously generated blog-post.",
+    "time": 1775577612,
+    "type": "comment"
+  },
+  "47680225": {
+    "by": "These335",
+    "id": 47680225,
+    "kids": [
+      47688561
+    ],
+    "parent": 47676281,
+    "text": "You&#x27;re absolutely right, this was an AI post",
+    "time": 1775590290,
+    "type": "comment"
+  },
+  "47688561": {
+    "by": "yokuze",
+    "id": 47688561,
+    "parent": 47680225,
+    "text": "I see what you did there XD",
+    "time": 1775646545,
+    "type": "comment"
+  },
+  "47676273": {
+    "by": "bombcar",
+    "id": 47676273,
+    "kids": [
+      47677237
+    ],
+    "parent": 47638212,
+    "text": "Hey, Apple still takes their store down during product launches!",
+    "time": 1775573205,
+    "type": "comment"
+  },
+  "47677237": {
+    "by": "pstuart",
+    "id": 47677237,
+    "kids": [
+      47677318
+    ],
+    "parent": 47676273,
+    "text": "I assumed that it was to ensure that the announced products were revealed in a controlled manner rather than because they aren&#x27;t able to do updates to their product listings as a regular thing.",
+    "time": 1775577232,
+    "type": "comment"
+  },
+  "47677318": {
+    "by": "bombcar",
+    "id": 47677318,
+    "parent": 47677237,
+    "text": "My reading of the tea leaves is it started out as the latter and continues as the former as part of the \u201cmystique\u201d.",
+    "time": 1775577516,
+    "type": "comment"
+  },
+  "47676210": {
+    "by": "tensegrist",
+    "id": 47676210,
+    "parent": 47638212,
+    "text": "i hate to be so blunt but look around the site and then tell me you&#x27;re surprised",
+    "time": 1775572980,
+    "type": "comment"
+  },
+  "47679563": {
+    "by": "burnt-resistor",
+    "id": 47679563,
+    "parent": 47638212,
+    "text": "I suspect they don&#x27;t wear helmets or seatbelts either. Sigh. The &quot;I&#x27;m so proud and ignorant of unnecessarily risky behaviors&quot; meme is tiring.<p>The Meta dev model of diff reviews merge into main (rebase style) after automated tests run is pretty good.<p>Also, staging and canary, gradual, exponential prod deployment&#x2F;rollback approaches help derisk change too.<p>Finally, have real, tested backups and restore processes (not replicated copies) and ability to rollback.",
+    "time": 1775587289,
+    "type": "comment"
+  },
+  "47641494": {
+    "by": "infamia",
+    "id": 47641494,
+    "kids": [
+      47678157,
+      47678004,
+      47676108,
+      47676711
+    ],
+    "parent": 47637353,
+    "text": "SQLite has a &quot;.backup&quot; command that you should always use to backup a SQLite DB. You&#x27;re risking data loss&#x2F;corruption using &quot;cp&quot; to backup your database as prescribed in the article.<p><a href=\"https:&#x2F;&#x2F;sqlite.org&#x2F;cli.html#special_commands_to_sqlite3_dot_commands_\" rel=\"nofollow\">https:&#x2F;&#x2F;sqlite.org&#x2F;cli.html#special_commands_to_sqlite3_dot_...</a>",
+    "time": 1775325340,
+    "type": "comment"
+  },
+  "47678157": {
+    "by": "rogerbinns",
+    "id": 47678157,
+    "parent": 47641494,
+    "text": "Related, there is also sqlite3_rsync that lets you copy a live database to another (optionally) live database, where either can be on the network, accessed via ssh.  A snapshot of the origin is used so writes can continue happening while the sqlite3_rsync is running.  Only the differences are copied.  The documentation is thorough:<p><a href=\"https:&#x2F;&#x2F;sqlite.org&#x2F;rsync.html\" rel=\"nofollow\">https:&#x2F;&#x2F;sqlite.org&#x2F;rsync.html</a>",
+    "time": 1775580713,
+    "type": "comment"
+  },
+  "47678004": {
+    "by": "qingcharles",
+    "id": 47678004,
+    "kids": [
+      47679763
+    ],
+    "parent": 47641494,
+    "text": "&quot;I know about the .backup command, there&#x27;s no way I&#x27;m using cp to backup the SQLite db from production.&quot;<p>Oh.<p>Guess I know what I&#x27;m fixing before lunch. Thank you :)",
+    "time": 1775580073,
+    "type": "comment"
+  },
+  "47679763": {
+    "by": "warmwaffles",
+    "id": 47679763,
+    "kids": [
+      47681102
+    ],
+    "parent": 47678004,
+    "text": "Yes, especially if you are using a WAL.",
+    "time": 1775588202,
+    "type": "comment"
+  },
+  "47681102": {
+    "by": "qingcharles",
+    "id": 47681102,
+    "parent": 47679763,
+    "text": "Totally. It also explains why I was confused to find the WAL files when I was testing the backups last week.",
+    "time": 1775594512,
+    "type": "comment"
+  },
+  "47676108": {
+    "by": "anonzzzies",
+    "id": 47676108,
+    "kids": [
+      47680796,
+      47682002,
+      47676150
+    ],
+    "parent": 47641494,
+    "text": "Yeah, using cp to backup sqlite is a very bad idea. And yet, unless you know this, this is what Claude etc will implement for you. Every friggin&#x27; time.",
+    "time": 1775572650,
+    "type": "comment"
+  },
+  "47680796": {
+    "by": "hombre_fatal",
+    "id": 47680796,
+    "kids": [
+      47682769
+    ],
+    "parent": 47676108,
+    "text": "Well, humans also default to &#x27;cp&#x27; until they learn the better pattern or find out their backup is missing data.<p>Also, my n=1 is that I told Claude to create a `make backup` task and it used .backup.<p>I don&#x27;t understand the double standard though. Why do we pretend us humans are immaculate in these AI convos? If you had the prescience to be the guy who looked up how to properly back up an sqlite db, you&#x27;d have the prescience to get Claude to read docs. It&#x27;s the same corner cut.<p>There&#x27;s this weird contradiction where we both expect and don&#x27;t expect AI to do anything well. We expect it to yolo the correct solution without docs since that&#x27;s what we tried to make it do. And if it makes the error a human would make without docs, of course it did, it&#x27;s just AI. Or, it shouldn&#x27;t have to read docs, it&#x27;s AI.",
+    "time": 1775592913,
+    "type": "comment"
+  },
+  "47682769": {
+    "by": "refulgentis",
+    "id": 47682769,
+    "kids": [
+      47690819
+    ],
+    "parent": 47680796,
+    "text": "You&#x27;re confusing a workman&#x27;s winking complaint about their tool, with, being unfair by not treating AI like a human.",
+    "time": 1775605352,
+    "type": "comment"
+  },
+  "47690819": {
+    "by": "hombre_fatal",
+    "id": 47690819,
+    "kids": [
+      47693808
+    ],
+    "parent": 47682769,
+    "text": "I&#x27;m making a general observation about this frequent genre of complaint.",
+    "time": 1775658939,
+    "type": "comment"
+  },
+  "47693808": {
+    "by": "refulgentis",
+    "id": 47693808,
+    "kids": [
+      47695607
+    ],
+    "parent": 47690819,
+    "text": "And I&#x27;m lucky enough to be making an observation about your general observation about this frequent genre of complaint",
+    "time": 1775670838,
+    "type": "comment"
+  },
+  "47695607": {
+    "by": "hombre_fatal",
+    "id": 47695607,
+    "parent": 47693808,
+    "text": "I don&#x27;t get what you&#x27;re trying to say then.",
+    "time": 1775678813,
+    "type": "comment"
+  },
+  "47682002": {
+    "by": "HoldOnAMinute",
+    "id": 47682002,
+    "kids": [
+      47695022
+    ],
+    "parent": 47676108,
+    "text": "It works fine as long as no one is writing to the sqlite file and you are not in WAL mode, which is not the default.",
+    "time": 1775599848,
+    "type": "comment"
+  },
+  "47695022": {
+    "by": "anonzzzies",
+    "id": 47695022,
+    "parent": 47682002,
+    "text": "But we were talking server loads here: anyone runs sqlite server-side not in WAL mode?",
+    "time": 1775676254,
+    "type": "comment"
+  },
+  "47676150": {
+    "by": "chasil",
+    "id": 47676150,
+    "parent": 47676108,
+    "text": "It&#x27;s fine if you run the equivalent of &quot;init 1&quot; first.<p>Does your OS have a single-user mode?",
+    "time": 1775572796,
+    "type": "comment"
+  },
+  "47676711": {
+    "by": "BartjeD",
+    "id": 47676711,
+    "kids": [
+      47676724
+    ],
+    "parent": 47641494,
+    "text": "The bottom part of the article mentions they use .backup - did they add that later or did you miss it?",
+    "time": 1775575027,
+    "type": "comment"
+  },
+  "47676724": {
+    "by": "BartjeD",
+    "id": 47676724,
+    "parent": 47676711,
+    "text": "The post now says they changed it due to feedback from Hacker news. All good.",
+    "time": 1775575085,
+    "type": "comment"
+  },
+  "47676278": {
+    "by": "crazygringo",
+    "id": 47676278,
+    "kids": [
+      47676701,
+      47676982,
+      47677071,
+      47676392,
+      47691695,
+      47676656
+    ],
+    "parent": 47637353,
+    "text": "&gt; <i>Would We Choose SQLite Again? Yes. For a single-server deployment with moderate write volume, SQLite eliminates an entire category of infrastructure complexity. No connection pool tuning. No database server upgrades. No replication lag.</i><p>These are weird reasons. You can just install Postgres or MySQL locally too. Connection pool tuning certainly isn&#x27;t anything you have to worry about for a moderate write volume. You don&#x27;t ever need to upgrade the database if you don&#x27;t want to, since you&#x27;re not publicly exposing it. There&#x27;s obviously no replication lag if you&#x27;re not replicating, which you wouldn&#x27;t be with a single server.<p>The reason you don&#x27;t usually choose SQLite for the web is future-proofing. If you&#x27;re <i>totally sure</i> you&#x27;ll always stay single-server forever, then sure, go for it. But if there&#x27;s even a <i>tiny chance</i> you&#x27;ll ever need to expand to multiple web servers, then you&#x27;ll wish you&#x27;d chosen a client-server database from the start. And again, you can run Postgres&#x2F;MySQL locally, on even the tiniest cheapest VPS, basically just as easily as using SQLite.",
+    "time": 1775573235,
+    "type": "comment"
+  },
+  "47676701": {
+    "by": "kaibee",
+    "id": 47676701,
+    "parent": 47676278,
+    "text": "Yeah a PG Docker container is basically magic.  I too went down a rabbit-hole of trying to setup a write-heavy SQLite thing because my job is still using CentOS6 on their AWS cluster (don&#x27;t ask).  Once I finally got enough political capital to get my own EC2 box I could put a PG docker container on, so much nonsense I was doing just evaporated.",
+    "time": 1775575008,
+    "type": "comment"
+  },
+  "47676982": {
+    "by": "NewEntryHN",
+    "id": 47676982,
+    "kids": [
+      47677590
+    ],
+    "parent": 47676278,
+    "text": "It&#x27;s a spectrum. Installing Postgres locally is not 100% future-proofing since you&#x27;ll still need to migrate your local Postgres to a central Postres. Using Sqlite is not 0% future-proofing since it&#x27;s still using the SQL standard.<p>If the only argument for a piece of tech in comparison to another one is &quot;future-proofing&quot;, that&#x27;s pretty much acknowledging the other one is simpler to setup and maintain.",
+    "time": 1775576168,
+    "type": "comment"
+  },
+  "47677590": {
+    "by": "crazygringo",
+    "id": 47677590,
+    "kids": [
+      47678761
+    ],
+    "parent": 47676982,
+    "text": "&gt; <i>It&#x27;s a spectrum.</i><p>For web servers specifically, no, SQLite is not generally part of that spectrum. That makes as much sense as saying that in a kitchen, you want a spectrum of knives from Swiss Army Knives to chef&#x27;s knives. No -- Swiss Army Knives are not part of the spectrum. For web servers, you do have a wide spectrum of database options from single servers to clusters to multi-region clusters, along with many other choices. But SQLite is not generally part of that spectrum, because it&#x27;s not client-server.<p>&gt; <i>since you&#x27;ll still need to migrate your local Postgres to a central Postres</i><p>No you don&#x27;t. You leave your DB in-place and turn off the web server part. Or even if you do want to migrate to something beefier when needed, it&#x27;s basically as easy as copying over a directory. It&#x27;s <i>nothing</i> compared to migrating from SQLite to Postgres.<p>&gt; <i>since it&#x27;s still using the SQL standard.</i><p>No, every variant of SQL is different. You&#x27;ll generally need to review every single query to check what needs rewriting. Features in one database work differently from in another. Most of the basic concepts are the same, and the basic syntax is the same, but the intermediate and advanced concepts can have both different features and different syntax. Not to mention sometimes wildly different performance that needs to be re-analyzed.<p>&gt; <i>that&#x27;s pretty much acknowledging the other one is simpler to setup and maintain.</i><p>No it&#x27;s not. What logic led you there...? They&#x27;re basically equally simple to set up and maintain, but one also scales while the other doesn&#x27;t. That&#x27;s the point.<p>The main advantage of SQLite has nothing to do with setup and maintenance, but rather the fact that it is file-based and can be integrated into the binary of other applications, which makes it amazing for locally embedded databases used by user-installed applications. But these aren&#x27;t advantages when you&#x27;re running a server. And it becomes a problem when you need to scale to multiple webservers.",
+    "time": 1775578564,
+    "type": "comment"
+  },
+  "47678761": {
+    "by": "pullshark91",
+    "id": 47678761,
+    "parent": 47677590,
+    "text": "OMG, you just killed it.",
+    "time": 1775583616,
+    "type": "comment"
+  },
+  "47677071": {
+    "by": "runako",
+    "id": 47677071,
+    "kids": [
+      47677511,
+      47703033
+    ],
+    "parent": 47676278,
+    "text": "Have run PG, MySQL, and SQLite locally for production sites. Backups are much more straightforward for SQLite. They are running Kamal, which means &quot;just install Postgres&quot; would also likely mean running PG in a container, which has  its own idiosyncrasies.<p>SQLite is not a terrible choice here.",
+    "time": 1775576559,
+    "type": "comment"
+  },
+  "47677511": {
+    "by": "crazygringo",
+    "id": 47677511,
+    "kids": [
+      47685048
+    ],
+    "parent": 47677071,
+    "text": "&gt; <i>Backups are much more straightforward for SQLite.</i><p>Not sure how? All of them can be backed up with a single command. But if you want live backups (replication) as opposed to daily or hourly, SQLite is the only one that <i>doesn&#x27;t</i> support that.",
+    "time": 1775578277,
+    "type": "comment"
+  },
+  "47685048": {
+    "by": "MitziMoto",
+    "id": 47685048,
+    "kids": [
+      47691390
+    ],
+    "parent": 47677511,
+    "text": "Litestream exists?",
+    "time": 1775621036,
+    "type": "comment"
+  },
+  "47691390": {
+    "by": "crazygringo",
+    "id": 47691390,
+    "parent": 47685048,
+    "text": "That&#x27;s a third-party tool. It&#x27;s not part of SQLite.<p>And it&#x27;s a pretty hacky usage of the WAL. If it works for you, great, but if I need replication, I&#x27;m going to want a database that supports it natively.",
+    "time": 1775661348,
+    "type": "comment"
+  },
+  "47703033": {
+    "by": "jbrogers63",
+    "id": 47703033,
+    "parent": 47677071,
+    "text": "&quot;On our t3.small (2GB RAM), the web container uses ~780MB. Spawning an exec container for a quick database query adds another ~500MB. Two concurrent exec calls during a deploy? That&#x27;s 2.5GB on a 2GB machine. OOM killer takes the web process down.&quot;<p>I suspect this is the reason for SQLite and not PG or some other DB. From my read of the article, it sounds like they&#x27;re running lean (single host for web, db, etc). PG et. al. add overhead that they likely can&#x27;t (or more likely won&#x27;t want to) afford on that box. Maybe I&#x27;m wrong?",
+    "time": 1775738888,
+    "type": "comment"
+  },
+  "47676392": {
+    "by": "xnorswap",
+    "id": 47676392,
+    "parent": 47676278,
+    "text": "Yeah, it&#x27;s weird &quot;they&quot; don&#x27;t consider any middle ground between SQLite and replicated postgres cluster.<p>Locally running database servers are massively underrated as a working technology for smaller sites. You can even easily replicate it to another server for resiliency while keeping the local performance.",
+    "time": 1775573692,
+    "type": "comment"
+  },
+  "47691695": {
+    "by": "MattRogish",
+    "id": 47691695,
+    "parent": 47676278,
+    "text": "Yeah, the cost - both operationally and coding-wise - of running pgsql in some cloud dwarfs the cost of lost orders. &quot;We&#x27;ll just deploy less often&quot; is tribal knowledge that will absolutely be forgotten at some point and maybe there&#x27;ll be more than two lost orders. Just setup postgresql.",
+    "time": 1775662642,
+    "type": "comment"
+  },
+  "47676656": {
+    "by": "talkingtab",
+    "id": 47676656,
+    "kids": [
+      47676721
+    ],
+    "parent": 47676278,
+    "text": "This. Spinning up Postgresql is easy once you know how. Just as SQLITE3 is easy once you know how. But I can find no benefit from not just learning postgres the first time around.",
+    "time": 1775574843,
+    "type": "comment"
+  },
+  "47676721": {
+    "by": "kaibee",
+    "id": 47676721,
+    "parent": 47676656,
+    "text": "They&#x27;re using AI Agents to do it in either case and using docker.  There was no reason to choose SQLite.",
+    "time": 1775575076,
+    "type": "comment"
+  },
+  "47638428": {
+    "by": "cadamsdotcom",
+    "id": 47638428,
+    "kids": [
+      47675987
+    ],
+    "parent": 47637353,
+    "text": "The fix appears to nicely asking the forgetful unreliable agent to please (very closely pretty please!) follow the deploy instructions (and also please never hallucinate or mess up, because statistics tells us an entity with no long term memory and no incentive to get everything right will do the job right 99.99999999% of the time, which is good enough to run an eshop) not deploy too often per hour.<p>With one simple instruction the system (99.9999% of the time) gains the handy property that \u201conly\u201d two processes end up with the database files open at once.<p>Thanks for the vibes!",
+    "time": 1775305464,
+    "type": "comment"
+  },
+  "47675987": {
+    "by": "devmor",
+    "id": 47675987,
+    "kids": [
+      47676958
+    ],
+    "parent": 47638428,
+    "text": "I have to work with agents as a part of my job and the very first thing I did when writing MCP tools for my workflow was to ensure they were read only or had a deterministic, hardcoded stopgap that evaluates the output.<p>I do not understand the level of carelessness and lack of thinking displayed in the OP.",
+    "time": 1775572261,
+    "type": "comment"
+  },
+  "47676958": {
+    "by": "mywittyname",
+    "id": 47676958,
+    "kids": [
+      47677037
+    ],
+    "parent": 47675987,
+    "text": "Even just having the agent write scripts to disk and run those works wonders.  It keeps the agent from having to rebuild a script for the same tasks, etc.",
+    "time": 1775576043,
+    "type": "comment"
+  },
+  "47677037": {
+    "by": "devmor",
+    "id": 47677037,
+    "parent": 47676958,
+    "text": "That too! Every time the agent does something I didn&#x27;t intend, I end up making a tool or process guidance to prevent it from happening again. Not just add &quot;don&#x27;t do that&quot; to the context.",
+    "time": 1775576416,
+    "type": "comment"
+  },
+  "47637416": {
+    "by": "sgbeal",
+    "id": 47637416,
+    "parent": 47637353,
+    "text": "&gt; json_extract returns native types. json_extract(data, &#x27;$.id&#x27;) returns an integer if the value was stored as a number. Comparing it to a string silently fails. Always CAST(json_extract(...) AS TEXT) when you need string comparison.<p>More simply:<p><pre><code>    sqlite&gt; select typeof(&#x27;{a:1}&#x27;-&gt;&gt;&#x27;a&#x27;) ;\n    \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n    \u2502 typeof(&#x27;{a:1}&#x27;-&gt;&gt;... \u2502\n    \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2561\n    \u2502 integer              \u2502\n    \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n</code></pre>\nvs:<p><pre><code>    sqlite&gt; select typeof(&#x27;{a:1}&#x27;-&gt;&#x27;a&#x27;) ;\n    \u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n    \u2502 typeof(&#x27;{a:1}&#x27;-&gt;&#x27;a&#x27;) \u2502\n    \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2561\n    \u2502 text                 \u2502\n    \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f</code></pre>",
+    "time": 1775294887,
+    "type": "comment"
+  },
+  "47639108": {
+    "by": "jmull",
+    "id": 47639108,
+    "kids": [
+      47676184,
+      47677036
+    ],
+    "parent": 47637353,
+    "text": "Redis, four dbs, container orchestration for a site of this modest scope\u2026 generated blog posts.<p>Our AI future is a lot less grand than I expected.",
+    "time": 1775310965,
+    "type": "comment"
+  },
+  "47676184": {
+    "by": "ramon156",
+    "id": 47676184,
+    "parent": 47639108,
+    "text": "How else will you get all those resume entries ! (&#x2F;j)",
+    "time": 1775572913,
+    "type": "comment"
+  },
+  "47677036": {
+    "by": "add-sub-mul-div",
+    "id": 47677036,
+    "parent": 47639108,
+    "text": "Ironically, AI de-skilling results in a robust-sounding resume.",
+    "time": 1775576405,
+    "type": "comment"
+  },
+  "47678795": {
+    "by": "jp0001",
+    "id": 47678795,
+    "kids": [
+      47679387
+    ],
+    "parent": 47637353,
+    "text": "I took three weeks off from tech, read books from last century, and travelled Europe. Coming back, reading LLM generated content and code feels like nails on a chalkboard. Taste, it does not have taste.",
+    "time": 1775583855,
+    "type": "comment"
+  },
+  "47679387": {
+    "by": "PunchyHamster",
+    "id": 47679387,
+    "kids": [
+      47679638
+    ],
+    "parent": 47678795,
+    "text": "It is so tiring...",
+    "time": 1775586497,
+    "type": "comment"
+  },
+  "47679638": {
+    "by": "literallyroy",
+    "id": 47679638,
+    "parent": 47679387,
+    "text": "It\u2019s strange how easy it is to spot.",
+    "time": 1775587588,
+    "type": "comment"
+  },
+  "47680806": {
+    "by": "sgarland",
+    "id": 47680806,
+    "parent": 47637353,
+    "text": "&gt; The sqlite_sequence table is the most underappreciated debugging tool in SQLite. It tracks the highest auto-increment value ever assigned for each table \u2014 even if that row was subsequently lost.\n&gt; WorkQueueTask.count returns ~300 (current rows). The sequence shows 3,700+ (every task ever created). If those numbers diverge unexpectedly, something deleted rows it shouldn&#x27;t have.<p>Or it means that SQLite is exhibiting some of its &quot;maybe I will, maybe I won&#x27;t&quot; behavior [0]:<p>&gt; Note that &quot;monotonically increasing&quot; does not imply that the ROWID always increases by exactly one. One is the usual increment. However, if an insert fails due to (for example) a uniqueness constraint, the ROWID of the failed insertion attempt might not be reused on subsequent inserts, resulting in gaps in the ROWID sequence. AUTOINCREMENT guarantees that automatically chosen ROWIDs will be increasing but not that they will be sequential.<p>&gt; No ILIKE. PostgreSQL developers reach for WHERE name ILIKE &#x27;%term%&#x27; instinctively. SQLite throws a syntax error. Use WHERE LOWER(name) LIKE &#x27;%term%&#x27; instead.<p>You should not be reaching for ILIKE, functions on predicates, or leading wildcards unless you&#x27;re aware of the impacts those have on indexing.<p>&gt; json_extract returns native types. json_extract(data, &#x27;$.id&#x27;) returns an integer if the value was stored as a number. Comparing it to a string silently fails. Always CAST(json_extract(...) AS TEXT) when you need string comparison.<p>If you&#x27;re using strings embedded in JSON as predicates, you&#x27;re going to have a very bad time when you get more than a trivial number of rows in the table.<p>0: <a href=\"https:&#x2F;&#x2F;sqlite.org&#x2F;autoinc.html\" rel=\"nofollow\">https:&#x2F;&#x2F;sqlite.org&#x2F;autoinc.html</a>",
+    "time": 1775592994,
+    "type": "comment"
+  },
+  "47638918": {
+    "by": "Natfan",
+    "id": 47638918,
+    "kids": [
+      47678207
+    ],
+    "parent": 47637353,
+    "text": "llm generated article.<p>please consider writing it yourself. quirks in human writing is infinitely more interesting than a next-token-predicted 500 word piece",
+    "time": 1775309420,
+    "type": "comment"
+  },
+  "47678207": {
+    "by": "NewsaHackO",
+    "id": 47678207,
+    "kids": [
+      47678665
+    ],
+    "parent": 47638918,
+    "text": "But then how would they get people to buy their $99 AI CEO package?",
+    "time": 1775580952,
+    "type": "comment"
+  },
+  "47678665": {
+    "by": "pullshark91",
+    "id": 47678665,
+    "kids": [
+      47678944
+    ],
+    "parent": 47678207,
+    "text": "Huh, and here I thought it was a joke...",
+    "time": 1775583099,
+    "type": "comment"
+  },
+  "47678944": {
+    "by": "NewsaHackO",
+    "id": 47678944,
+    "parent": 47678665,
+    "text": "Maybe it is, didn&#x27;t really look into it.",
+    "time": 1775584602,
+    "type": "comment"
+  },
+  "47638567": {
+    "by": "politelemon",
+    "id": 47638567,
+    "parent": 47637353,
+    "text": "&gt; embarrassingly simple<p>This is becoming the new overused LLM goto expression for describing basic concepts.",
+    "time": 1775306576,
+    "type": "comment"
+  },
+  "47679715": {
+    "by": "adobrawy",
+    "id": 47679715,
+    "parent": 47637353,
+    "text": "If the problem is excessive deployments via GitHub Actions, why not use concurrency control on GitHub Actions ( <a href=\"https:&#x2F;&#x2F;docs.github.com&#x2F;en&#x2F;actions&#x2F;how-tos&#x2F;write-workflows&#x2F;choose-when-workflows-run&#x2F;control-workflow-concurrency\" rel=\"nofollow\">https:&#x2F;&#x2F;docs.github.com&#x2F;en&#x2F;actions&#x2F;how-tos&#x2F;write-workflows&#x2F;c...</a> ) instead of relying on agent randomness and the hope that it won&#x27;t make the same mistake again? Am I missing something?",
+    "time": 1775587965,
+    "type": "comment"
+  },
+  "47679680": {
+    "by": "kristiandupont",
+    "id": 47679680,
+    "parent": 47637353,
+    "text": "SQLite is a rock solid piece of software that offers a great value prop: in-process database. For locally running apps (desktop or mobile), this makes perfect sense.<p>However, I genuinely don&#x27;t see the appeal when you are in a client&#x2F;server environment. Spinning up Postgres via a container is a one-liner and equally simple for tests (via testcontainers or pglite). The &quot;simple&quot; type system of SQLite feels like nothing but a limitation to me.",
+    "time": 1775587782,
+    "type": "comment"
+  },
+  "47687327": {
+    "by": "bob1029",
+    "id": 47687327,
+    "kids": [
+      47689458
+    ],
+    "parent": 47637353,
+    "text": "I think SQLite is fantastic but it does start to fall apart at the edges sometimes.<p>What is more interesting to me is the fact that everyone seems to think of Postgres as the obvious alternative to SQLite. It is certainly <i>an</i> alternative. For me, the most opposite thing of SQLite is something like Oracle or MSSQL.<p>The complexity being relatively constant is the part I care about most here. Running a paid, COTS database engine on a blessed OS tends to be a little bit easier than an OSS solution that can run on toasters and drones. Especially, if you are using replication, high availability, etc.<p>The business liability coverage seems to track proportionally with how much money you spend on the solution. SQLite offers zero guarantees accordingly. You don&#x27;t have a support contract or an account manager you can get upset with. Depending on the nature of the business this could be preferable or adverse. It really depends.<p>For serious regulated business with oppressive audit cycles, SQLite trends toward liability more than asset if it&#x27;s being used as a system of record. That it merely works and performs well is often not sufficient for acceptance. I&#x27;m not saying that Postgres isn&#x27;t capable of passing an intense audit, but I am saying that it might be easier to pass it if you used MSSQL. The cost of having your staff tied up with compliance should be considered when making technology choices in relevant businesses.",
+    "time": 1775638698,
+    "type": "comment"
+  },
+  "47689458": {
+    "by": "throwaway173738",
+    "id": 47689458,
+    "kids": [
+      47689886
+    ],
+    "parent": 47687327,
+    "text": "Most of us don\u2019t work in businesses where indemnity coverage is more important than licensing costs.",
+    "time": 1775652445,
+    "type": "comment"
+  },
+  "47689886": {
+    "by": "bob1029",
+    "id": 47689886,
+    "parent": 47689458,
+    "text": "I agree these exist but I don&#x27;t know about &quot;most&quot;. Licensing costs are almost always a drop in the bucket compared to things like your salary.",
+    "time": 1775654525,
+    "type": "comment"
+  },
+  "47639202": {
+    "by": "jszymborski",
+    "id": 47639202,
+    "kids": [
+      47679206
+    ],
+    "parent": 47637353,
+    "text": "The LLM prose are grating read. I promise, you&#x27;d do a better job yourself.",
+    "time": 1775311716,
+    "type": "comment"
+  },
+  "47679206": {
+    "by": "littlestymaar",
+    "id": 47679206,
+    "parent": 47639202,
+    "text": "Given how dumb their workflow is (let Claude Code push directly to production without supervision) I&#x27;m not so sure.",
+    "time": 1775585718,
+    "type": "comment"
+  },
+  "47677151": {
+    "by": "jmull",
+    "id": 47677151,
+    "kids": [
+      47677159
+    ],
+    "parent": 47637353,
+    "text": "I don&#x27;t know if it&#x27;s just me, but this whole post seems to have time traveled forward from about 3-4 days ago.<p>It&#x27;s not just a repost. The thread includes a comment I made at the time which now from &quot;1 hour ago&quot;.<p>Makes me wonder if it&#x27;s an honest bug or someone has hacked the hacker news front page to sell their t-shits, mugs, and AI starter kits.",
+    "time": 1775576871,
+    "type": "comment"
+  },
+  "47677159": {
+    "by": "Retr0id",
+    "id": 47677159,
+    "kids": [
+      47677553
+    ],
+    "parent": 47677151,
+    "text": "It&#x27;s an artefact of the &quot;second chance pool&quot; mechanism.",
+    "time": 1775576907,
+    "type": "comment"
+  },
+  "47677553": {
+    "by": "worksonmine",
+    "id": 47677553,
+    "parent": 47677159,
+    "text": "Interesting choice to change the time of the comment, a deja-vu can be weird enough without staring at a comment with a recent timestamp.",
+    "time": 1775578449,
+    "type": "comment"
+  },
+  "47679801": {
+    "by": "mattrighetti",
+    "id": 47679801,
+    "kids": [
+      47680313
+    ],
+    "parent": 47637353,
+    "text": "I see tons of articles like this, and I have no doubt sqlite proved to be a great piece of software in production environments, but what I rarely find discussed is that we lack tools that enable you to access and _maintain_ SQLite databases.<p>It&#x27;s so convenient to just open Datagrip and have a look at all my PostgreSQL instances; that&#x27;s not possible with sqlite AFAIK (not even SSH tunnelling?). If something goes wrong, you have to SSH into the machine and use raw SQL. I know there are some cool front-end interfaces to inspect the db but it requires more setup than you&#x27;d expect.<p>I think that most people give up on sqlite for this reason and not because of its performance.",
+    "time": 1775588377,
+    "type": "comment"
+  },
+  "47680313": {
+    "by": "simonw",
+    "id": 47680313,
+    "kids": [
+      47689268
+    ],
+    "parent": 47679801,
+    "text": "I have a project to help with that:<p><pre><code>  uvx datasette data.db\n</code></pre>\nThat starts a web app on port 8001 that looks like this:<p><a href=\"https:&#x2F;&#x2F;latest.datasette.io&#x2F;fixtures\" rel=\"nofollow\">https:&#x2F;&#x2F;latest.datasette.io&#x2F;fixtures</a>",
+    "time": 1775590634,
+    "type": "comment"
+  },
+  "47689268": {
+    "by": "philkrylov",
+    "id": 47689268,
+    "parent": 47680313,
+    "text": "Hi, thanks for your project! Do you accept pull requests?\n<a href=\"https:&#x2F;&#x2F;github.com&#x2F;simonw&#x2F;datasette&#x2F;pull&#x2F;2616\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;simonw&#x2F;datasette&#x2F;pull&#x2F;2616</a>\n<a href=\"https:&#x2F;&#x2F;github.com&#x2F;simonw&#x2F;datasette&#x2F;pull&#x2F;2617\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;simonw&#x2F;datasette&#x2F;pull&#x2F;2617</a>",
+    "time": 1775651367,
+    "type": "comment"
+  },
+  "47638344": {
+    "by": "faangguyindia",
+    "id": 47638344,
+    "kids": [
+      47639316
+    ],
+    "parent": 47637353,
+    "text": "I&#x27;ve a busy app, i just deploy to canary. And use loadbalancer to move 5% traffic to it, i observe how it reacts and then rollout the canary changes to all.<p>how hard and complex is it to roll out postgres?",
+    "time": 1775304596,
+    "type": "comment"
+  },
+  "47639316": {
+    "by": "pezh0re",
+    "id": 47639316,
+    "parent": 47638344,
+    "text": "Not hard at all - geerlingguy has a great Ansible role and there are a metric crapton of guides pre-AI&#x2F;2022 that cover gardening.",
+    "time": 1775312571,
+    "type": "comment"
+  },
+  "47679785": {
+    "by": "rienbdj",
+    "id": 47679785,
+    "parent": 47637353,
+    "text": "A well designed system shouldn\u2019t drop orders?<p>If you perform at least once processing then use Stripe idempotency keys you avoid such issues?",
+    "time": 1775588311,
+    "type": "comment"
+  },
+  "47679306": {
+    "by": "PunchyHamster",
+    "id": 47679306,
+    "parent": 47637353,
+    "text": "&gt; Yes. For a single-server deployment with moderate write volume, SQLite eliminates an entire category of infrastructure complexity. No connection pool tuning. No database server upgrades. No replication lag.<p>None of these is needed if you run sqlite sized workloads...<p>I like SQLite but right tools for right jobs... tho data loss is most likely code bug",
+    "time": 1775586170,
+    "type": "comment"
+  },
+  "47680941": {
+    "by": "fbuilesv",
+    "id": 47680941,
+    "parent": 47637353,
+    "text": "&gt; The Fix: Stop Deploying So Fast<p>I don&#x27;t know how Ultrathink works, and I have no &quot;real world&quot; experience with Kamal, but I find it intriguing to see someone consider 11 deployments in 2 hours to be &quot;fast&quot;.<p>Instead of handicapping yourself, fix your deployment pipeline, 10 min deploys are not OK for an online store.",
+    "time": 1775593773,
+    "type": "comment"
+  },
+  "47679562": {
+    "by": "heikkilevanto",
+    "id": 47679562,
+    "parent": 47637353,
+    "text": "I use SqLite for a small hobby project, fine for that. Wanted to read the article to see why I should not, but it attacked me with a &quot;subscribe&quot; popup, so I stopped there. The comments here seem to be based on daydreaming on scaling to a lot of users who need 24&#x2F;7 uptime, which is not always the case.",
+    "time": 1775587288,
+    "type": "comment"
+  },
+  "47677064": {
+    "by": "nop_slide",
+    "id": 47677064,
+    "kids": [
+      47677264
+    ],
+    "parent": 47637353,
+    "text": "I still haven&#x27;t figured out a good way to due blue&#x2F;green sqlite deploys on fly.io. Is this just a limitation of using sqlite or using Fly? I&#x27;ve been very happy with sqlite otherwise, rather unsure how to do a cutover to a new instance.<p>Anyone have some docs on how to cutover gracefully with sqlite on other providers?",
+    "time": 1775576538,
+    "type": "comment"
+  },
+  "47677264": {
+    "by": "wolttam",
+    "id": 47677264,
+    "kids": [
+      47677670
+    ],
+    "parent": 47677064,
+    "text": "You accept downtime. That&#x27;s the limitation of SQLite.<p>Or you use some distributed SQLite tool like rqlite, etc",
+    "time": 1775577329,
+    "type": "comment"
+  },
+  "47677670": {
+    "by": "nop_slide",
+    "id": 47677670,
+    "kids": [
+      47681281
+    ],
+    "parent": 47677264,
+    "text": "I&#x27;m personally fine with a little bit of downtime for my particular small app. I&#x27;m just surprised there&#x27;s not a more detailed story around deploying sqlite in a high availability prod environment given it&#x27;s increased popularity and coverage over the last few years. Especially surprising with Rails&#x27; (my stack) going full &quot;sqlite-first&quot;.",
+    "time": 1775578860,
+    "type": "comment"
+  },
+  "47681281": {
+    "by": "wolttam",
+    "id": 47681281,
+    "parent": 47677670,
+    "text": "The &quot;sqlite-first&quot; folks have accepted that a bit of downtime is better than engineering wildly complex systems that avoid it, for non-mission-critical apps (if your mission is a low volume e-commerce shop.. it&#x27;s not critical)",
+    "time": 1775595445,
+    "type": "comment"
+  },
+  "47679422": {
+    "deleted": true,
+    "id": 47679422,
+    "parent": 47637353,
+    "time": 1775586646,
+    "type": "comment"
+  },
+  "47700954": {
+    "by": "talkfold",
+    "id": 47700954,
+    "parent": 47637353,
+    "text": "Lost two orders, diagnosed it with sqlite_sequence, fixed it by telling the AI agents to slow down. That&#x27;s a new genre of postmortem.",
+    "time": 1775724738,
+    "type": "comment"
+  },
+  "47638290": {
+    "by": "leosanchez",
+    "id": 47638290,
+    "kids": [
+      47677072
+    ],
+    "parent": 47637353,
+    "text": "&gt; Backups are cp production.sqlite3 backup.sqlite3<p>I use gobackup[0] as another container in compose.yml file which can backup to multiple locations.<p>[0]: <a href=\"https:&#x2F;&#x2F;gobackup.github.io&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;gobackup.github.io&#x2F;</a>",
+    "time": 1775304146,
+    "type": "comment"
+  },
+  "47677072": {
+    "by": "hedora",
+    "id": 47677072,
+    "kids": [
+      47679652,
+      47681309
+    ],
+    "parent": 47638290,
+    "text": "Does cp actually work on live sqlite files?  I wouldn\u2019t expect it to, since cp does not create a crash-consistent snapshot.",
+    "time": 1775576562,
+    "type": "comment"
+  },
+  "47679652": {
+    "by": "sgbeal",
+    "id": 47679652,
+    "parent": 47677072,
+    "text": "&gt; Does cp actually work on live sqlite files? I wouldn\u2019t expect it to, since cp does not create a crash-consistent snapshot.<p>cp &quot;works&quot; but it has a very strong possibility of creating a corrupt copy (the more active the db, the higher the chance of corruption). Anyone using &quot;cp&quot; for that purpose does not have a reliable backup.<p>sqlite3_rsync and SQLite&#x27;s &quot;vacuum into&quot; exist to safely create backups of live databases.",
+    "time": 1775587662,
+    "type": "comment"
+  },
+  "47681309": {
+    "by": "66yatman",
+    "id": 47681309,
+    "parent": 47677072,
+    "text": "Maybe if the system is idle",
+    "time": 1775595606,
+    "type": "comment"
+  },
+  "47681377": {
+    "by": "nonameiguess",
+    "id": 47681377,
+    "kids": [
+      47686462
+    ],
+    "parent": 47637353,
+    "text": "How the hell did this get so much engagement, let alone as a repost? Is &quot;SQLite&quot; in the title really all it takes? This site was registered 8 months ago, the whole blog started in February, the first post declares its writer to be an AI CEO, most posts are about hiring and managing other AI agents, it claims to sell everything from coffee mugs to services from itself to also be the CEO of your business. This feels more like performance art than a business. There&#x27;s no evidence they&#x27;ve sold anything or even have any actual inventory. AI agents can&#x27;t build you a warehouse or manufacture physical goods.<p>You guys are arguing with a bot, in a way almost arguing with yourselves, as it may very well not have actually done any of this, is definitely not running a &quot;real store,&quot; and is seemingly publishing posts that are a parody of Hacker News style founder journeys but if the founders were bots.",
+    "time": 1775595977,
+    "type": "comment"
+  },
+  "47686462": {
+    "by": "stock-parrot",
+    "id": 47686462,
+    "parent": 47681377,
+    "text": "You are absolutely right! Everything feels off and done for engagement<p>Is this what we can expect in the near future?",
+    "time": 1775632482,
+    "type": "comment"
+  },
+  "47679319": {
+    "by": "MagicMoonlight",
+    "id": 47679319,
+    "parent": 47637353,
+    "text": "Slopcoded article for a Slopcoded website",
+    "time": 1775586261,
+    "type": "comment"
+  },
+  "47679980": {
+    "by": "siruwastaken",
+    "id": 47679980,
+    "parent": 47637353,
+    "text": "Am I the only one finding this article highly suspect? It seems like the errors made are so basic, i.e. using the wrong SQL dialect for the db system in use, and there orders were apparently only at 17?",
+    "time": 1775589165,
+    "type": "comment"
+  },
+  "47677857": {
+    "by": "NicoJuicy",
+    "id": 47677857,
+    "parent": 47637353,
+    "text": "If Nico send him an email. The AI CEO should take his offer.",
+    "time": 1775579549,
+    "type": "comment"
+  },
+  "47677737": {
+    "by": "trelliumD",
+    "id": 47677737,
+    "parent": 47637353,
+    "text": "could have used firebird embedded, also a simple deployment such as sqllite, but better concurrency and more complete system, also a tad faster",
+    "time": 1775579144,
+    "type": "comment"
+  },
+  "47678716": {
+    "by": "mt42or",
+    "id": 47678716,
+    "parent": 47637353,
+    "text": "NIH syndrome, almost mental health issues.",
+    "time": 1775583388,
+    "type": "comment"
+  },
+  "47682469": {
+    "by": "elliot07",
+    "id": 47682469,
+    "parent": 47637353,
+    "text": "You should use Shopify and focus on the store part of the business, not the SQLite part :)",
+    "time": 1775603211,
+    "type": "comment"
+  },
+  "47679181": {
+    "by": "66yatman",
+    "id": 47679181,
+    "parent": 47637353,
+    "text": "Just use a 4gb server and install Postgres",
+    "time": 1775585624,
+    "type": "comment"
+  },
+  "47688060": {
+    "by": "mergisi",
+    "dead": true,
+    "id": 47688060,
+    "parent": 47637353,
+    "text": "[dead]",
+    "time": 1775643366,
+    "type": "comment"
+  },
+  "47677413": {
+    "by": "pgideas",
+    "dead": true,
+    "id": 47677413,
+    "parent": 47637353,
+    "text": "[dead]",
+    "time": 1775577826,
+    "type": "comment"
+  },
+  "47678984": {
+    "by": "ryguz",
+    "dead": true,
+    "id": 47678984,
+    "parent": 47637353,
+    "text": "[dead]",
+    "time": 1775584740,
+    "type": "comment"
+  },
+  "47678982": {
+    "by": "minutesmith",
+    "dead": true,
+    "id": 47678982,
+    "parent": 47637353,
+    "text": "[flagged]",
+    "time": 1775584735,
+    "type": "comment"
+  }
+}
