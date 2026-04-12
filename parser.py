@@ -1,7 +1,7 @@
-import requests
 import json
-import re
 import html
+import re
+import os
 from datetime import datetime
 
 def clean_text(raw_html):
@@ -12,100 +12,89 @@ def clean_text(raw_html):
     text = re.sub(r'<[^>]+>', ' ', text)
     return re.sub(r'\s+', ' ', text).strip()
 
-def get_snippet(text, max_length=60):
-    """Generates a bounded snippet of the parent comment to maintain 1D context."""
-    if not text:
+def build_thread_context(item_id, raw_data, depth=0, max_items=55, current_count=None):
+    """
+    Recursively builds a formatted text representation of the comment tree.
+    Preserves hierarchy via indentation so the LLM understands the exact reply chain.
+    """
+    if current_count is None:
+        current_count = [0]
+
+    item_id_str = str(item_id)
+    if item_id_str not in raw_data or current_count[0] >= max_items:
         return ""
-    return text[:max_length] + "..." if len(text) > max_length else text
 
-def fetch_algolia_story_tree(story_id):
-    """Fetches the entire n-ary comment tree in a single API call."""
-    url = f"https://hn.algolia.com/api/v1/items/{story_id}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    print(f"Failed to fetch tree for {story_id}: {response.status_code}")
-    return None
-
-def flatten_and_filter_tree(node, parent_text="", depth=0):
-    """
-    Recursively flattens the comment tree into a 1D array while preserving 
-    critical metadata (depth, points, parent_snippet).
-    """
-    comments = []
+    item = raw_data[item_id_str]
     
-    # Base Case & Processing for Comments
-    if node.get('type') == 'comment':
-        raw_text = node.get('text', '')
-        cleaned_text = clean_text(raw_text)
-        author = node.get('author')
-        
-        # Noise Filter: Discard dead/deleted/empty comments
-        if cleaned_text and author:
-            comments.append({
-                'id': node.get('id'),
-                'author': author,
-                'points': node.get('points') or 0,
-                'depth': depth,
-                'timestamp': node.get('created_at_i'),
-                'parent_snippet': get_snippet(parent_text),
-                'text': cleaned_text
-            })
-        
-        current_text = cleaned_text
-    else:
-        # If it's the root story, the parent text for Level 1 comments is the story title
-        current_text = clean_text(node.get('title', ''))
+    # Noise Filter: Discard dead or deleted items
+    if item.get('deleted') or item.get('dead'):
+        return ""
 
-    # Recursive Step: Process 'children' array
-    for child in node.get('children', []):
-        comments.extend(flatten_and_filter_tree(child, current_text, depth + 1))
+    result = ""
+    # Use indentation to visually represent thread depth for the LLM
+    indent = "  " * depth 
+    
+    if item.get('type') == 'comment':
+        author = item.get('by', 'anonymous')
+        # Format timestamp to human-readable string
+        time_str = datetime.utcfromtimestamp(item.get('time', 0)).strftime('%Y-%m-%d %H:%M')
+        text = clean_text(item.get('text', ''))
         
-    return comments
+        if text:
+            result += f"{indent}- [{author} at {time_str}]: {text}\n"
+            current_count[0] += 1
+            
+    # Recursive Step: Process 'kids' array (replies)
+    if 'kids' in item and current_count[0] < max_items:
+        for kid_id in item['kids']:
+            result += build_thread_context(kid_id, raw_data, depth + 1, max_items, current_count)
+            if current_count[0] >= max_items:
+                break # Stop processing if we hit our token/item cap
+                
+    return result
 
 if __name__ == "__main__":
-    # Using the Algolia Search API to grab the top 5 story IDs first
-    target_query = "SQLite in production"
-    search_url = f"https://hn.algolia.com/api/v1/search?query={target_query}&tags=story"
-    search_response = requests.get(search_url).json()
-    top_story_ids = [hit['objectID'] for hit in search_response.get('hits', [])[:5]]
+    input_path = 'data/raw_hn_data.json'
     
+    # We output to structured_chunks.json to match digest.py's input path
+    output_path = 'data/structured_chunks.json' 
+    
+    try:
+        with open(input_path, 'r', encoding='utf-8') as f:
+            raw_data = json.load(f)
+    except FileNotFoundError:
+        print(f"Error: {input_path} not found. Please run fetcher.py first.")
+        exit(1)
+        
     final_dataset = []
-
-    for story_id in top_story_ids:
-        print(f"Processing tree for story ID: {story_id}...")
-        tree_data = fetch_algolia_story_tree(story_id)
+    
+    # Find all root stories in our local datastore
+    stories = [item for item in raw_data.values() if item.get('type') == 'story']
+    
+    for story in stories:
+        story_id = story.get('id')
+        story_title = story.get('title', 'Unknown Title')
+        print(f"Structuring tree for story: {story_title} (ID: {story_id})...")
         
-        if not tree_data:
-            continue
-            
-        story_title = tree_data.get('title', 'Unknown Title')
-        
-        # 1. Flatten the n-ary tree and filter noise
-        flattened_comments = flatten_and_filter_tree(tree_data)
-        
-        # 2. Rank by upvotes (points descending)
-        flattened_comments.sort(key=lambda x: x['points'], reverse=True)
-        
-        # 3. Cap at top 55 to protect the LLM context window
-        capped_comments = flattened_comments[:55]
+        # Build the hierarchical text representation
+        thread_text = f"STORY: {story_title}\n"
+        current_count = [0]
+        thread_text += build_thread_context(story_id, raw_data, depth=0, max_items=55, current_count=current_count)
         
         chunk = {
             "story_id": story_id,
             "story_title": story_title,
-            "total_comments_parsed": len(flattened_comments),
-            "comments_retained": len(capped_comments),
-            "thread_data": capped_comments
+            "comments_retained": current_count[0],
+            # Use 'thread_context' to fix the KeyError in digest.py
+            "thread_context": thread_text 
         }
         final_dataset.append(chunk)
 
     # Save the optimized structure
-    output_path = 'data/vision_structured_chunks.json'
-    import os
     os.makedirs('data', exist_ok=True)
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(final_dataset, f, indent=2)
 
-    print(f"\nArchitecture execution complete.")
+    print(f"\nArchitecture execution complete. Processed {len(stories)} stories.")
     for data in final_dataset:
-        print(f"[{data['story_title']}] -> Parsed: {data['total_comments_parsed']}, Retained: {data['comments_retained']}")
+        print(f"[{data['story_title']}] -> Comments Retained in Context: {data['comments_retained']}")
