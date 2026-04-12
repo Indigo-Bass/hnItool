@@ -1,60 +1,116 @@
-import os
+import google.generativeai as genai
 import json
-from google import genai
-from google.genai import types
+import os
+from pydantic import BaseModel, Field
 
+# ==========================================
+# 1. Define the Strict JSON Schema
+# ==========================================
+class HNDigest(BaseModel):
+    executive_summary: str = Field(
+        description="A highly technical, concise TL;DR of the community's consensus."
+    )
+    main_technical_arguments: list[str] = Field(
+        description="The core technical debates, architectural points, and arguments made."
+    )
+    pros: list[str] = Field(
+        description="Explicit advantages of using SQLite in production mentioned in the text."
+    )
+    cons_and_risks: list[str] = Field(
+        description="Bottlenecks, scaling risks, and disadvantages mentioned."
+    )
+    alternative_tools: list[str] = Field(
+        description="Specific alternative databases or tools recommended by the community."
+    )
+
+# ==========================================
+# 2. Core Processing Logic
+# ==========================================
 def load_structured_data(filepath):
     """Loads the parsed chunk data from Stage 2."""
     with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
 
+def json_to_markdown(digest_dict):
+    """
+    Programmatically stitches the guaranteed JSON output into a clean Markdown file.
+    """
+    md = f"## Executive Summary\n{digest_dict['executive_summary']}\n\n"
+    
+    md += "## Main Technical Arguments\n"
+    for arg in digest_dict['main_technical_arguments']:
+        md += f"* {arg}\n"
+    md += "\n"
+    
+    md += "## Pros of Using this Tech in Production\n"
+    for pro in digest_dict['pros']:
+        md += f"* {pro}\n"
+    md += "\n"
+    
+    md += "## Cons and Risks\n"
+    for con in digest_dict['cons_and_risks']:
+        md += f"* {con}\n"
+    md += "\n"
+    
+    md += "## Alternative Tools Mentioned\n"
+    if digest_dict['alternative_tools']:
+        for tool in digest_dict['alternative_tools']:
+            md += f"* {tool}\n"
+    else:
+        md += "* None explicitly mentioned.\n"
+        
+    return md
+
 def generate_hn_digest(dataset):
     """
-    Constructs the prompt and calls the modern Gemini API to synthesize the digest.
+    Constructs the prompt and calls the Gemini API to synthesize the digest 
+    using a strict Structured Output schema.
     """
-    # 1. Securely load the API key from the environment
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("GEMINI_API_KEY environment variable not set. Please run: $env:GEMINI_API_KEY=\"your_key\"")
+        raise ValueError("GEMINI_API_KEY environment variable not set.")
     
-    # Initialize the modern client
-    client = genai.Client(api_key=api_key)
+    genai.configure(api_key=api_key)
 
-    # 2. Concatenate the structured chunks
     context_string = "\n\n=== NEXT THREAD CHUNK ===\n\n".join(
         [chunk['thread_context'] for chunk in dataset]
     )
 
-    # 3. Strict instructions for the LLM
     system_instruction = """
-    You are a Senior Staff Data Engineer. Your task is to analyze Hacker News discussion threads and output a highly technical, structured digest.
+    You are a Senior Staff Data Engineer. Your task is to analyze Hacker News discussion 
+    threads and output a highly technical, structured digest.
     You must rely strictly on the provided conversation context. Do not invent information.
-    Do not use generic phrases like "opinions are mixed". 
-    Format your response in Markdown with the following exact headers:
-    
-    ## Executive Summary
-    ## Main Technical Arguments
-    ## Pros of Using this Tech in Production
-    ## Cons and Risks
-    ## Alternative Tools Mentioned
+    Do not use generic phrases like 'opinions are mixed'.
+    Provide concrete, technical details for every field.
     """
 
-    prompt = f"Analyze the following Hacker News threads regarding 'SQLite in production' and generate the required digest:\n\n{context_string}"
+    prompt = f"Analyze the following Hacker News threads regarding 'SQLite in production' and populate the required JSON schema:\n\n{context_string}"
 
-    print("Initializing modern Gemini client and sending data (this may take a few seconds)...")
+    print("Initializing Gemini model and sending data (this may take a few seconds)...")
     
-    # Generate content using the updated syntax
-    response = client.models.generate_content(
-        model='gemini-2.5-flash',
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=system_instruction,
+    # We pass 'response_schema=HNDigest' and set the mime type to JSON.
+    model = genai.GenerativeModel(
+        model_name='gemini-2.5-flash',
+        system_instruction=system_instruction,
+        generation_config=genai.types.GenerationConfig(
             temperature=0.1,
+            response_mime_type="application/json",
+            response_schema=HNDigest, 
         )
     )
 
-    return response.text
+    # Gemini will now return a JSON string that perfectly matches our Pydantic model
+    response = model.generate_content(prompt)
+    
+    # Parse the string into a Python dictionary
+    digest_json = json.loads(response.text)
+    
+    # Convert the dictionary into our final Markdown format
+    return json_to_markdown(digest_json)
 
+# ==========================================
+# 3. Execution
+# ==========================================
 if __name__ == "__main__":
     input_path = 'data/structured_chunks.json'
     output_path = 'data/final_digest.md'
