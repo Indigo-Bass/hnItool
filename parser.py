@@ -1,94 +1,111 @@
+import requests
 import json
-import os
 import re
 import html
 from datetime import datetime
 
-def clean_html(raw_html):
-    """Removes HTML tags and unescapes HTML entities."""
+def clean_text(raw_html):
+    """Strips HTML and unescapes entities for clean LLM ingestion."""
     if not raw_html:
         return ""
-    # Unescape entities like &gt; to >
     text = html.unescape(raw_html)
-    # Remove HTML tags using regex
     text = re.sub(r'<[^>]+>', ' ', text)
-    # Clean up extra whitespace
-    text = re.sub(r'\s+', ' ', text).strip()
-    return text
+    return re.sub(r'\s+', ' ', text).strip()
 
-def format_timestamp(unix_time):
-    """Converts Unix timestamp to readable string."""
-    if not unix_time:
-        return "Unknown Time"
-    return datetime.fromtimestamp(unix_time).strftime('%Y-%m-%d %H:%M:%S')
-
-def build_thread_context(item_id, raw_data, depth=0):
-    """
-    Recursively builds a formatted text string for a comment and all its replies (DFS).
-    """
-    item = raw_data.get(str(item_id))
-    if not item:
+def get_snippet(text, max_length=60):
+    """Generates a bounded snippet of the parent comment to maintain 1D context."""
+    if not text:
         return ""
+    return text[:max_length] + "..." if len(text) > max_length else text
 
-    # Skip deleted or dead comments
-    if item.get('deleted') or item.get('dead'):
-        return ""
+def fetch_algolia_story_tree(story_id):
+    """Fetches the entire n-ary comment tree in a single API call."""
+    url = f"https://hn.algolia.com/api/v1/items/{story_id}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json()
+    print(f"Failed to fetch tree for {story_id}: {response.status_code}")
+    return None
 
-    text_block = ""
+def flatten_and_filter_tree(node, parent_text="", depth=0):
+    """
+    Recursively flattens the comment tree into a 1D array while preserving 
+    critical metadata (depth, points, parent_snippet).
+    """
+    comments = []
     
-    # Only process if it's a comment with text
-    if item.get('type') == 'comment' and 'text' in item:
-        author = item.get('by', 'anonymous')
-        time_str = format_timestamp(item.get('time'))
-        cleaned_text = clean_html(item['text'])
+    # Base Case & Processing for Comments
+    if node.get('type') == 'comment':
+        raw_text = node.get('text', '')
+        cleaned_text = clean_text(raw_text)
+        author = node.get('author')
         
-        # Create visual hierarchy for the LLM using indentation and explicit depth markers
-        indent = "  " * depth
-        text_block += f"\n{indent}--- [Depth: {depth} | User: {author} | Time: {time_str}] ---\n"
-        text_block += f"{indent}{cleaned_text}\n"
+        # Noise Filter: Discard dead/deleted/empty comments
+        if cleaned_text and author:
+            comments.append({
+                'id': node.get('id'),
+                'author': author,
+                'points': node.get('points') or 0,
+                'depth': depth,
+                'timestamp': node.get('created_at_i'),
+                'parent_snippet': get_snippet(parent_text),
+                'text': cleaned_text
+            })
+        
+        current_text = cleaned_text
+    else:
+        # If it's the root story, the parent text for Level 1 comments is the story title
+        current_text = clean_text(node.get('title', ''))
 
-    # Recursively fetch children (kids)
-    if 'kids' in item:
-        for kid_id in item['kids']:
-            text_block += build_thread_context(kid_id, raw_data, depth + 1)
-            
-    return text_block
+    # Recursive Step: Process 'children' array
+    for child in node.get('children', []):
+        comments.extend(flatten_and_filter_tree(child, current_text, depth + 1))
+        
+    return comments
 
 if __name__ == "__main__":
-    input_path = 'data/raw_hn_data.json'
-    output_path = 'data/structured_chunks.json'
+    # Using the Algolia Search API to grab the top 5 story IDs first
+    target_query = "SQLite in production"
+    search_url = f"https://hn.algolia.com/api/v1/search?query={target_query}&tags=story"
+    search_response = requests.get(search_url).json()
+    top_story_ids = [hit['objectID'] for hit in search_response.get('hits', [])[:5]]
     
-    with open(input_path, 'r', encoding='utf-8') as f:
-        raw_data = json.load(f)
+    final_dataset = []
 
-    # Find the root stories (items that are of type 'story')
-    stories = [item for item in raw_data.values() if item.get('type') == 'story']
-    
-    structured_dataset = []
-
-    for story in stories:
-        story_id = story['id']
-        title = story.get('title', 'Unknown Title')
+    for story_id in top_story_ids:
+        print(f"Processing tree for story ID: {story_id}...")
+        tree_data = fetch_algolia_story_tree(story_id)
         
-        print(f"Structuring threads for story: {title}")
-        
-        # We chunk by top-level comments
-        top_level_kids = story.get('kids', [])
-        
-        for kid_id in top_level_kids:
-            # Build the full tree for this specific top-level comment
-            thread_text = build_thread_context(kid_id, raw_data, depth=1)
+        if not tree_data:
+            continue
             
-            if thread_text.strip(): # Only save if the thread isn't empty
-                chunk = {
-                    "story_id": story_id,
-                    "story_title": title,
-                    "top_level_comment_id": kid_id,
-                    "thread_context": thread_text
-                }
-                structured_dataset.append(chunk)
+        story_title = tree_data.get('title', 'Unknown Title')
+        
+        # 1. Flatten the n-ary tree and filter noise
+        flattened_comments = flatten_and_filter_tree(tree_data)
+        
+        # 2. Rank by upvotes (points descending)
+        flattened_comments.sort(key=lambda x: x['points'], reverse=True)
+        
+        # 3. Cap at top 55 to protect the LLM context window
+        capped_comments = flattened_comments[:55]
+        
+        chunk = {
+            "story_id": story_id,
+            "story_title": story_title,
+            "total_comments_parsed": len(flattened_comments),
+            "comments_retained": len(capped_comments),
+            "thread_data": capped_comments
+        }
+        final_dataset.append(chunk)
 
+    # Save the optimized structure
+    output_path = 'data/vision_structured_chunks.json'
+    import os
+    os.makedirs('data', exist_ok=True)
     with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(structured_dataset, f, indent=2)
+        json.dump(final_dataset, f, indent=2)
 
-    print(f"\nParsing complete. Generated {len(structured_dataset)} logical conversation chunks. Saved to {output_path}")
+    print(f"\nArchitecture execution complete.")
+    for data in final_dataset:
+        print(f"[{data['story_title']}] -> Parsed: {data['total_comments_parsed']}, Retained: {data['comments_retained']}")
