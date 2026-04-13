@@ -1,5 +1,6 @@
 To run this project, you need a Google Gemini API key.
 ###1. Install dependencies
+```bash
 pip install requests pydantic google-genai
 ###2. Set your API Key
 $env:GEMINI_API_KEY="your_api_key_here"
