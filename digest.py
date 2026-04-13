@@ -3,6 +3,7 @@ from google.genai import types
 import json
 import os
 from pydantic import BaseModel, Field
+import sys
 class HNDigest(BaseModel):
     executive_summary: str = Field(
         description="A highly technical, concise TL;DR of the community's consensus."
@@ -50,7 +51,7 @@ def json_to_markdown(digest_dict):
         md += "* None explicitly mentioned.\n"
     return md
 
-def generate(dataset):
+def generate(dataset, query):
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("GEMINI_API_KEY environment variable not set.")
@@ -65,7 +66,7 @@ def generate(dataset):
     Do not use generic phrases like 'opinions are mixed'.
     Provide concrete, technical details for every field.
     """
-    prompt = f"Analyze the following Hacker News threads regarding 'SQLite in production' and populate the required JSON schema:\n\n{context_string}"
+    prompt = f"Analyze the following Hacker News threads regarding '{query}' and populate the required JSON schema:\n\n{context_string}"
     print("Initializing Gemini model and sending data (this may take a few seconds)")
     config = types.GenerateContentConfig(
         system_instruction=system_instruction,
@@ -84,9 +85,10 @@ def generate(dataset):
 if __name__ == "__main__":
     input_path = 'data/structured_chunks.json'
     output_path = 'data/final_digest.md'
+    query = sys.argv[1] if len(sys.argv) > 1 else "SQLite in production"
     dataset = load_data(input_path)
     try:
-        digest_markdown = generate(dataset)
+        digest_markdown = generate(dataset, query)
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(digest_markdown)
         print(f"\nSuccess! Digest generated and saved to {output_path}")
