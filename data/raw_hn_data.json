@@ -1,0 +1,1682 @@
+{
+  "47741701": {
+    "by": "_Microft",
+    "descendants": 164,
+    "id": 47741701,
+    "kids": [
+      47744268,
+      47744471,
+      47745498,
+      47751054,
+      47743906,
+      47750991,
+      47747915,
+      47743804,
+      47745137,
+      47744074,
+      47743289,
+      47750495,
+      47743037,
+      47750817,
+      47744178,
+      47748149,
+      47742736,
+      47746300,
+      47748271,
+      47745364,
+      47749774,
+      47743646,
+      47744496,
+      47745442,
+      47746528,
+      47745121,
+      47745883,
+      47746241,
+      47745044,
+      47743086,
+      47745078,
+      47744485,
+      47744476,
+      47744772,
+      47749899
+    ],
+    "score": 532,
+    "time": 1776011923,
+    "title": "DIY Soft Drinks",
+    "type": "story",
+    "url": "https://blinry.org/diy-soft-drinks/"
+  },
+  "47744268": {
+    "by": "mattmaroon",
+    "id": 47744268,
+    "kids": [
+      47744647,
+      47750262,
+      47750967,
+      47748727,
+      47750962,
+      47744693,
+      47747469,
+      47745276,
+      47750151
+    ],
+    "parent": 47741701,
+    "text": "One pro-tip as I now somehow have a commercial bottling license these days: get pre-hydrated gum Arabic. Much easier to work with. Almost everybody who messes this up will make the mistake at the hydrating the gum Arabic stage. Blend it with any dry ingredients like sugar before using.<p>If you can\u2019t source it, I\u2019m not going to tell you that you SHOULD pretend to be a bottling company and ask a gum provider to send you some free samples, but you could and the amount they send you will last the rest of your life. TIC gums is pretty awesome and if you\u2019re into frozen desserts has some incredible gum mixtures for ice creams, sorbets, etc.<p>Also, consider just using water soluble flavor concentrates and skipping emulsification all together. That\u2019s what most pros do and it\u2019s why Sprite isn\u2019t cloudy like it would be if you used oils. My favorite suppliers that sell in consumer and pro-sumer qtys are Apex Flavors and Nature\u2019s Flavors.<p>This probably won\u2019t work for Cola as I think some of those ingredients have all of their flavor molecules in the oils, but as a general rule, if you can buy it at the store and it is clear, it is made using water soluble. If it is brown it probably isn\u2019t, hence the caramel color additive.",
+    "time": 1776026668,
+    "type": "comment"
+  },
+  "47744647": {
+    "by": "detritus",
+    "id": 47744647,
+    "kids": [
+      47746910
+    ],
+    "parent": 47744268,
+    "text": "Posts like this are why I read HN comments first.<p>Posts like this remind we how much better it is to be as part of a large trading bloc to be able to easily order&#x2F;sample these sort of things, rather than it likely being a pain in the arse to get locally.",
+    "time": 1776028955,
+    "type": "comment"
+  },
+  "47746910": {
+    "by": "cogman10",
+    "id": 47746910,
+    "kids": [
+      47749399,
+      47749903,
+      47747183
+    ],
+    "parent": 47744647,
+    "text": "IDK if it&#x27;d apply here, but there are technically laws on the books in the US against price and purchase discrimination for grocers.  It was specifically one of the things Lina Khan was investigating on the way out of office and something I believe she&#x27;s going to be using for the NYC grocery stores.<p>A food seller isn&#x27;t allowed to cut out a grocer because they are too small.  However, I believe they get around this today by having minimum order sizes that make it impossible for a small grocer to handle.<p>That&#x27;s effectively how my small hometown grocer was driven out of business.  The suppliers refused to work with them because they wanted them to order huge amounts of product that wouldn&#x27;t work for my hometown with 300 people.  So, the people running the store ended up just buying products from either costco or another grocery store a town over.  The price hike they had to apply was simply too much for the local folk who ultimately also went to the nearby towns to save money instead of shopping locally.",
+    "time": 1776047631,
+    "type": "comment"
+  },
+  "47749399": {
+    "by": "xarope",
+    "id": 47749399,
+    "kids": [
+      47750789,
+      47750320,
+      47749801
+    ],
+    "parent": 47746910,
+    "text": "can&#x27;t several small hometown grocers get together to be able to make that volume&#x2F;quantity?  Surely that would be better than just buying from costco?",
+    "time": 1776069653,
+    "type": "comment"
+  },
+  "47750789": {
+    "by": "robotbikes",
+    "id": 47750789,
+    "parent": 47749399,
+    "text": "A lot of small co-op groceries and even food co-ops that are more like ordering clubs used to use a company called UNFI to put in their orders but I think they focused more on organic and other high end items but they were willing to service smaller stores so yeah it&#x27;s probable. There was also IGA (independent grocers association) but I think most of the stores associated with that brand&#x2F;network locally have closed down so not sure if it&#x27;s a thing anymore. Many of the independent convenience stores here stock almost all of their groceries at Aldi.",
+    "time": 1776081713,
+    "type": "comment"
+  },
+  "47750320": {
+    "by": "tirant",
+    "id": 47750320,
+    "parent": 47749399,
+    "text": "That\u2019s exactly what small distributors are for.",
+    "time": 1776078265,
+    "type": "comment"
+  },
+  "47749801": {
+    "by": "frereubu",
+    "id": 47749801,
+    "parent": 47749399,
+    "text": "Parent comment said their hometown had 300 people, which I can&#x27;t imagine would support more than one or, at most, two grocery stores.",
+    "time": 1776073496,
+    "type": "comment"
+  },
+  "47749903": {
+    "by": "eru",
+    "id": 47749903,
+    "kids": [
+      47750514
+    ],
+    "parent": 47746910,
+    "text": "It seems entirely reasonable to me to quote larger prices per item, even much larger prices, for smaller quantities.  Or even outright refuse to sell in small quantities.<p>I mean, my grocer doesn&#x27;t sell individual beans either.  So why should wholesalers be forced?",
+    "time": 1776074413,
+    "type": "comment"
+  },
+  "47750514": {
+    "by": "lores",
+    "id": 47750514,
+    "kids": [
+      47750713
+    ],
+    "parent": 47749903,
+    "text": "They don&#x27;t? I&#x27;m in London, and my local grocer will happily sell me one bean if I want. I&#x27;ve bought 1 bird chilli several times.",
+    "time": 1776079578,
+    "type": "comment"
+  },
+  "47750713": {
+    "by": "AlBugdy",
+    "id": 47750713,
+    "kids": [
+      47750844
+    ],
+    "parent": 47750514,
+    "text": "Sure, if the chili peppers or the beans are not packaged, you could buy as little as you want. Sometimes you might get funny looks, sometimes they&#x27;ll give you the bean for free as it&#x27;s not worth the hassle to sell an individual bean.<p>But what about prepackaged beans, like 500 gram pack? You can&#x27;t open the package and expect to pay for part of it. Sometimes the beans are packaged by the grocery store with their branding. That&#x27;s the same as not letting you buy an individual bean.",
+    "time": 1776081199,
+    "type": "comment"
+  },
+  "47750844": {
+    "by": "eru",
+    "id": 47750844,
+    "parent": 47750713,
+    "text": "And it&#x27;s great that lores found a grocer that caters to their needs.  Even less of a reason to make a law to force everyone to do so.",
+    "time": 1776082144,
+    "type": "comment"
+  },
+  "47747183": {
+    "by": "fakedang",
+    "id": 47747183,
+    "kids": [
+      47747331
+    ],
+    "parent": 47746910,
+    "text": "And I&#x27;m guessing, without a local grocery store at the very least, your hometown is also a dying entity?",
+    "time": 1776050445,
+    "type": "comment"
+  },
+  "47747331": {
+    "by": "cogman10",
+    "id": 47747331,
+    "parent": 47747183,
+    "text": "It&#x27;s mixed.  Several people ended up moving back as some of the older population died off.  One new resident retired there and is running a mini-grocery store now as both a hobby and for some of the hunters that come through the town.<p>But the town is dying&#x2F;dead.  There&#x27;s really only 1 major business in town and the school.  It&#x27;s surrounded by farm land.<p>In my father&#x27;s day, it had everything from a hardware store, full service garage, a bowling ally, movie theater, restaurant, and dance hall.  All that is gone now.<p>In my youth the restaurant and grocery store were still around. You had to call ahead to the restaurant as they would only open in a call ahead fashion.",
+    "time": 1776051903,
+    "type": "comment"
+  },
+  "47750262": {
+    "by": "helsinkiandrew",
+    "id": 47750262,
+    "parent": 47744268,
+    "text": "&gt;  Blend it with any dry ingredients like sugar before using.<p>That&#x27;s the key.<p>I&#x27;m not an expert - and have only experience making&#x2F;mixing liquids for cocktails - but Gum Arabic (often used to add a thicker mouthfeel in sugar syrups) isn&#x27;t a great emulsifier but needs to be full homogenised with the oils before adding to more liquid - exceptionally high speed, aggressive blending for longer than it looks like is needed, to create tiny droplets which the gum arabic then stabilises, or the oil will end up separating after a few hours&#x2F;days.<p>Sucros Esters, Propylene Glycol, or Polysorbate 80 (which I haven&#x27;t used) probably do a better job but only Sucros Esters could be considered &#x27;natural&#x27;",
+    "time": 1776077731,
+    "type": "comment"
+  },
+  "47750967": {
+    "by": "qmr",
+    "id": 47750967,
+    "kids": [
+      47751177
+    ],
+    "parent": 47744268,
+    "text": "What&#x27;s the use in ice cream?<p>My ice cream is just ... ice cream.  Cream, milk, sugar.",
+    "time": 1776082991,
+    "type": "comment"
+  },
+  "47751177": {
+    "by": "hutattedonmyarm",
+    "id": 47751177,
+    "parent": 47750967,
+    "text": "As an emulsifier, allowing the fats and the water to mix better. I _think_ it also might help to trap air bubbles. It helps you turn on the creaminess-knob",
+    "time": 1776084280,
+    "type": "comment"
+  },
+  "47748727": {
+    "by": "user070223",
+    "id": 47748727,
+    "kids": [
+      47750880,
+      47748861
+    ],
+    "parent": 47744268,
+    "text": "Another fun use for gum arabic is making watercolor paints, you can do it with your kids sourcing the pigment from different soils. pour water and let the heavy big particle fall to the bottom and source the small ones from the top and mix some ingredients",
+    "time": 1776064332,
+    "type": "comment"
+  },
+  "47750880": {
+    "by": "mattmaroon",
+    "id": 47750880,
+    "parent": 47748727,
+    "text": "Oh! I knew they sold it for art but not why.",
+    "time": 1776082369,
+    "type": "comment"
+  },
+  "47748861": {
+    "by": "dzhiurgis",
+    "id": 47748861,
+    "kids": [
+      47749633
+    ],
+    "parent": 47748727,
+    "text": "Pigment from soils?",
+    "time": 1776065268,
+    "type": "comment"
+  },
+  "47749633": {
+    "by": "krisoft",
+    "id": 47749633,
+    "parent": 47748861,
+    "text": "Not sure what you are asking. The stone age way of making paint is to find some place where the ground has a weird colour, dig it up, clean it and you have a pigment.<p>Even to this day many of our paint pigments are mined this way. Red&#x2F;yellow ochre, umber, sienna.<p>If what you are asking is the dirt in question geologically speaking a soil? Sometimes, sometimes not. It can be a sediment or a regolith too. But in the more general laymen sense callig any dirt from the ground a soil is not too mistaken.",
+    "time": 1776071984,
+    "type": "comment"
+  },
+  "47750962": {
+    "by": "jfengel",
+    "id": 47750962,
+    "kids": [
+      47751050
+    ],
+    "parent": 47744268,
+    "text": "I wonder how they pulled off Crystal Pepsi.<p>A neat trick, even if nobody cared.",
+    "time": 1776082959,
+    "type": "comment"
+  },
+  "47751050": {
+    "by": "lagniappe",
+    "id": 47751050,
+    "parent": 47750962,
+    "text": "The 90&#x27;s were a magical place. Best we can do now is Clear Pepsi.",
+    "time": 1776083468,
+    "type": "comment"
+  },
+  "47744693": {
+    "by": "atentaten",
+    "id": 47744693,
+    "kids": [
+      47745694
+    ],
+    "parent": 47744268,
+    "text": "Why did you get a commercial bottling license?",
+    "time": 1776029196,
+    "type": "comment"
+  },
+  "47745694": {
+    "by": "mattmaroon",
+    "id": 47745694,
+    "kids": [
+      47749209,
+      47747226,
+      47749452,
+      47745880,
+      47748976
+    ],
+    "parent": 47744693,
+    "text": "Well after software I wanted a life that involved a lot less computer usage and a lot more being on my feet. So now I sell beverages via a few food trucks and also syrups people can use to make draft sodas&#x2F;mocktails. We make everything ourselves because we\u2019re all-natural everything, with the lone exception of Coke products because you just can\u2019t get people to drink anything else.<p>I basically went from no real knowledge to being able to develop commercial-scale beverages and walk them through all phases of production.<p>The money\u2019s not as good as software (but decent) and being active rather than sedentary with most of my time has done wonders for my health and mood. Man was not meant to sit in one place for long hours daily and I\u2019m just not a gym rat no matter how many times I tried so I just reengineered my life.",
+    "time": 1776037263,
+    "type": "comment"
+  },
+  "47749209": {
+    "by": "bryanrasmussen",
+    "id": 47749209,
+    "kids": [
+      47749909
+    ],
+    "parent": 47745694,
+    "text": "&gt;with the lone exception of Coke products because you just can\u2019t get people to drink anything else.<p>gotta say I don&#x27;t like Pepsi, but I love Jarritos Cola and Fritz-Kola, they&#x27;re both bitter enough. Most other Colas I&#x27;ve had in the U.S are too darn sweet.",
+    "time": 1776067943,
+    "type": "comment"
+  },
+  "47749909": {
+    "by": "eru",
+    "id": 47749909,
+    "parent": 47749209,
+    "text": "Fritz-Kola used to be even more bitter, until they dropped the caffeine content to sane levels.",
+    "time": 1776074467,
+    "type": "comment"
+  },
+  "47747226": {
+    "by": "com2kid",
+    "id": 47747226,
+    "parent": 47745694,
+    "text": "Seconded that I&#x27;d love to hear more.<p>A couple years back I bought a &quot;cooking from your garden&quot; book that introduced my family to shrubs, and since then we&#x27;ve been making a lot of home made drinks. We mostly do different types of shrubs and tepeches. I&#x27;ve found that doing better than store bought isn&#x27;t very hard, but I have no desire to try and scale any of my recipes.<p>The other thing I used to do before I had a kid was make really fancy alcoholic snacks. Super labor intensive, but really good. For example I made a jello \npi\u00f1a colada. I&#x27;d sweeten canned coconut cream with some white sugar on the stove, add gelatin, and some rum. let it cool a bit. Drain a can of pineapples and keep the juice, use the juice to make pineapple jello again mixed with rum, with a piece of pineapple in the middle. Join the two jellos when they are both half set. (I used silicone molds.)<p>Tada! Bougie pi\u00f1a colada jello shots.<p>With a kid now I am limiting my creativity to non-alcoholic drinks. 90% of the shrub recipes online are absurdly basic. Honestly doing &quot;better than average&quot; is easy because the bar is so damn low.",
+    "time": 1776050889,
+    "type": "comment"
+  },
+  "47749452": {
+    "by": "kleiba2",
+    "id": 47749452,
+    "kids": [
+      47750033
+    ],
+    "parent": 47745694,
+    "text": "<i>&gt; Well after software I wanted a life that involved a lot less computer usage and a lot more being on my feet.</i><p>Oh man, that&#x27;s so me at this stage of my life. But I cannot easily get out of the rat race, with family responsibilities and mortgages and all...",
+    "time": 1776070021,
+    "type": "comment"
+  },
+  "47750033": {
+    "by": "freedomben",
+    "id": 47750033,
+    "parent": 47749452,
+    "text": "Same here.  Despite having intentions of not improving lifestyle with income (so I could be FIRE), it happened anyway with kids.  I love my kids (of course) but they are so much more expensive than I ever could have imagined.  Cost of living has just skyrocketed in the past 6 or 7 years (cue the 11 year old saying &quot;Siiiiiixxxxx Seeeevvvvvennnn&quot;) and wages haven&#x27;t changed much.  Unless something radically changes, I&#x27;m chained to this desk for at least then next 10 years.",
+    "time": 1776075522,
+    "type": "comment"
+  },
+  "47745880": {
+    "by": "parallel",
+    "id": 47745880,
+    "parent": 47745694,
+    "text": "That&#x27;s a really inspiring story to me. Do you have any more info about your business e.g website or blog? (I realise these are computer things and exactly what you were moving away from.)",
+    "time": 1776038340,
+    "type": "comment"
+  },
+  "47748976": {
+    "by": "thiago_fm",
+    "id": 47748976,
+    "parent": 47745694,
+    "text": "You should get your website up and running and start writing and tell others not only how you made it, but also why. What you felt in this change in your life etc.<p>I guess a big part of this is figuring out how to make money doing that. I wonder how did you get there.<p>I&#x27;ve always had the desire to make soft drinks and I have a similar concern about how we are sitting the entire day...",
+    "time": 1776066236,
+    "type": "comment"
+  },
+  "47747469": {
+    "by": "hattmall",
+    "id": 47747469,
+    "kids": [
+      47749723
+    ],
+    "parent": 47744268,
+    "text": "What do you use to bottle things in, like what bottles?",
+    "time": 1776053140,
+    "type": "comment"
+  },
+  "47749723": {
+    "by": "pseingatl",
+    "id": 47749723,
+    "parent": 47747469,
+    "text": "Perrier bottles can be emptied and resealed. I didn&#x27;t see anything in the article about carbonation.",
+    "time": 1776072800,
+    "type": "comment"
+  },
+  "47745276": {
+    "by": "joshmn",
+    "id": 47745276,
+    "kids": [
+      47745729,
+      47749728
+    ],
+    "parent": 47744268,
+    "text": "What are your, um, favorite gum providers?",
+    "time": 1776033486,
+    "type": "comment"
+  },
+  "47745729": {
+    "by": "mattmaroon",
+    "id": 47745729,
+    "parent": 47745276,
+    "text": "Small scale: modernist pantry. Commercial scale: Ingredion\u2019s TIC gums. Their pre-hydrated gum arabic is great.",
+    "time": 1776037427,
+    "type": "comment"
+  },
+  "47749728": {
+    "by": "pseingatl",
+    "id": 47749728,
+    "kids": [
+      47750897
+    ],
+    "parent": 47745276,
+    "text": "All gum arabica comes from Sudan. When the US imposed sanctions on Sudan, this product was exempted.",
+    "time": 1776072868,
+    "type": "comment"
+  },
+  "47750897": {
+    "by": "mattmaroon",
+    "id": 47750897,
+    "parent": 47749728,
+    "text": "Ha yeah. That whole thing is kind of crazy.",
+    "time": 1776082494,
+    "type": "comment"
+  },
+  "47750151": {
+    "by": "sourcegrift",
+    "id": 47750151,
+    "kids": [
+      47750347
+    ],
+    "parent": 47744268,
+    "text": "Thank you for helping contribute to reduced trust in the society. Fuck them big dudes, amirite?",
+    "time": 1776076660,
+    "type": "comment"
+  },
+  "47750347": {
+    "by": "prodigycorp",
+    "id": 47750347,
+    "kids": [
+      47750619
+    ],
+    "parent": 47750151,
+    "text": "He&#x27;s contributed to improving trust on this forum. And idk if you&#x27;ve ever gotten commercial samples before but he&#x27;s right, the amount they give you is immaterial to hurting them and can be material to you.<p>Also, he said that he&#x27;s somehow stumbled into somehow having a commercial bottling license. If him, why not us?",
+    "time": 1776078468,
+    "type": "comment"
+  },
+  "47750619": {
+    "by": "diceduckmonk",
+    "id": 47750619,
+    "parent": 47750347,
+    "text": "&gt;  the amount they give you is immaterial to hurting them and can be material to you.<p>It\u2019s immaterial to Apple if I stole an iPhone from the Apple Store too.<p>&gt; Also, he said that he&#x27;s somehow stumbled into somehow having a commercial bottling license. If him, why not us?<p>Because he is a commercial bottler who is sampling from different supplier that he intends to source from for his business.",
+    "time": 1776080513,
+    "type": "comment"
+  },
+  "47744471": {
+    "by": "peaxkl",
+    "id": 47744471,
+    "kids": [
+      47750249,
+      47746853,
+      47748682,
+      47749010,
+      47745286,
+      47744530
+    ],
+    "parent": 47741701,
+    "text": "I recently started getting into homemade ClubMate production. The goal was to create a drink that has caffeine, less sugar than regular mate and is still tasty.<p>It took me 4-5 tries to get to a recipe that tastes good. Earlier tries involved cooking the mate, which led to a bitter taste. Cold brewing led to way better results.<p>Here is my current recipe for 5 bottles (\u00e1 0,5l):<p><pre><code>  - 60g mate tea leaves (coarse) [1]\n  - 500ml water\n  - 65g cane sugar\n  - 1 squeezed lemon\n  - soda water\n\n  1. Add 60g of mate to a 500ml bottle and fill up the rest with water\n  2. Let it sit in the fridge for 12-24h\n  3. Then strain the mate from the liquid\n  4. Use a filter cloth or a tea towel (soak with water first)   to filter out the remaining suspended solids\n  5. Put sugar and the lemon juice together into a pot and start caramelizing the sugar\n  6. Then add the filtered mate tea and take the pot from the stove\n  7. Now distribute it equally on the 5 bottles and fill up the rest with soda\n</code></pre>\nThe mate tastes less sweet than the original mate, but is still a great drink to keep you awake.<p>[1] Mate tea that I&#x27;m using: <a href=\"https:&#x2F;&#x2F;www.amazon.com&#x2F;Playadito-Traditional-Colonia-Liebig-Wholesale&#x2F;dp&#x2F;B081MY3RRR?th=1\" rel=\"nofollow\">https:&#x2F;&#x2F;www.amazon.com&#x2F;Playadito-Traditional-Colonia-Liebig-...</a>",
+    "time": 1776027895,
+    "type": "comment"
+  },
+  "47750249": {
+    "by": "lopis",
+    "id": 47750249,
+    "kids": [
+      47750990
+    ],
+    "parent": 47744471,
+    "text": "65 grams of sugar for 500ml is &quot;less sugar&quot;?How, if a 500ml bottle of club mate only has 25 grams? Did you mean 6.5 grams perhaps?<p>Edit: My bad, I didn&#x27;t realise that was for 5 bottles. Carry on.",
+    "time": 1776077581,
+    "type": "comment"
+  },
+  "47750990": {
+    "by": "kakacik",
+    "id": 47750990,
+    "parent": 47750249,
+    "text": "Still not great if consumed regularly, sugar is one of the worst thing we pump our bodies. Its basically a slow acting poison that kills our organs. Complex carbs are better, but stuff in drinks is same as eating spoonfulls of it directly",
+    "time": 1776083181,
+    "type": "comment"
+  },
+  "47746853": {
+    "by": "plomme",
+    "id": 47746853,
+    "kids": [
+      47750403,
+      47750431
+    ],
+    "parent": 47744471,
+    "text": "Love that you made homemade Club Mate! My favorite soda by far. I didn\u2019t realize it was just tea before now. They have made a sugar free version now as well, but that not as cool as making your own",
+    "time": 1776047137,
+    "type": "comment"
+  },
+  "47750403": {
+    "by": "whywhywhywhy",
+    "id": 47750403,
+    "parent": 47746853,
+    "text": "The sugar free Club Mate is probably the only soda where I&#x27;m not satisfied with it instead of the sugar version. Somethings just missing in the mix of it, doesn&#x27;t have the bite that makes the sugar version satisfying.",
+    "time": 1776078761,
+    "type": "comment"
+  },
+  "47750431": {
+    "by": "flobosg",
+    "id": 47750431,
+    "parent": 47746853,
+    "text": "&gt; They have made a sugar free version now as well, but that not as cool as making your own<p>That version (Club Mate Zero) is hard to get in supermarkets as well, at least where I\u2019m living in Germany. I usually order it online.",
+    "time": 1776078917,
+    "type": "comment"
+  },
+  "47748682": {
+    "by": "indigo945",
+    "id": 47748682,
+    "kids": [
+      47749148
+    ],
+    "parent": 47744471,
+    "text": "Late capitalism is when a traditional tea recipe is referred to as &quot;homemade ClubMate (R)&quot;.",
+    "time": 1776064054,
+    "type": "comment"
+  },
+  "47749148": {
+    "by": "peaxkl",
+    "id": 47749148,
+    "kids": [
+      47749483
+    ],
+    "parent": 47748682,
+    "text": "That&#x27;s my approach to recreate a soft drink (ClubMate), like OP is trying to recreate Coke (etc.). Would love to also learn something about the traditional recipe",
+    "time": 1776067445,
+    "type": "comment"
+  },
+  "47749483": {
+    "by": "KeplerBoy",
+    "id": 47749483,
+    "kids": [
+      47749592,
+      47750386
+    ],
+    "parent": 47749148,
+    "text": "sure, but what makes it ClubMate instead of just Mate Tea? Either way, thanks for the recipe. I might try that.",
+    "time": 1776070366,
+    "type": "comment"
+  },
+  "47749592": {
+    "by": "peaxkl",
+    "id": 47749592,
+    "parent": 47749483,
+    "text": "I would say drinking it cold, carbonated, with caramelized sugar and lemon juice, out of a bottle instead of brewed as a tea from a calabaza.",
+    "time": 1776071571,
+    "type": "comment"
+  },
+  "47750386": {
+    "by": "flobosg",
+    "id": 47750386,
+    "parent": 47749483,
+    "text": "Club Mate has a different taste than traditionally brewed yerba mate. It\u2019s carbonated as well.",
+    "time": 1776078676,
+    "type": "comment"
+  },
+  "47749010": {
+    "by": "thiago_fm",
+    "id": 47749010,
+    "kids": [
+      47750368,
+      47749113
+    ],
+    "parent": 47744471,
+    "text": "You can buy mate tea as tea sachets, &quot;Mate le\u00e3o&quot; has a nice taste blend.<p>Why not do it with the leaves? This is harder as their taste profile is very uneven.<p>For the sour taste, add citric acid.<p>I&#x27;m pretty sure that if you toy around with the amount of citric acid, sugar &amp; dillution you&#x27;ll get a similar taste, or something even more palatable for you.",
+    "time": 1776066508,
+    "type": "comment"
+  },
+  "47750368": {
+    "by": "flobosg",
+    "id": 47750368,
+    "parent": 47749010,
+    "text": "&gt; mate tea as tea sachets<p>Look for \u201cmate cocido\u201d. La Tranquera is the brand I use.",
+    "time": 1776078567,
+    "type": "comment"
+  },
+  "47749113": {
+    "by": "peaxkl",
+    "id": 47749113,
+    "parent": 47749010,
+    "text": "Thanks for the tips! Will try!",
+    "time": 1776067185,
+    "type": "comment"
+  },
+  "47745286": {
+    "deleted": true,
+    "id": 47745286,
+    "parent": 47744471,
+    "time": 1776033548,
+    "type": "comment"
+  },
+  "47744530": {
+    "by": "BoredPositron",
+    "id": 47744530,
+    "kids": [
+      47744622,
+      47749356
+    ],
+    "parent": 47744471,
+    "text": "I&#x27;ve never found the right tea leaves. Most of them were to bitter and some had just a totally different profile than the original clubmate. How close are the ones you are using?",
+    "time": 1776028247,
+    "type": "comment"
+  },
+  "47744622": {
+    "by": "peaxkl",
+    "id": 47744622,
+    "kids": [
+      47750420,
+      47750240
+    ],
+    "parent": 47744530,
+    "text": "For me using the cold brew method instead of cooking the leaves had the biggest effect on the bitterness.<p>The taste goes in the direction of ClubMate, but has a stronger tea taste than the original ClubMate. I think reasons for that are the reduced amount of sugar and the fact that ClubMate uses natural flavor in their tea extract.",
+    "time": 1776028767,
+    "type": "comment"
+  },
+  "47750420": {
+    "by": "whywhywhywhy",
+    "id": 47750420,
+    "parent": 47744622,
+    "text": "Isn&#x27;t this a tannins issue? I&#x27;ve not done mate before but with black tea my understanding is brewed tea cooled down is bitter while tea just left in cold water in the fridge is smooth because brewing it releases tannins.",
+    "time": 1776078873,
+    "type": "comment"
+  },
+  "47750240": {
+    "by": "lopis",
+    "id": 47750240,
+    "parent": 47744622,
+    "text": "Buying different brands will change the taste even more.",
+    "time": 1776077460,
+    "type": "comment"
+  },
+  "47749356": {
+    "by": "askl",
+    "id": 47749356,
+    "parent": 47744530,
+    "text": "Maybe try contacting Meta Mate [1] for recommendations. AFAIK they are supplying mate leaves to multiple mate soft drink manufacturers.<p>[1] <a href=\"https:&#x2F;&#x2F;www.metamateberlin.de&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.metamateberlin.de&#x2F;</a>",
+    "time": 1776069304,
+    "type": "comment"
+  },
+  "47745498": {
+    "by": "foresto",
+    "id": 47745498,
+    "kids": [
+      47746637,
+      47749830,
+      47746015,
+      47746708,
+      47745602,
+      47747419,
+      47745911,
+      47747992,
+      47746301
+    ],
+    "parent": 47741701,
+    "text": "If you want to carbonate water but don&#x27;t want to buy a countertop carbonator or its overpriced CO2 refills, you can get a ball lock valve cap that screws onto 1L or 2L soda bottles for around $8-16.<p>That valve will attach to a standard female fitting, which you can put on the end of a hose coming from a pressure regulator, which will attach to a full-size CO2 cylinder available from a brewing or gas supply shop. CO2 refills are a <i>lot</i> cheaper this way.<p>Put cold water in the bottle with some extra space at the top. Squeeze out the air and attach the valve cap. Set the pressure regulator, connect it to the bottle, open the regulator&#x27;s output valve, and watch the bottle that was slightly crushed by your squeezing expand back to its normal shape. Slosh the water around with pressure applied for maybe 10-30 seconds. Close the output valve and disconnect.<p>Voil\u00e0. Carbonated water.<p>IIRC, PETE soda bottles are pressurized to about 50 psi for retail shelves. I don&#x27;t think they&#x27;re likely to burst until well beyond 100 psi, and they&#x27;ll deform before they burst, so if you&#x27;re careful, you can go a little higher than 50 and make fizzier water than what you can buy in the store. I have used 70 psi many times.<p>Read up on precautions for handling pressurized gas before doing any of this. Wear eye protection. Don&#x27;t turn your bottle or gas cylinder into an unguided missile. :)<p>Sadly, I don&#x27;t have any info on microplastics released by this process. (Nor by countertop carbonators and their rigid plastic flasks.)  I wish I knew of a suitable steel bottle to use instead.",
+    "time": 1776035611,
+    "type": "comment"
+  },
+  "47746637": {
+    "by": "dlcarrier",
+    "id": 47746637,
+    "kids": [
+      47746919
+    ],
+    "parent": 47745498,
+    "text": "I found it cheaper and much, much more convenient to get an adapter to refill the countertop carbonator&#x27;s CO2 cylinders from a standard 20 lb CO2 cylendar.  That way, you can carbonate from the much smaller and easier to use countertop unit, you can service multiple countertop carbonators from a single larger tank, and you can leave the larger tank shut off and away from living areas so that a leak doesn&#x27;t pose a hazard.",
+    "time": 1776045264,
+    "type": "comment"
+  },
+  "47746919": {
+    "by": "foresto",
+    "id": 47746919,
+    "kids": [
+      47749785,
+      47747162
+    ],
+    "parent": 47746637,
+    "text": "&gt; I found it cheaper and much, much more convenient<p>Cheaper? I don&#x27;t see how. We&#x27;re filling from the same CO2 cylinders, and my total hardware cost was less than that of a midrange SodaStream <i>without</i> the adapter you describe.<p>More convenient? Maybe, depending on environment and use.<p>But mine has advantages, too: More fizz, no counter space required, fewer fragile plastic parts, standard components that are easily serviced&#x2F;replaced, and the ability to carbonate liquids other than water without worry of backspray gumming up a countertop machine&#x27;s internal components. (Your unit&#x27;s instructions probably tell you to use only water, for this reason.)<p>&gt; you can leave the larger tank shut off and away from living areas so that a leak doesn&#x27;t pose a hazard.<p>I close my cylinder&#x27;s main valve when it&#x27;s not in use, and the two additional valves downstream of it (at the regulator and ball lock fitting) also work, so I think a leak is very unlikely. Even if there was one, I would expect it to be noticed quickly or else too slow for the released CO2 to cause harm.",
+    "time": 1776047726,
+    "type": "comment"
+  },
+  "47749785": {
+    "by": "wongarsu",
+    "id": 47749785,
+    "kids": [
+      47750720
+    ],
+    "parent": 47746919,
+    "text": "One advantage of standard tabletop carbonators is that you can get versions with glass bottles. I quite like the 0.7l glass sodastream bottles.<p>You could probably get them to work on a DIY setup with the right pressure regulator settings and the right adapter. But I&#x27;d like to avoid the flying glass shards if I get it wrong",
+    "time": 1776073386,
+    "type": "comment"
+  },
+  "47750720": {
+    "by": "genericuser256",
+    "id": 47750720,
+    "parent": 47749785,
+    "text": "Do you mind my asking which ones you use? The only ones I&#x27;ve been able to find (Canada) don&#x27;t work with the standard soda stream",
+    "time": 1776081250,
+    "type": "comment"
+  },
+  "47747162": {
+    "by": "dlcarrier",
+    "id": 47747162,
+    "parent": 47746919,
+    "text": "SodaStream carbonators are super common at all the thrift stores near me, so they&#x27;re like $5 to $10.  There&#x27;s one on eBay right now for $25 with free shipping. \n The refill adapter was $10 on AliExpress, but the cheapest regulator alone cost more than my entire setup.",
+    "time": 1776050254,
+    "type": "comment"
+  },
+  "47749830": {
+    "by": "pseingatl",
+    "id": 47749830,
+    "parent": 47745498,
+    "text": "Use Perrier glass bottles. They&#x27;re designed for low-level carbonation and can be resealed.",
+    "time": 1776073733,
+    "type": "comment"
+  },
+  "47746015": {
+    "by": "tass",
+    "id": 47746015,
+    "parent": 47745498,
+    "text": "I\u2019ve done this for years and never ruptured a bottle, I set the regulator to 60psi.<p>I\u2019d like a metal bottle too but haven\u2019t found one - I presume spraying some co2 into it would be enough to get the plain air out since you obviously can\u2019t squeeze the air out.",
+    "time": 1776039515,
+    "type": "comment"
+  },
+  "47746708": {
+    "by": "zdragnar",
+    "id": 47746708,
+    "parent": 47745498,
+    "text": "As a kid I built a pneumatic musket with both 20 oz and 2 liter bottles and filled them up to 80 psi repeatedly, and never had one pop.<p>I wouldn&#x27;t recommend going that high for a carbonated drink though, unless you like to live dangerously while opening your soda.",
+    "time": 1776045921,
+    "type": "comment"
+  },
+  "47745602": {
+    "by": "rootusrootus",
+    "id": 47745602,
+    "parent": 47745498,
+    "text": "FWIW the counter carbonators aren&#x27;t too bad if you use a third-party refill instead of the expensive branded ones.  Also, you can just use dry ice to refill the bottles rather than swapping for new ones.  If you don&#x27;t want to geek out on a complete DIY setup, the countertop models are definitely a little more convenient.",
+    "time": 1776036692,
+    "type": "comment"
+  },
+  "47747419": {
+    "by": "manwe150",
+    "id": 47747419,
+    "parent": 47745498,
+    "text": "Here you go: <a href=\"https:&#x2F;&#x2F;www.kegoutlet.com&#x2F;carbonating-kits.html\" rel=\"nofollow\">https:&#x2F;&#x2F;www.kegoutlet.com&#x2F;carbonating-kits.html</a>",
+    "time": 1776052702,
+    "type": "comment"
+  },
+  "47745911": {
+    "by": "collin128",
+    "id": 47745911,
+    "kids": [
+      47749648
+    ],
+    "parent": 47745498,
+    "text": "I bought an Aarke (soda stream comp) and a CO2 hose. Now I use one of the 5lb tanks. It&#x27;s great.",
+    "time": 1776038622,
+    "type": "comment"
+  },
+  "47749648": {
+    "by": "gorgonical",
+    "id": 47749648,
+    "parent": 47745911,
+    "text": "What do you mean? You use the 5lb tank via the Aarke instead of the CO2 cylinders? Or you refill somehow the CO2 cylinders? If it&#x27;s the first one this sounds like the best of both worlds with the convenience of the countertop device and the cost-efficiency of the bulk CO2. It would be great if you elaborated some more!",
+    "time": 1776072198,
+    "type": "comment"
+  },
+  "47747992": {
+    "by": "mazeraero",
+    "id": 47747992,
+    "parent": 47745498,
+    "text": "Pro-tip: cold water.",
+    "time": 1776058411,
+    "type": "comment"
+  },
+  "47746301": {
+    "by": "truetraveller",
+    "id": 47746301,
+    "parent": 47745498,
+    "text": "Could you do the math for the raw material cost of 355ml?",
+    "time": 1776042288,
+    "type": "comment"
+  },
+  "47751054": {
+    "by": "juvvel",
+    "id": 47751054,
+    "parent": 47741701,
+    "text": "Ah, good old Dragonspice.de, they have provided me with supplies for many of my experiments as well. I have many of the essential oils already, I might try this! Thank you for posting your recipe.",
+    "time": 1776083492,
+    "type": "comment"
+  },
+  "47743906": {
+    "by": "tareqak",
+    "id": 47743906,
+    "kids": [
+      47746143,
+      47747614
+    ],
+    "parent": 47741701,
+    "text": "Perfectly Replicating Coca Cola (It Took Me A Year) - LabCoatz : <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TDkH3EbWTYc\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TDkH3EbWTYc</a><p>This content creator used a mass spectrometer to find the flavoring used in Coca-Cola.",
+    "time": 1776024533,
+    "type": "comment"
+  },
+  "47746143": {
+    "by": "s0rce",
+    "id": 47746143,
+    "parent": 47743906,
+    "text": "GCMS is neat, we have a really nice one at work but don&#x27;t use it to reverse engineer soft drinks. Although, if we had a bit more time we probably could.",
+    "time": 1776040760,
+    "type": "comment"
+  },
+  "47747614": {
+    "by": "koalacolawhen",
+    "id": 47747614,
+    "parent": 47743906,
+    "text": "It is with utter disappointment that I must inform everyone that, after 3 months, there is still a complete lack of &quot;Koala Cola&quot; imitators popping up. I want to try one so much.",
+    "time": 1776054572,
+    "type": "comment"
+  },
+  "47750991": {
+    "by": "malloryerik",
+    "id": 47750991,
+    "kids": [
+      47751120
+    ],
+    "parent": 47741701,
+    "text": "I&#x27;d be interested in soft drinks that were unsweetened altogether and not just sugar free. Sometimes I have sparkling water + apple cider vinegar + lemon&#x2F;lime juice and it&#x27;s wonderful when well mixed.",
+    "time": 1776083182,
+    "type": "comment"
+  },
+  "47751120": {
+    "by": "bombcar",
+    "id": 47751120,
+    "parent": 47750991,
+    "text": "Sparkling iced tea would likely hit a spot.",
+    "time": 1776083975,
+    "type": "comment"
+  },
+  "47747915": {
+    "by": "tdeck",
+    "id": 47747915,
+    "kids": [
+      47749111,
+      47748080
+    ],
+    "parent": 47741701,
+    "text": "I enjoy the flavor of kvass - a Russian &#x2F; eastern European malt flavored soda - but it&#x27;s hard to find where I live. The process involves really aggressively toasting some rye bread, boiling it with eaisans and sugar, straining it, and then brewing it with ordinary baking yeast in 2-liter bottles until it reaches your desired carbonation level. The end result is really refreshing.",
+    "time": 1776057789,
+    "type": "comment"
+  },
+  "47749111": {
+    "by": "gbuk2013",
+    "id": 47749111,
+    "parent": 47747915,
+    "text": "Me too except I just use rye malt instead of the bread and without making any dough with it. The malt is cheap and easy to get in UK thanks to home brewing suppliers whereas rye bread is super expensive.<p>My only challenge is controlling the gassiness - it\u2019s so vigorous that the moment I even slightly open the cap the whole thing fizzes up like crazy - opening it normally would result in a kvass fountain shooting up like 30cm. :)",
+    "time": 1776067165,
+    "type": "comment"
+  },
+  "47748080": {
+    "by": "dyauspitr",
+    "id": 47748080,
+    "kids": [
+      47750134,
+      47749895,
+      47749141,
+      47748794
+    ],
+    "parent": 47747915,
+    "text": "How does this not become alcoholic?",
+    "time": 1776059253,
+    "type": "comment"
+  },
+  "47750134": {
+    "by": "t-3",
+    "id": 47750134,
+    "parent": 47748080,
+    "text": "Short brewing time. Finnish sima is similar - sugar, lemon, water, yeast, ferment for a couple of days. Alcoholic drinks are usually fermented much longer, aged, and processed much more intensively.",
+    "time": 1776076458,
+    "type": "comment"
+  },
+  "47749895": {
+    "by": "ideasarecool",
+    "id": 47749895,
+    "parent": 47748080,
+    "text": "It is usually alcoholic. 0.5-2%. Here stores sell most commonly 0.5% one which is regulated to be sold like a non-alcoholic drink.",
+    "time": 1776074316,
+    "type": "comment"
+  },
+  "47749141": {
+    "by": "ymolodtsov",
+    "id": 47749141,
+    "parent": 47748080,
+    "text": "Usually they remove the alcohol later. The taste is similar to a alcohol-free Guinness (but sweeter).",
+    "time": 1776067410,
+    "type": "comment"
+  },
+  "47748794": {
+    "by": "SideburnsOfDoom",
+    "id": 47748794,
+    "parent": 47748080,
+    "text": "I understand that Kvass is around 1% alcohol.<p>By  Russian standards, this is &quot;non-alcoholic&quot;.",
+    "time": 1776064834,
+    "type": "comment"
+  },
+  "47743804": {
+    "by": "nchmy",
+    "id": 47743804,
+    "kids": [
+      47751078,
+      47747461,
+      47745821
+    ],
+    "parent": 47741701,
+    "text": "I bottled 20 litres of kombucha yesterday with ginger and lemongrass. It&#x27;ll be very fizzy and ready to drink in 3-5 days. Costs next to nothing and quite healthy - water, black tea, sugar, (gifted and self-reproducing) scoby. The flavourings are what costs most, depending on what you use.",
+    "time": 1776024019,
+    "type": "comment"
+  },
+  "47751078": {
+    "by": "juvvel",
+    "id": 47751078,
+    "kids": [
+      47751113
+    ],
+    "parent": 47743804,
+    "text": "Kombucha is the best &quot;natural&quot; soft drink for me, too. It&#x27;s not entirely sugar-free, though (even though you can get it to low-sugar with longer fermentation).",
+    "time": 1776083673,
+    "type": "comment"
+  },
+  "47751113": {
+    "by": "nchmy",
+    "id": 47751113,
+    "parent": 47751078,
+    "text": "I&#x27;m not concerned with sugar-free. I drink maybe 500ml per day, and otherwise consume ZERO added sugar. And It&#x27;s surely a small fraction of the sugar in soda, fruit juices etc... I also like it sour&#x2F;highly fermented",
+    "time": 1776083886,
+    "type": "comment"
+  },
+  "47747461": {
+    "by": "hattmall",
+    "id": 47747461,
+    "kids": [
+      47747574
+    ],
+    "parent": 47743804,
+    "text": "what did you bottle it in?",
+    "time": 1776053028,
+    "type": "comment"
+  },
+  "47747574": {
+    "by": "nchmy",
+    "id": 47747574,
+    "parent": 47747461,
+    "text": "Bottles?",
+    "time": 1776054184,
+    "type": "comment"
+  },
+  "47745821": {
+    "by": "jamiek88",
+    "id": 47745821,
+    "kids": [
+      47747229,
+      47746764
+    ],
+    "parent": 47743804,
+    "text": "Oooh that sounds good! I\u2019ve been meaning to add fermented stuff to my diet.",
+    "time": 1776037966,
+    "type": "comment"
+  },
+  "47747229": {
+    "by": "psalaun",
+    "id": 47747229,
+    "parent": 47745821,
+    "text": "Maybe try water kefir first then. I&#x27;ve got mine for 5 years now at least, making 2 bottles every couple of weeks or so.<p>Kefir is easier and quicker to make than kombucha, there is no caffeine and maybe less sugar. Probably the best intro to fermented drinks!",
+    "time": 1776050914,
+    "type": "comment"
+  },
+  "47746764": {
+    "by": "Scoundreller",
+    "id": 47746764,
+    "parent": 47745821,
+    "text": "me too, thinking of buying fruit juices and yeasts. These taxes are killing me.",
+    "time": 1776046440,
+    "type": "comment"
+  },
+  "47745137": {
+    "by": "jackdawed",
+    "id": 47745137,
+    "kids": [
+      47746740
+    ],
+    "parent": 47741701,
+    "text": "I went down this rabbit hole last year after buying a carbonator. Rather than mixing a bunch of oils together, I bought my flavors from Bakto Flavors (based in NJ, USA) which is founded by Dr. Daphna Havkin Frenkel who did her research in food sciences and biotechnology, focusing on vanilla. The cola flavor is really good, and I add acetic acid (Vitamin C) + electrolytes to it. If I&#x27;m feeling it, I&#x27;ll add in vanilla, cherry, or lime flavors to it.<p>Sad to hear she passed away recently this month.<p>Highly recommend Bakto&#x27;s natural flavors.",
+    "time": 1776032155,
+    "type": "comment"
+  },
+  "47746740": {
+    "by": "Scoundreller",
+    "id": 47746740,
+    "kids": [
+      47746975
+    ],
+    "parent": 47745137,
+    "text": "&gt; acetic acid (Vitamin C)<p><i>ascorbic</i> acid!",
+    "time": 1776046249,
+    "type": "comment"
+  },
+  "47746975": {
+    "by": "userbinator",
+    "id": 47746975,
+    "kids": [
+      47747449,
+      47749595
+    ],
+    "parent": 47746740,
+    "text": "Acetic acid is vinegar. Not something I&#x27;d like to taste in any soft drink.",
+    "time": 1776048283,
+    "type": "comment"
+  },
+  "47747449": {
+    "by": "riffraff",
+    "id": 47747449,
+    "kids": [
+      47747950
+    ],
+    "parent": 47746975,
+    "text": "I don&#x27;t like vinegar much either, but vinegar in drinks does have a certain tradition e.g.<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Posca\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Posca</a>",
+    "time": 1776052913,
+    "type": "comment"
+  },
+  "47747950": {
+    "by": "tdeck",
+    "id": 47747950,
+    "parent": 47747449,
+    "text": "Or more recently Switchel, which was popular in 19th century America.<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Switchel\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Switchel</a><p>I think the ready availability or citrus fruits caused their decline.",
+    "time": 1776058004,
+    "type": "comment"
+  },
+  "47749595": {
+    "by": "DonHopkins",
+    "id": 47749595,
+    "parent": 47746975,
+    "text": "I&#x27;m hoping Irn-Bru will come out with Fish-n-Chips Soda with a strong vinegar finish!<p>In the mean time, does anyone know the formula for traditional Irn-Bru? How do you get the girders to dissolve into the syrup?<p>RARE Irn-Bru Advertising Poster&#x2F;Calendar 1992 Demand Going to be Wee Bit Heavier<p><a href=\"https:&#x2F;&#x2F;www.ebay.co.uk&#x2F;itm&#x2F;374619031624\" rel=\"nofollow\">https:&#x2F;&#x2F;www.ebay.co.uk&#x2F;itm&#x2F;374619031624</a><p>Irn Bru - &quot;Made in Scotland from Girders&quot; - Drilled Hole<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=JoVfy_q9IFc\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=JoVfy_q9IFc</a><p>Irn Bru Advert - &quot;Made in Scotland from Girders&quot; - Steam Roller<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=SD3LippIN40\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=SD3LippIN40</a><p>Irn Bru Advert: Shipyard<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=dBjYfe-QIBg\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=dBjYfe-QIBg</a><p>IRN-BRU Snowman Advert<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=4yZOab5gl-4\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=4yZOab5gl-4</a><p>IRN-BRU Snowman - The Sequel<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=z8WBStu4STY\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=z8WBStu4STY</a><p>ROYALS: The Queen and Prince William visit the Irn-Bru factory | 5 News<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=QU-0n1m-2OE\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=QU-0n1m-2OE</a><p>At 1:08 they hold up a precious bottle of pure secret Irn-Bru Essence. How can I get me some of that?",
+    "time": 1776071593,
+    "type": "comment"
+  },
+  "47744074": {
+    "by": "oldgregg",
+    "id": 47744074,
+    "parent": 47741701,
+    "text": "Jumps through 100 hoops to make coke... doesn&#x27;t add cocaine?! :)<p>Add modifinil and peptides and you&#x27;ll have your latest soylent startup.",
+    "time": 1776025423,
+    "type": "comment"
+  },
+  "47743289": {
+    "by": "AdmiralAsshat",
+    "id": 47743289,
+    "kids": [
+      47743360
+    ],
+    "parent": 47741701,
+    "text": "Last time I tried this...it was alot easier to just buy the concentrate from Cube-Cola rather than trying to source all of the essential oils separately and shear them together.<p><a href=\"https:&#x2F;&#x2F;cube-cola.org&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;cube-cola.org&#x2F;</a><p>I think you&#x27;d end up paying less, too. I paid about 20 bucks for the concentrate bottle plus shipping, made 1.75L of it, thought it was <i>fine</i> but couldn&#x27;t quite replace Coke in my diet, and didn&#x27;t buy again. Had I done it all from scratch, I&#x27;m pretty sure I would&#x27;ve paid more and had a bunch of essential oil bottles leftover, going to waste.",
+    "time": 1776021275,
+    "type": "comment"
+  },
+  "47743360": {
+    "by": "toast0",
+    "id": 47743360,
+    "kids": [
+      47743420
+    ],
+    "parent": 47743289,
+    "text": "20 bucks for 1.75ml of cola seems like pretty bad value.",
+    "time": 1776021667,
+    "type": "comment"
+  },
+  "47743420": {
+    "by": "AdmiralAsshat",
+    "id": 47743420,
+    "kids": [
+      47743534,
+      47743536,
+      47743549,
+      47743543,
+      47745691
+    ],
+    "parent": 47743360,
+    "text": "To be clear, it made about 1.75L of <i>syrup</i>, not cola. I kept the cola syrup jug in a fridge for like a year, and when I wanted a glass of &quot;cola&quot; I&#x27;d add about an oz of the syrup concentrate to a glass of carbonated water (which I pre-carbonated with my DrinkMate), and stirred to combine.<p>I used like half the amount of sugar the cube-cola recipe recommended, because it seemed high. It wasn&#x27;t Coke sweet but it was still plenty sweet for a soft drink, to my palette.<p>EDIT: Originally said 1.75 ml, meant to say Liters.",
+    "time": 1776022020,
+    "type": "comment"
+  },
+  "47743534": {
+    "deleted": true,
+    "id": 47743534,
+    "parent": 47743420,
+    "time": 1776022545,
+    "type": "comment"
+  },
+  "47743536": {
+    "by": "gryfft",
+    "id": 47743536,
+    "parent": 47743420,
+    "text": "An oz is ~29.57 ml (mililiters), so I think perhaps you meant that you made 1.7 l (liters)?",
+    "time": 1776022547,
+    "type": "comment"
+  },
+  "47743549": {
+    "by": "IanCal",
+    "id": 47743549,
+    "kids": [
+      47743735
+    ],
+    "parent": 47743420,
+    "text": "Do you mean L? ml to me would be millilitres and one fluid ounce is ~30ml.",
+    "time": 1776022611,
+    "type": "comment"
+  },
+  "47743735": {
+    "by": "AdmiralAsshat",
+    "id": 47743735,
+    "parent": 47743549,
+    "text": "Yes, typo on my side. Thanks for catching!",
+    "time": 1776023619,
+    "type": "comment"
+  },
+  "47743543": {
+    "deleted": true,
+    "id": 47743543,
+    "parent": 47743420,
+    "time": 1776022578,
+    "type": "comment"
+  },
+  "47745691": {
+    "by": "bsder",
+    "id": 47745691,
+    "kids": [
+      47751208
+    ],
+    "parent": 47743420,
+    "text": "How is the cleanup with DrinkMate?  Washing everything was my primary problem with SodaStream.",
+    "time": 1776037249,
+    "type": "comment"
+  },
+  "47751208": {
+    "by": "AdmiralAsshat",
+    "id": 47751208,
+    "parent": 47745691,
+    "text": "Not hard? I mean you need a dedicated bottle brush, but the bottle itself is the only thing I recall having to clean. The DrinkMate advertises itself as being able to carbonate other things (juice, flat soda, etc.), but I never carbonate anything other than water in the bottle, then add my syrups only after decanting. It prevents the bottle from getting sticky.",
+    "time": 1776084417,
+    "type": "comment"
+  },
+  "47750495": {
+    "deleted": true,
+    "id": 47750495,
+    "parent": 47741701,
+    "time": 1776079417,
+    "type": "comment"
+  },
+  "47743037": {
+    "by": "s0rce",
+    "id": 47743037,
+    "kids": [
+      47748631
+    ],
+    "parent": 47741701,
+    "text": "I liked this video about recreating coke <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TDkH3EbWTYc&amp;t=176s\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TDkH3EbWTYc&amp;t=176s</a>",
+    "time": 1776019789,
+    "type": "comment"
+  },
+  "47748631": {
+    "by": "SideburnsOfDoom",
+    "id": 47748631,
+    "parent": 47743037,
+    "text": "Yes, this video (and HN commentary <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=46543509\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=46543509</a>\n ) are an amazing nerdy deep dive into a taste chemistry subject. And seems to have uncovered new information (to the general public that is, maybe not new to Cola co insiders)<p>You know it&#x27;s getting serious when they science it, using a mass spectrometer. And then keep at it for a year through many experiments that did not produce a result. That attitude of &quot;the experiment didn&#x27;t fail, it successfully eliminated one of the possibilities&quot; is very scientific.",
+    "time": 1776063672,
+    "type": "comment"
+  },
+  "47750817": {
+    "by": "hybirdss",
+    "id": 47750817,
+    "parent": 47741701,
+    "text": "the look on the cashier&#x27;s face when you ask for one bean is half the product",
+    "time": 1776081910,
+    "type": "comment"
+  },
+  "47744178": {
+    "by": "nulld3v",
+    "id": 47744178,
+    "kids": [
+      47745608,
+      47748906,
+      47744341,
+      47745838
+    ],
+    "parent": 47741701,
+    "text": "I&#x27;ve also been dabbling in this recently in an attempt to avoid buying SodaStream syrups (which are on the BDS boycott list).<p>Tips for working on sugar-free recipes: In some countries (like Canada), soft-drink manufacturers are required to disclose the exact amount of each artificial sweetener they use in the drink. So you can easily grab those numbers from Canadian product listings for use in your own recipes. E.g. 355ml of Diet Coke contains 131 mg aspartame + 15mg ace-K.<p>Also, aspartame can be difficult&#x2F;slow to dissolve. It dissolves better in solutions with a low pH and a warmer temperature.",
+    "time": 1776026106,
+    "type": "comment"
+  },
+  "47745608": {
+    "by": "eek2121",
+    "id": 47745608,
+    "kids": [
+      47746190,
+      47746049,
+      47749706
+    ],
+    "parent": 47744178,
+    "text": "I Googled the BDS Boycott list at a glance...the top link (<a href=\"https:&#x2F;&#x2F;bdsmovement.net&#x2F;Guide-to-BDS-Boycott\" rel=\"nofollow\">https:&#x2F;&#x2F;bdsmovement.net&#x2F;Guide-to-BDS-Boycott</a>) mentions a bunch of companies, including Sodastream. The immediate issue I see is that Sodastream is owned by PepsiCo, Inc. That immediately makes them complicit as well. PepsiCo was also facing a lawsuit regarding a partnership with Walmart for price fixing (<a href=\"https:&#x2F;&#x2F;www.usatoday.com&#x2F;story&#x2F;money&#x2F;2026&#x2F;01&#x2F;08&#x2F;walmart-pepsi-price-fixing-scheme-lawsuit&#x2F;88083796007&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.usatoday.com&#x2F;story&#x2F;money&#x2F;2026&#x2F;01&#x2F;08&#x2F;walmart-peps...</a>) until the Trump administration threw it out (<a href=\"https:&#x2F;&#x2F;apnews.com&#x2F;article&#x2F;ftc-pepsico-trump-walmart-2cd8b42c824b0400fb814e60b88f3284\" rel=\"nofollow\">https:&#x2F;&#x2F;apnews.com&#x2F;article&#x2F;ftc-pepsico-trump-walmart-2cd8b42...</a>).<p>I bring all this up to say that even if everyone boycotts sodastream, it won&#x27;t do diddly to the actual folks responsible. I bet the same goes for others on that list. Boycotts also don&#x27;t usually work in general. Most of the time it takes full on government intervention, lawsuits, etc. to change things.",
+    "time": 1776036745,
+    "type": "comment"
+  },
+  "47746190": {
+    "by": "nulld3v",
+    "id": 47746190,
+    "kids": [
+      47747267
+    ],
+    "parent": 47745608,
+    "text": "Boycotts definitely have their limitations, but the Sodastream boycott seems to have had some sort of effect: <a href=\"https:&#x2F;&#x2F;www.timesofisrael.com&#x2F;victory-for-bds-as-sodastreams-last-palestinian-workers-lose-their-jobs&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.timesofisrael.com&#x2F;victory-for-bds-as-sodastreams...</a>, though whether the intended effect was achieved is debatable...",
+    "time": 1776041212,
+    "type": "comment"
+  },
+  "47747267": {
+    "by": "fakedang",
+    "id": 47747267,
+    "parent": 47746190,
+    "text": "&quot;West Bank Industrial Zone&quot; lol.<p>Call it for what it really is (not you, Times Of Israel). A factory inside an illegal West Bank settlement.",
+    "time": 1776051208,
+    "type": "comment"
+  },
+  "47746049": {
+    "by": "undersuit",
+    "id": 47746049,
+    "parent": 47745608,
+    "text": "&gt;Most of the time it takes full on government intervention, lawsuits, etc. to change things.<p>That&#x27;s the S.",
+    "time": 1776039830,
+    "type": "comment"
+  },
+  "47749706": {
+    "by": "LightBug1",
+    "id": 47749706,
+    "parent": 47745608,
+    "text": "We do what we can, where we can, when we can.<p>Personally, I find it&#x27;s less about the act (although financially depriving companies of my cash does make me feel good), it&#x27;s about the conversation the act starts.<p>And I&#x27;ve seen it work, or help. Some among us will remember the boycott of South African goods during Apartheid.",
+    "time": 1776072661,
+    "type": "comment"
+  },
+  "47748906": {
+    "by": "whackernews",
+    "id": 47748906,
+    "kids": [
+      47749672
+    ],
+    "parent": 47744178,
+    "text": "People are always so laser focussed on the latest trendy thing, but why not just boycott all huge corporations&#x2F;organisations? It\u2019s a much simpler rule that achieves the same thing and you have the added benefit of boycotting companies that haven\u2019t had their corruption uncovered\u2026 yet!",
+    "time": 1776065607,
+    "type": "comment"
+  },
+  "47749672": {
+    "by": "LightBug1",
+    "id": 47749672,
+    "parent": 47748906,
+    "text": "I find it more effective to say, I&#x27;m avoiding product X for Y reason.<p>This starts a conversation more effectively with contacts rather than go full large company avoidance which is difficult for people to imagine, let alone act on.<p>I sympathise with what you&#x27;re saying though.",
+    "time": 1776072388,
+    "type": "comment"
+  },
+  "47744341": {
+    "by": "LightBug1",
+    "id": 47744341,
+    "parent": 47744178,
+    "text": "Well done for the BDS attempt ... had to get my Mum to return her Sodastream as she had no idea.<p>But I have to say, this whole thing is enough to turn me off  soft drinks altogether.<p>Maybe that&#x27;s the point?<p>Those bags full of crystals look like something out of Breaking Bad, lol, but \nI appreciate getting rid of the sugar and caffeine.<p>Some sparkling water and some cordials or dilutes has to be ~ better!<p>Thanks for the reminder to switch!",
+    "time": 1776027168,
+    "type": "comment"
+  },
+  "47745838": {
+    "by": "integralid",
+    "id": 47745838,
+    "kids": [
+      47746282,
+      47748835
+    ],
+    "parent": 47744178,
+    "text": "&gt;BDS boycott list<p>Looks like a great initiative. Anyone knows about a similar list, but for companies that support Russia and occupation of Ukraine?",
+    "time": 1776038062,
+    "type": "comment"
+  },
+  "47746282": {
+    "by": "culi",
+    "id": 47746282,
+    "parent": 47745838,
+    "text": "BDS has been around since 2005 and organizing on a global scale.<p>Russia is under heavy sanctions so I doubt there&#x27;s much more regular consumers can do to boycott if they live in countries compliant with those sanctions.<p>But there&#x27;s an app that&#x27;s (unfortunately) named BoyCat that currently mainly works for BDS. You scan a product and it tells you if it&#x27;s directly or indirectly tied to a product on the BDS list. I heard they are trying to expand functionality to allow anyone to make and organize around a list<p><a href=\"https:&#x2F;&#x2F;www.boycat.io&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.boycat.io&#x2F;</a><p>TBH this is an idea I&#x27;ve personally wanted to work on for a long time. I think the boycott is an underrated tool for social change and tools that can make it easier to organize around them can be a really powerful force for good",
+    "time": 1776042084,
+    "type": "comment"
+  },
+  "47748835": {
+    "by": "whackernews",
+    "id": 47748835,
+    "parent": 47745838,
+    "text": "There\u2019s a really simple way that will protect you from any current or future corruptions&#x2F;profit before people behaviour: don\u2019t buy anything from any large corporations.<p>If you do this you also benefit from giving your money to real people and not contributing to huge amounts of waste and pollution.",
+    "time": 1776065093,
+    "type": "comment"
+  },
+  "47748149": {
+    "by": "tiveriny",
+    "id": 47748149,
+    "parent": 47741701,
+    "text": "This is surprisingly close to how commercial soda flavor bases are described in old patents \u2014 especially the oil + gum arabic emulsion part.<p>What I find really interesting is how little actual oil is needed for such a large volume. Makes you realize how much of \u201ccola taste\u201d is just perception tricks rather than bulk ingredients.<p>Have you tried measuring how stable the emulsion is over time? I\u2019d be curious how long it stays homogeneous without separation.",
+    "time": 1776060025,
+    "type": "comment"
+  },
+  "47742736": {
+    "by": "malfist",
+    "id": 47742736,
+    "parent": 47741701,
+    "text": "There&#x27;s a great book about this if you&#x27;re interested. Half history lesson half recipes. Check out: Fix the Pumps (which the book tells you is old soda fountain slag for check out a woman&#x27;s breasts)",
+    "time": 1776018331,
+    "type": "comment"
+  },
+  "47746300": {
+    "by": "koolba",
+    "id": 47746300,
+    "kids": [
+      47747678,
+      47748078
+    ],
+    "parent": 47741701,
+    "text": "&gt; Made a second batch of cola syrup without caramel color. It\u2019s much weirder to drink than I expected.<p>Indeed the 90s were an interesting time: <a href=\"https:&#x2F;&#x2F;youtu.be&#x2F;2za2IK8FQoM\" rel=\"nofollow\">https:&#x2F;&#x2F;youtu.be&#x2F;2za2IK8FQoM</a>",
+    "time": 1776042264,
+    "type": "comment"
+  },
+  "47747678": {
+    "by": "acomjean",
+    "id": 47747678,
+    "parent": 47746300,
+    "text": "I thought of those.  I remember drinking some.  It tastes like cola but somehow different.<p>But then again I liked new coke.  And that wierd \u201cok soda\u201d that doesn\u2019t exist anymore.<p><a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;OK_Soda\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;OK_Soda</a>",
+    "time": 1776055266,
+    "type": "comment"
+  },
+  "47748078": {
+    "by": "rconti",
+    "id": 47748078,
+    "parent": 47746300,
+    "text": "I wonder if we&#x27;d have the same reaction if cola had never been darkened. We wouldn&#x27;t, right?",
+    "time": 1776059221,
+    "type": "comment"
+  },
+  "47748271": {
+    "by": "henrikn",
+    "id": 47748271,
+    "parent": 47741701,
+    "text": "Recipe and accompanying video here: <a href=\"https:&#x2F;&#x2F;www.tastinghistory.com&#x2F;recipes&#x2F;switchel\" rel=\"nofollow\">https:&#x2F;&#x2F;www.tastinghistory.com&#x2F;recipes&#x2F;switchel</a><p>Tried making it. Certainly interesting! But not something I\u2019ll make again.",
+    "time": 1776061093,
+    "type": "comment"
+  },
+  "47745364": {
+    "by": "delgaudm",
+    "id": 47745364,
+    "kids": [
+      47746290,
+      47746092,
+      47748085
+    ],
+    "parent": 47741701,
+    "text": "This is really interesting. I have been making my own &quot;instant cola&quot; with several large dashes of angostura bitters and a can of seltzer in a pint glass. The liquid should be very pink&#x2F;orange. and, if I want sweetness a drop of liquid sucralose sweetner is all I need, just sweet enough for me without aftertaste. This mix scratches my cola itch very well and can be made in about 20 seconds.",
+    "time": 1776034309,
+    "type": "comment"
+  },
+  "47746290": {
+    "by": "mauvehaus",
+    "id": 47746290,
+    "parent": 47745364,
+    "text": "Fun fact: Angostura bitters has gentian root extract in it, which is also in the northeastern US&#x27;s favorite regional soda specialty: Moxie! If you like that, you&#x27;ll probably also like Moxie.<p>It&#x27;s also a great way to taste bitters, generally, and a pretty decent substitute for a drink if you&#x27;re trying to cut back.",
+    "time": 1776042150,
+    "type": "comment"
+  },
+  "47746092": {
+    "by": "kasey_junk",
+    "id": 47746092,
+    "parent": 47745364,
+    "text": "Try walnut or cherry bitters sometimes for a similar but different enough to be interesting flavor.",
+    "time": 1776040198,
+    "type": "comment"
+  },
+  "47748085": {
+    "by": "rconti",
+    "id": 47748085,
+    "parent": 47745364,
+    "text": "wait, are those the only ingredients?",
+    "time": 1776059354,
+    "type": "comment"
+  },
+  "47749774": {
+    "by": "brikym",
+    "id": 47749774,
+    "kids": [
+      47750912
+    ],
+    "parent": 47741701,
+    "text": "I knew before clicking it would be a German.",
+    "time": 1776073275,
+    "type": "comment"
+  },
+  "47750912": {
+    "by": "Fnoord",
+    "id": 47750912,
+    "parent": 47749774,
+    "text": "But did you know the fingernails were clipped perfectly? What a delight to see in these photos.",
+    "time": 1776082579,
+    "type": "comment"
+  },
+  "47743646": {
+    "deleted": true,
+    "id": 47743646,
+    "parent": 47741701,
+    "time": 1776023152,
+    "type": "comment"
+  },
+  "47744496": {
+    "by": "DonHopkins",
+    "id": 47744496,
+    "kids": [
+      47747020,
+      47745707
+    ],
+    "parent": 47741701,
+    "text": "It&#x27;s almost impossible to get root beer syrup or extract in the Netherlands, but I found the solution (ha ha) in Darcy O&#x27;Neil&#x27;s &quot;Art of Drink&quot; videos. He wrote a book about soda fountain history, &quot;Fix the Pumps: The History of the American Soda Fountain&quot; (which malfist recommended in the sibling comment), and he gets into the science and history and culture behind drink flavoring.<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;@Artofdrink\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;@Artofdrink</a><p>First of all you need to make quality carbonated water (de-aerate water by boiling it, carbonate it when ice cold, use heavy cold glasses, don&#x27;t use ice):<p>Carbonating Water: The 2 Most Important Things To Do<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=jBNJ7yzIvtw\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=jBNJ7yzIvtw</a><p>Here&#x27;s his root beer forumula:<p>How to Make Root Beer<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=vIUMFkDV4FE\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=vIUMFkDV4FE</a><p>&gt;Making root beer is really quite simple and anyone can do it in about 20 minutes. The core flavour is wintergreen oil and then there are additional complementary flavours that give the root beer its character.<p>He has several videos about formulating cola and many other flavors too:<p>How Coca-Cola Gets Its Iconic Taste<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=Yi8o06qv7m8\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=Yi8o06qv7m8</a><p>The Origin of the Coca Cola Flavour<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=Q-1tGNobqi0\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=Q-1tGNobqi0</a><p>How to Make Cola, like Coca-Cola or Pepsi<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=o2yLvseG5UM\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=o2yLvseG5UM</a><p>What Coke and Pepsi Don\u2019t Tell You About Caramel<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=D7CFZAw3dkA\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=D7CFZAw3dkA</a><p>And if you want old school Coke flavor, here&#x27;s one on how to simulate the smell of cocaine:<p>Coca leaf and Cocaine Aroma Used in Coca-Cola<p><a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=OMcaYtOIbes\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=OMcaYtOIbes</a><p>&gt;Cocaine, or at least the aroma compounds in coca-leaf is an important flavour component of Coca-Cola today and possibly other colas, historically. So the question you might ask is &quot;what does cocaine smell like?&quot; And here is the answer. If you&#x27;ve ever thought about making your own version of Coca-Cola and thought something was missing, this might be that piece to the puzzle.<p>You use the same stuff they train drug sniffing dogs with (methyl benzoate and methyl cinnamate). Also there&#x27;s another ingredient, truxilic acid, that&#x27;s extremely hard to get, and is much more expensive ($300&#x2F;gram) than real cocaine.",
+    "time": 1776028012,
+    "type": "comment"
+  },
+  "47747020": {
+    "by": "dlcarrier",
+    "id": 47747020,
+    "parent": 47744496,
+    "text": "I often carbonate my tap water and drink it straight, and have never thought the taste was any different from commercial seltzers.  Then again, my tap water is just as good as or better than commercial bottled water, likely because it is mostly from mountain spring and snow melt, that travels down rocky high-flow streams.<p>There&#x27;s a Nile Red video where Nigel carbonated water with carbon from diamonds, and when he tasted it, he complained that it tasted like his local tap water, which wasn&#x27;t very good.<p>What&#x27;s the water like in the Netherlands?",
+    "time": 1776048818,
+    "type": "comment"
+  },
+  "47745707": {
+    "by": "xp84",
+    "id": 47745707,
+    "parent": 47744496,
+    "text": "The bit about dogs just gives me nightmares. I picture a few puffs of the dust from that dispersing in my kitchen during that experiment, and then every item then in the vicinity becoming a beacon for drug dogs for the rest of my life :D",
+    "time": 1776037318,
+    "type": "comment"
+  },
+  "47745442": {
+    "by": "ChuckMcM",
+    "id": 47745442,
+    "kids": [
+      47746504
+    ],
+    "parent": 47741701,
+    "text": "If I could figure out diet dr. pepper this could be life changing :-)",
+    "time": 1776035052,
+    "type": "comment"
+  },
+  "47746504": {
+    "by": "viccis",
+    "id": 47746504,
+    "parent": 47745442,
+    "text": "Same but for Diet Coke. Would make ridiculous amounts of it",
+    "time": 1776043868,
+    "type": "comment"
+  },
+  "47746528": {
+    "by": "the__alchemist",
+    "id": 47746528,
+    "kids": [
+      47746805,
+      47746697
+    ],
+    "parent": 47741701,
+    "text": "It is wild seeing someone <i>drink</i> something labeled with the irritant, health hazard, and environmental hazard warnings. It also begs the question of disposal regarding the environmental hazard one. I know it&#x27;s safe due to the doses, but made me pause in horror briefly. (Reality check: Many drugs have the health hazard, or even the skull-and-crossbones. But anecdotally, many of the health-hazard-marked substances I&#x27;ve come across are carcinogenic&#x2F;reproductive harm)",
+    "time": 1776044100,
+    "type": "comment"
+  },
+  "47746805": {
+    "by": "dlcarrier",
+    "id": 47746805,
+    "parent": 47746528,
+    "text": "If those kinds of warnings were required on naturally occurring products, pretty much everything in your pantry would need them.<p>A 28-oz cylinder of table salt, that can be easily had for $1 at a grocery store, could kill eight healthy adult men, if they each consumed a third of a cup in one sitting.<p>A five-gallon carafe of water used in most water coolers holds enough water to kill two adult men, if they drank it as fast as they could.<p>There&#x27;s a bunch of foods that are poisonous if prepared wrong.  I can&#x27;t find the lethal dose, but a bag of raw kidney beans could kill multiple people.  A cassava&#x2F;tapioca root can kill you too.  Eating a bottle nutmeg probably won&#x27;t kill you, but it might make you wish it did.<p>Of course, it would be difficult to consume enough of any of these things to hurt yourself, (except for the beans) because we&#x27;re able to sense when we are consuming dangerous quantities or types of foods, but it&#x27;s not flawless, hence the need for tradition to pass down how to cook, or warning labels for foods that aren&#x27;t prepared in traditional ways.",
+    "time": 1776046704,
+    "type": "comment"
+  },
+  "47746697": {
+    "by": "mattkrause",
+    "id": 47746697,
+    "parent": 47746528,
+    "text": "The dose (often) makes the poison.<p>Citrus fruit itself is generally regarded as fine to eat. Concentrating the oils can make them irritating (and flammable, etc) but that\u2019s essentially undone by diluting them into a syrup and then diluting the syrup into an actual drink.",
+    "time": 1776045868,
+    "type": "comment"
+  },
+  "47745121": {
+    "by": "miguel_martin",
+    "id": 47745121,
+    "kids": [
+      47747365
+    ],
+    "parent": 47741701,
+    "text": "I highly recommend art of drink: <a href=\"https:&#x2F;&#x2F;www.artofdrink.com&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.artofdrink.com&#x2F;</a>",
+    "time": 1776032030,
+    "type": "comment"
+  },
+  "47747365": {
+    "by": "calmbonsai",
+    "id": 47747365,
+    "parent": 47745121,
+    "text": "Yes!  Also his book &quot;Fix the Pumps&quot; <a href=\"https:&#x2F;&#x2F;a.co&#x2F;d&#x2F;0intXOn1\" rel=\"nofollow\">https:&#x2F;&#x2F;a.co&#x2F;d&#x2F;0intXOn1</a> which has a bizarre title and cover art, but is right up there with &quot;Liquid Intelligence&quot; for traditional sodas.",
+    "time": 1776052171,
+    "type": "comment"
+  },
+  "47745883": {
+    "by": "analog31",
+    "id": 47745883,
+    "kids": [
+      47746866
+    ],
+    "parent": 47741701,
+    "text": "One thing I noticed was: Where&#x27;s the phosphoric acid? Does the use of gum arabic eliminate the need?",
+    "time": 1776038364,
+    "type": "comment"
+  },
+  "47746866": {
+    "by": "dlcarrier",
+    "id": 47746866,
+    "parent": 47745883,
+    "text": "The recipe is using citric acid, instead.  The tastes are slightly different, but citric acid is easier to get.",
+    "time": 1776047222,
+    "type": "comment"
+  },
+  "47746241": {
+    "by": "culi",
+    "id": 47746241,
+    "parent": 47741701,
+    "text": "So at some point I went on a loose leaf herbal tea buying spree and bought (and almost immediately forgot about) something called &quot;catuaba&quot;. I tried making it into a tea and it was... an acquired taste. In my efforts to make the product more digestible I mixed it with some sparkling water.<p>The result tasted shockingly similar to coca cola.<p>So I did some research and it turns out that what&#x27;s labelled as &quot;catuaba bark&quot; actually refer to a couple different unrelated herbs. But ONE of the sources of &quot;catuaba bark&quot; is Erythroxylum vaccinifolium. Erythroxylum is the coca genus. I have no idea if this specific species contains cocaine but what I CAN confirm is that there are sellers within the US that grow and sell this &quot;herb&quot;. Which means you don&#x27;t have to worry about customs intercepting your order at the border.",
+    "time": 1776041627,
+    "type": "comment"
+  },
+  "47745044": {
+    "by": "amarant",
+    "id": 47745044,
+    "parent": 47741701,
+    "text": "Somewhat surprised to learn that cola recipes don&#x27;t actually contain any kola-nut!",
+    "time": 1776031360,
+    "type": "comment"
+  },
+  "47743086": {
+    "by": "aitchnyu",
+    "id": 47743086,
+    "kids": [
+      47751080,
+      47743125,
+      47743162
+    ],
+    "parent": 47741701,
+    "text": "Disappointed there is no carbon dioxide injection. In the 90s till date in this corner of India, Mr Butler is a compact pure mechanical device which can make nose tickling strong sodas. If I were a soda fan, I would have DIYed and rejected the flat mop water that most commercial sodas have become.",
+    "time": 1776020059,
+    "type": "comment"
+  },
+  "47751080": {
+    "by": "Fnoord",
+    "id": 47751080,
+    "parent": 47743086,
+    "text": "Right? In the summer, there&#x27;s two things I drink. Cold water overnight infused with whatever (lemon, cucumber, mint, etc) and carbonated water from the store. Both are cheap to make and pleasant when it is hot. Neither has added sugar. You can also infuse with fruits like strawberries. In the other parts of the year (esp. winter) I make a can of tea (nearly 1,5l) with two teabags. One cup of tea is about 0,2l so it will last the whole day, and it stays hot for 24h. Make in morning and you got whole day together (we are two drinking this). Sometimes goes to waste cause of being away, too hot weather. There&#x27;s a lot of good fusion brands available (I like Yogi Tea&#x27;s blends a lot), you can also make your own herbal mix. Just be careful with some herbs and medication.<p>The carbonated water and lemon in water make for an acidic liquid. This is nice when it is hot, but it is also bad for teeth. So I do try to limit these somewhat, never drink it right before brushing, brush 2x a week, and floss with those special toothpicks. I also drink the acidic stuff with the main meal in evening when the teeth already get a blast from the meal, regularly at least.<p>As a former wine drinker (who can also appreciate special beers and heavy liquor) I was not able to stick to one beer on friday evening, and I recognized the struggle to battle an addiction, being an alcoholic in disguise. I&#x27;ve been sober past years, approx 4, apart from an occasional mistake due to alcohol in a desert or an intentional tiramisu during Christmas.<p>I also still drink coffee, but with caffeine not so much. Mainly in morning&#x2F;afternoon. As a kid I was a fan of cola, the coca cola one (for some reason never liked other ones like Aldi&#x27;s or Pepsi much; there&#x27;s a lot of choice these days). Club Mate is a bit hard to source and the pfand is annoying (justified, but...) to send back from NL. But I been able to quit that in puberty. So, while I like cheap&#x2F;bulk, I am not sure what I could gain from DIY soda (the carbonated water is cheap and we get the groceries at the doorstep, also useful since we don&#x27;t have a car).",
+    "time": 1776083683,
+    "type": "comment"
+  },
+  "47743125": {
+    "by": "_Microft",
+    "id": 47743125,
+    "parent": 47743086,
+    "text": "A easy solution might be to mix the concentrate with sparkling&#x2F;carbonated water?",
+    "time": 1776020226,
+    "type": "comment"
+  },
+  "47743162": {
+    "by": "atombender",
+    "id": 47743162,
+    "kids": [
+      47743586
+    ],
+    "parent": 47743086,
+    "text": "I made Open Cola once, and hooked it up to CO2 canisters and a beer tap (the other tap had home made beer). It&#x27;s certainly better than mixing with soda water or using a SodaStream.",
+    "time": 1776020556,
+    "type": "comment"
+  },
+  "47743586": {
+    "by": "quobnk",
+    "id": 47743586,
+    "kids": [
+      47743837
+    ],
+    "parent": 47743162,
+    "text": "The trick to have well carbonated beverages if all you have available is a sodastream-like device:<p>- cook the water to remove any other disolved gasses<p>- Cool it down to as cold as you can. A sludge of ice and water is  very close to zero \u00b0C<p>- keep some ice unmelted<p>- carbonate<p>This is a bit annoying to do especially step one (I skip it, it seems to help bit not to a huge degree) but it helps making very carbonated water to mix with the sirup",
+    "time": 1776022810,
+    "type": "comment"
+  },
+  "47743837": {
+    "by": "atombender",
+    "id": 47743837,
+    "parent": 47743586,
+    "text": "Nice, I will have to try that!",
+    "time": 1776024176,
+    "type": "comment"
+  },
+  "47745078": {
+    "by": "znpy",
+    "id": 47745078,
+    "parent": 47741701,
+    "text": "Reminds me a lot of this video where the authors claim to have essentially replicated the true coca-cola flavor: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TDkH3EbWTYc\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=TDkH3EbWTYc</a>",
+    "time": 1776031648,
+    "type": "comment"
+  },
+  "47744485": {
+    "by": "SamDc73",
+    "id": 47744485,
+    "kids": [
+      47745982
+    ],
+    "parent": 47741701,
+    "text": "I switched to zero sugar about a year ago, but all the zero sugar sodas use aspartame (yeah yeah not proven to cause cancer, but still not a great sweetener)<p>for now (out of laziness), I just grab plain sparkling water and add Stur drops<p>Also didn\u2019t expect to be pulling recipes off GitHub, but I\u2019ll take that any day over those paywalled sites<p>Definitely want to give this a try!",
+    "time": 1776027950,
+    "type": "comment"
+  },
+  "47745982": {
+    "by": "rootusrootus",
+    "id": 47745982,
+    "kids": [
+      47751203,
+      47747026
+    ],
+    "parent": 47744485,
+    "text": "&gt; aspartame (yeah yeah not proven to cause cancer, but still not a great sweetener)<p>Compared to what?  Aspartame is almost certainly the most studied artificial sweetener in existence, and the safety profile looks very good.",
+    "time": 1776039226,
+    "type": "comment"
+  },
+  "47751203": {
+    "by": "amelius",
+    "id": 47751203,
+    "parent": 47745982,
+    "text": "Yes, I wish aspartame was used more.<p>I hate those stupid sugar alcohols, and stevia as well. Yuck.",
+    "time": 1776084398,
+    "type": "comment"
+  },
+  "47747026": {
+    "by": "dlcarrier",
+    "id": 47747026,
+    "parent": 47745982,
+    "text": "I presume the comment was referring to the lack of greatness in the flavor.  Sucralose tastes much better, for one.",
+    "time": 1776048948,
+    "type": "comment"
+  },
+  "47744476": {
+    "by": "varispeed",
+    "id": 47744476,
+    "parent": 47741701,
+    "text": "I thought this would be for people who cannot drink commercially available drinks due to mandated addition of sweeteners.<p>I stopped consuming these, any that I tried was leaving awful chemical aftertaste that I just cannot get used to.<p>So instead I was DIY drinks by mixing concentrated fruit juice (with no added sweeteners) with sparkling water.<p>Also be careful if drink says &quot;natural flavourings&quot; - it&#x27;s a loophole to add sweetener that is not classified as sweetener, so they don&#x27;t have to put it on the label, but still tastes awful.",
+    "time": 1776027912,
+    "type": "comment"
+  },
+  "47744772": {
+    "by": "frugalmail",
+    "id": 47744772,
+    "parent": 47741701,
+    "text": "I was completely expecting a self-carbonation solution. It&#x27;s not disappointing, just got a different cool thing :)",
+    "time": 1776029643,
+    "type": "comment"
+  },
+  "47749899": {
+    "by": "sprydrax0",
+    "dead": true,
+    "id": 47749899,
+    "parent": 47741701,
+    "text": "[dead]",
+    "time": 1776074348,
+    "type": "comment"
+  }
+}

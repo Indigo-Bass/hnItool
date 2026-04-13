@@ -73,8 +73,8 @@ if __name__ == "__main__":
     try:
         assistant = HNResearchAssistant(DATA_FILE, DIGEST_FILE, history_limit=4)
         print("\n" + "="*50)
-        print("🤖 HN Thread Intelligence Active.")
-        print("Topic: {query}")
+        print("HN Thread Intelligence Active.")
+        print(f"Topic: {query}")
         print("Type 'exit' or 'quit' to end the session.")
         print("="*50 + "\n")
         while True:
