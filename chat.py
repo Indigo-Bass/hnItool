@@ -2,6 +2,7 @@ from google import genai
 from google.genai import types
 import json
 import os
+import sys
 
 class HNResearchAssistant:
     def __init__(self, data_path, digest_path, history_limit=5):
@@ -51,11 +52,7 @@ class HNResearchAssistant:
             return "Digest not found."
 
     def ask(self, user_message):
-        """
-        Sends a message to the model while enforcing the sliding window context.
-        """
         max_messages = self.history_limit * 2
-        
         history = self.chat_session.get_history()
         if len(history) > max_messages:
             new_history = history[-max_messages:]
@@ -69,6 +66,7 @@ class HNResearchAssistant:
         return response.text
 
 if __name__ == "__main__":
+    query = sys.argv[1] if len(sys.argv) > 1 else "SQLite in production"
     DATA_FILE = 'data/structured_chunks.json'
     DIGEST_FILE = 'data/final_digest.md'
     print("Booting up HN Research Assistant...")
@@ -76,7 +74,7 @@ if __name__ == "__main__":
         assistant = HNResearchAssistant(DATA_FILE, DIGEST_FILE, history_limit=4)
         print("\n" + "="*50)
         print("🤖 HN Thread Intelligence Active.")
-        print("Topic: SQLite in production")
+        print("Topic: {query}")
         print("Type 'exit' or 'quit' to end the session.")
         print("="*50 + "\n")
         while True:

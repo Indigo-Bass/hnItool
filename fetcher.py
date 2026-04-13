@@ -1,7 +1,7 @@
 import requests
 import json
 import os
-
+import sys
 def search(query, num=5):
     print(f"Searching for top {num} stories about: '{query}':")
     url = f"https://hn.algolia.com/api/v1/search?query={query}&tags=story&hitsPerPage={num}"
@@ -24,7 +24,7 @@ def fetch(item_id, storage_dict):
         fetch(kid_id, storage_dict)
 
 if __name__ == "__main__":
-    target_query = "SQLite in production"
+    target_query = sys.argv[1] if len(sys.argv) > 1 else "SQLite in production"
     rawdata = {}
     top_stories = search(target_query, num=5)
     for story in top_stories:
