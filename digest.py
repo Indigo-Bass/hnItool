@@ -1,4 +1,5 @@
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import json
 import os
 from pydantic import BaseModel, Field
@@ -70,7 +71,8 @@ def generate_hn_digest(dataset):
     if not api_key:
         raise ValueError("GEMINI_API_KEY environment variable not set.")
     
-    genai.configure(api_key=api_key)
+    # Initialize the new SDK client
+    client = genai.Client(api_key=api_key)
 
     context_string = "\n\n=== NEXT THREAD CHUNK ===\n\n".join(
         [chunk['thread_context'] for chunk in dataset]
@@ -88,19 +90,20 @@ def generate_hn_digest(dataset):
 
     print("Initializing Gemini model and sending data (this may take a few seconds)...")
     
-    # We pass 'response_schema=HNDigest' and set the mime type to JSON.
-    model = genai.GenerativeModel(
-        model_name='gemini-2.5-flash',
+    # Configure the generation using the new types format
+    config = types.GenerateContentConfig(
         system_instruction=system_instruction,
-        generation_config=genai.types.GenerationConfig(
-            temperature=0.1,
-            response_mime_type="application/json",
-            response_schema=HNDigest, 
-        )
+        temperature=0.1,
+        response_mime_type="application/json",
+        response_schema=HNDigest, 
     )
 
-    # Gemini will now return a JSON string that perfectly matches our Pydantic model
-    response = model.generate_content(prompt)
+    # Call the model via the client
+    response = client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=prompt,
+        config=config
+    )
     
     # Parse the string into a Python dictionary
     digest_json = json.loads(response.text)

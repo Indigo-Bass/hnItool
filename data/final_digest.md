@@ -1,36 +1,37 @@
 ## Executive Summary
-SQLite is a robust and performant database suitable for production, particularly for single-server, low-to-moderate concurrency workloads. Optimal performance is achieved through explicit transactions for batching inserts and diligent reuse of connection instances. While its documentation is highly regarded, its flexible dynamic typing can introduce data integrity challenges if not mitigated, for example, by employing `STRICT` tables. Concurrency management, especially with WAL mode, demands meticulous architectural planning in containerized environments like blue-green deployments, where concurrent access to the same database file by multiple processes can lead to corruption without proper synchronization or sequential instance management. Data integrity during backups mandates the use of the `.backup` command, not `cp`, particularly when WAL is enabled.
+SQLite is a robust, performant embedded database, particularly effective for "one-human scaled" applications and scenarios with high read-to-write ratios or controlled write concurrency. Its performance is significantly enhanced by explicit transactions for batch operations, which amortize flushing overhead. Key considerations for production deployment include careful connection management (reusing connections), understanding its library-like nature (not a server), and mitigating concurrency risks, especially during blue-green deployments where multiple instances might concurrently access the same database file. Data integrity is paramount, necessitating proper backup procedures (using ".backup" or "sqlite3_rsync") and careful handling of WAL mode's shared memory requirements across containerized environments or network filesystems. The dynamic typing can be a source of bugs, though "STRICT" tables offer a solution.
 
 ## Main Technical Arguments
-* **Transaction Performance**: A core argument for SQLite's production viability is the substantial performance improvement achieved by using explicit transactions for batch inserts, which amortizes the 'flushing' overhead. This principle is also observed in other RDBMS like Postgres and MSSQL.
-* **Connection Management**: Reusing SQLite connection instances is critical to avoid the overhead associated with repeatedly opening database files. This contrasts with typical RDBMS connection pooling but serves the same goal of minimizing connection setup costs.
-* **Concurrency Model**: SQLite manages concurrency through file-level locking. While adequate for low-to-moderate write loads, higher concurrency necessitates application-level retry logic or the `BEGIN IMMEDIATE` keyword to handle 'database is locked' errors. The debate centers on whether the application or an implicit 'server' should manage this, with SQLite's library nature placing the responsibility on the application.
-* **Data Type System**: SQLite's flexible (dynamic) typing is a point of contention. While some appreciate its simplicity (five core datatypes), others view it as a potential source of data integrity issues. The introduction of `STRICT` tables in newer versions addresses this by enforcing type constraints.
-* **Deployment and Scaling (Single-File Nature)**: Discussions highlight leveraging SQLite's single-file nature for 'one-human scaled' production. Strategies like Fly.io's use of Litestream or ZFS replication for snapshotting and failover are emphasized, focusing on making a single shard fast and highly replicable rather than distributed write scaling.
-* **WAL Mode and Containerization**: A significant technical debate revolves around WAL mode's behavior in containerized, blue-green deployment scenarios. While initial concerns about WAL's shared memory mechanism not crossing container boundaries were disproven for Docker on a shared filesystem, the risk of data corruption from concurrent writes during switchovers persists. This underscores the need for careful deployment strategies (e.g., pausing requests, sequential shutdown/startup of SQLite instances) and adherence to SQLite's filesystem requirements.
-* **Backup Strategy**: A critical technical point for data safety is the absolute necessity of using the `.backup` command (or `sqlite3_rsync`) for live backups, as direct file copying (`cp`) can lead to corruption, especially when WAL mode is active.
+* SQLite exhibits massive performance gains for write operations when batching inserts/updates within explicit transactions, as each transaction incurs a "flushing" cost. This applies even in WAL mode.
+* Unlike traditional RDBMSs that use connection pools, SQLite benefits from re-using a single connection instance per application process to avoid repeated file opening overhead and leverage internal locking mechanisms.
+* SQLite is a library, not a server. It handles locking internally, but concurrent *write* access from multiple processes/containers to the same database file can lead to "database is locked" errors or data corruption, especially during rapid blue-green deployments. Manual retry logic or "BEGIN IMMEDIATE" transactions may be required.
+* Write-Ahead Logging (WAL) mode improves concurrency for readers and writers. It relies on mmap() to a shared file (-shm) in the same directory as the database. While this generally works across Docker containers on the same host/filesystem, issues can arise with non-local or improperly configured network filesystems (e.g., NFS without sync mode) or if containers have different root directories.
+* SQLite has a flexible, dynamic type system with only five core storage classes. While this can be a "breath of fresh air," it allows storing any data type in any column, potentially leading to data integrity issues if not managed by application code or by using "STRICT" tables introduced in newer versions.
+* For single-server or "one-human scaled" applications, SQLite can achieve high availability and data durability through frequent snapshots and replication (e.g., using Litestream or ZFS replication), allowing for rapid failover by promoting a replica to primary.
+* Direct file copying (cp) of a live SQLite database, especially one in WAL mode, is prone to data loss or corruption. The recommended approach is to use the ".backup" command or "sqlite3_rsync" utility, which ensure transactional consistency.
 
 ## Pros of Using this Tech in Production
-* Achieves massive performance gains for inserts when using explicit transactions for batching operations.
-* Offers simplicity in deployment and management due to its single-file nature.
-* Features robust and comprehensive documentation.
-* Highly efficient for single-server, 'one-human scaled' production environments.
-* Supports snapshotting and replication mechanisms (e.g., via Litestream or ZFS replication) for failover capabilities.
-* Provides low overhead for requests, functioning as a library rather than a separate database server.
-* Newer versions include `STRICT` tables to enforce type constraints, addressing dynamic typing concerns.
-* `sqlite3_rsync` facilitates live, differential backups of the database.
+* Significant write performance improvements when batching operations within explicit transactions.
+* Simplicity and ease of embedding as a library within an application.
+* Comprehensive and generally high-quality documentation.
+* Low operational overhead, as it doesn't require a separate database server process.
+* Suitable for "one-human scaled production" with controlled concurrency, offering high uptime and resilience through replication strategies like Litestream or ZFS.
+* Supports atomic DDL commits, enabling entire application updates as a single database transaction in "App in Database" architectures.
+* Snapshot-safe, facilitating consistent backups and replication.
 
 ## Cons and Risks
-* Creating a new connection per logical unit of work is inefficient due to the overhead of opening a file on disk each time.
-* Dynamic typing can lead to data integrity issues if not strictly managed by application code or by using `STRICT` tables in newer SQLite versions.
-* High concurrency with frequent writes can result in 'database is locked' errors, necessitating application-level retry logic or the use of `BEGIN IMMEDIATE`.
-* Blue-green deployment strategies in containerized environments (e.g., Kamal) can cause data corruption if multiple containers concurrently access the same SQLite file in WAL mode without proper synchronization, such as pausing traffic or ensuring sequential shutdown/startup of SQLite instances.
-* WAL mode's shared memory mechanism, while generally functional across Docker containers on a shared filesystem, requires careful configuration and understanding of the underlying containerization environment and filesystem properties (e.g., NFS in non-sync mode can be problematic).
-* Using `cp` for live database backups risks data loss or corruption, especially when WAL mode is active; the `.backup` command or `sqlite3_rsync` must be used for integrity.
-* Benchmarks conducted on small datasets (e.g., 100k rows) may not accurately extrapolate to performance at larger scales or under higher load.
+* Risk of "database is locked" errors and potential data corruption under high concurrent write loads, particularly from multiple application processes or containers accessing the same database file without proper synchronization.
+* Dynamic typing can lead to subtle data integrity bugs if not strictly enforced at the application layer or by using "STRICT" tables.
+* Improper deployment strategies, such as blue-green deploys where old and new application instances concurrently write to the same SQLite file, can lead to data loss or corruption due to WAL shared memory conflicts or file locking issues.
+* Reliance on mmap() for WAL mode's shared memory can be problematic on certain network filesystems (e.g., NFS without sync mode) or in containerized environments if the underlying filesystem or shared memory mechanisms are not correctly configured or supported.
+* Direct file copying (cp) for backups is unsafe and can result in inconsistent or corrupted backups, especially when WAL mode is active.
+* The "lite" in its name can lead to underestimation of its capabilities or misapplication in scenarios requiring a full-fledged database server.
+* Requires application-level handling of connection pooling, retries, and concurrency management, as it does not provide these features as a server would.
 
 ## Alternative Tools Mentioned
-* Postgres
+* PostgreSQL
 * MSSQL
+* Hikari
 * Litestream
 * ZFS replication
+* MySQL
