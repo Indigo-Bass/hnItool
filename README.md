@@ -4,10 +4,10 @@ pip install requests pydantic google-genai
 2. Set your API Key
 $env:GEMINI_API_KEY="your_api_key_here"
 3. Run the pipeline in order:
-python fetcher.py "(Enter query)"  # Fetches raw HN data
-python parser.py                   # Structures the n-ary tree 
-python digest.py "(Enter query)"   # Generates final_digest.md
-python chat.py "(Enter query)"     # Starts the conversational assistant
+python fetcher.py "(Enter query)"  - Fetches raw HN data
+python parser.py                   - Structures the n-ary tree 
+python digest.py "(Enter query)"   - Generates final_digest.md
+python chat.py "(Enter query)"     - Starts the conversational assistant
 
 Stage 1: fetcher.py
 I fetched data using the Algolia API and selected the top 5 relevant stories to avoid spending a lot of time in obtaining the data. Several hundred items were produced across the five threads wherein each item is a raw Firebase JSON object containing fields like by, text, time, kids, score, and type. The exact count is printed at runtime.
